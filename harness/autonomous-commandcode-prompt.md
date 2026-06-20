@@ -9,6 +9,8 @@ Work only on the malware intelligence domain:
 
 - `src/loop_engineering/`
 - `scripts/run_malware_intel_loop.py`
+- `scripts/run_single_sample_loop.py`
+- `scripts/verify_single_sample_report.py`
 - `domains/malware-intel/README.md`
 - `docs/malware-intel-architecture.md`
 - `docs/` notes that are clearly about malware-intel
@@ -46,6 +48,7 @@ Read secrets only from the environment:
 
 ```bash
 MALWAREBAZAAR_AUTH_KEY
+LOOP_ALLOW_MALWARE_DOWNLOAD=1
 LOOP_MALWAREBAZAAR_SELECTOR=100
 LOOP_AUTONOMOUS=1
 LOOP_GIT_PUBLISH=1
@@ -59,17 +62,21 @@ Never ask the user for tokens in chat and never write secrets to files.
 Start with:
 
 ```bash
-LOOP_AUTONOMOUS=1 python scripts/run_malware_intel_loop.py
+LOOP_ALLOW_MALWARE_DOWNLOAD=1 LOOP_AUTONOMOUS=1 python scripts/run_single_sample_loop.py
 ```
 
 Then repeat:
 
-1. Read `harness/generated/next-commandcode-prompt.md`.
-2. Inspect the latest generated report.
-3. Add or update a concise domain note only when the report shows a meaningful defensive pattern.
+1. Read `harness/generated/single-sample-next-prompt.md`.
+2. Inspect the latest single-sample report under `reports/YYYY-MM-DD/samples/<sha256>/`.
+3. Run `python scripts/verify_single_sample_report.py <report-dir>`.
 4. Run `python -m pytest`.
-5. Run `LOOP_AUTONOMOUS=1 python scripts/run_malware_intel_loop.py` again.
+5. Run `LOOP_ALLOW_MALWARE_DOWNLOAD=1 LOOP_AUTONOMOUS=1 python scripts/run_single_sample_loop.py` again.
 6. Continue until the harness token/time budget ends or a safety rule blocks progress.
+
+Do not use `scripts/run_malware_intel_loop.py` as the main autonomous analysis loop. That script
+is a metadata feed summary. Real analysis means one sample at a time through
+`scripts/run_single_sample_loop.py`.
 
 ## Safety
 
@@ -89,7 +96,7 @@ It must not:
 
 - generate exploit proof-of-concept code
 - execute malware
-- unpack encrypted malware archives
+- extract malware archives to disk
 - import or run source samples
 - fetch URLs found inside samples
 - publish raw samples

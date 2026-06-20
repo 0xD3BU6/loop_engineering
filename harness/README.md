@@ -9,14 +9,34 @@ You are the loop engineer for `malware-intel`. Your job is to run the determinis
 inspect the generated reports, update knowledge artifacts when there is a real finding, and
 publish sanitized IOC output to GitHub.
 
-## Default run
+## Default analysis run
+
+Use this for real loop engineering: one sample, static analysis, blog, YARA, verifier prompt, then
+next iteration.
+
+```bash
+export MALWAREBAZAAR_AUTH_KEY=...
+export LOOP_ALLOW_MALWARE_DOWNLOAD=1
+LOOP_AUTONOMOUS=1 python scripts/run_single_sample_loop.py
+```
+
+The single-sample runner:
+
+1. Fetches recent MalwareBazaar metadata.
+2. Selects one unprocessed or source-preferred sample.
+3. Downloads only that sample ZIP into gitignored `quarantine/`.
+4. Reads one archived member in memory and does static analysis only.
+5. Writes sanitized outputs under `reports/YYYY-MM-DD/samples/<sha256>/`.
+6. Runs deterministic report verification before optional publishing.
+
+## Feed summary run
 
 ```bash
 export MALWAREBAZAAR_AUTH_KEY=...
 LOOP_AUTONOMOUS=1 python scripts/run_malware_intel_loop.py
 ```
 
-The runner:
+The feed runner:
 
 1. Fetches MalwareBazaar metadata with `get_recent`.
 2. Generates reports, a technical blog, IOC feeds, STIX, and YARA under `reports/YYYY-MM-DD/`.
@@ -33,7 +53,7 @@ Use git publishing only when the workspace is a real git repository:
 export MALWAREBAZAAR_AUTH_KEY=...
 export LOOP_GIT_PUBLISH=1
 export LOOP_GIT_PUSH=1
-python scripts/run_malware_intel_loop.py
+LOOP_ALLOW_MALWARE_DOWNLOAD=1 python scripts/run_single_sample_loop.py
 ```
 
 `LOOP_GIT_PUBLISH=1` commits generated report files and `LOG.md`.
@@ -67,8 +87,8 @@ code. Put them in environment variables locally or repository secrets in GitHub 
 ## Autonomous operation
 
 Use `harness/autonomous-commandcode-prompt.md` as the root prompt when you want the harness to
-continue without human intervention. The loop creates its own next prompt after each successful
-run under `harness/generated/next-commandcode-prompt.md`.
+continue without human intervention. The single-sample loop creates its own next prompt after each
+successful run under `harness/generated/single-sample-next-prompt.md`.
 
 The autonomous loop remains domain-scoped. It may update reports, malware-intel docs, tests, and
 workflow files. It must not edit unrelated domains or remove safety boundaries.
@@ -89,6 +109,6 @@ continues when `harness/generated/autonomous-state.json` advances. See
 ## Safety boundary
 
 The harness may read and summarize generated reports. It must not generate exploit PoC code,
-publish raw malware, execute samples, or remove the quarantine guard. Raw ZIP download is only
-for isolated lab use through `loop_engineering.main download-sample` with
-`LOOP_ALLOW_MALWARE_DOWNLOAD=1`.
+publish raw malware, execute samples, or remove the quarantine guard. Raw ZIP download is only for
+isolated lab use with `LOOP_ALLOW_MALWARE_DOWNLOAD=1`; sanitized report outputs are the only files
+that may be committed.

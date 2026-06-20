@@ -63,6 +63,10 @@ Refs: [supervisor](scripts/commandcode_supervisor.py) (new), [supervisor docs](h
 ## 2026-06-21 · Sample-by-sample technical reports · #analysis #content
 What: Replaced aggregate-only MalwareBazaar technical blogs with per-sample sections containing metadata, IOC tables, assessments, and exact-hash YARA rules.
 Refs: [IOC renderer](src/loop_engineering/ioc.py) (updated), [reports schema](reports/README.md) (updated)
+
+## 2026-06-21 · Real single-sample analysis loop · #analysis #infra
+What: Added a one-sample static analysis loop that downloads exactly one quarantined sample, analyzes bytes/strings/source statically, verifies sanitized outputs, and prepares the next prompt.
+Refs: [single-sample runner](scripts/run_single_sample_loop.py) (new), [sample analyzer](src/loop_engineering/sample_static_analysis.py) (new), [verifier](scripts/verify_single_sample_report.py) (new)
 ## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 625 IOCs.
 Refs: [reports/2026-06-20](reports/2026-06-20) (generated)

@@ -8,6 +8,7 @@ Use:
 
 ```bash
 export MALWAREBAZAAR_AUTH_KEY=...
+export LOOP_ALLOW_MALWARE_DOWNLOAD=1
 export LOOP_AUTONOMOUS=1
 export LOOP_GIT_PUBLISH=1
 export LOOP_GIT_PUSH=1
@@ -45,10 +46,10 @@ Logs are written to `harness/runs/`.
 
 ## Why this works
 
-The inner loop produces the next prompt:
+The real single-sample analysis loop produces the next prompt:
 
 ```text
-harness/generated/next-commandcode-prompt.md
+harness/generated/single-sample-next-prompt.md
 ```
 
 The supervisor is the outer loop. It does not analyze malware itself; it only keeps launching fresh

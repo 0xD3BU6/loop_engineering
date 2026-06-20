@@ -21,7 +21,8 @@ import time
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_PROMPT = ROOT / "harness" / "generated" / "next-commandcode-prompt.md"
+SINGLE_SAMPLE_PROMPT = ROOT / "harness" / "generated" / "single-sample-next-prompt.md"
+FEED_PROMPT = ROOT / "harness" / "generated" / "next-commandcode-prompt.md"
 STATE_PATH = ROOT / "harness" / "generated" / "autonomous-state.json"
 RUNS_DIR = ROOT / "harness" / "runs"
 
@@ -129,7 +130,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def latest_prompt() -> Path:
     override = os.getenv("LOOP_SUPERVISOR_PROMPT", "").strip()
-    return (ROOT / override).resolve() if override else DEFAULT_PROMPT
+    if override:
+        return (ROOT / override).resolve()
+    return SINGLE_SAMPLE_PROMPT if SINGLE_SAMPLE_PROMPT.exists() else FEED_PROMPT
 
 
 def run_worker(command_template: str, prompt: Path, worker_name: str, timeout_seconds: int) -> int:
