@@ -57,3 +57,21 @@ def test_markdown_labels_proof_of_compromise_not_exploit_poc():
 
     assert "Proof Of Compromise" in report
     assert "not exploit proof-of-concept code" in report
+
+
+def test_metadata_report_generates_blog_and_yara():
+    bundle = ReportBundle(
+        generated_at=datetime(2026, 6, 20, tzinfo=UTC),
+        selector="100",
+        samples=SAMPLES,
+    )
+
+    blog = bundle.to_blog_markdown()
+    yara = bundle.to_yara_rules()
+
+    assert "What The Agent Did" in blog
+    assert "IOC Summary" in blog
+    assert "YARA Rules" in blog
+    assert 'import "hash"' in yara
+    assert "hash.sha256(0, filesize)" in yara
+    assert "a" * 64 in yara

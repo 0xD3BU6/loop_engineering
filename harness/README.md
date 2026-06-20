@@ -13,15 +13,17 @@ publish sanitized IOC output to GitHub.
 
 ```bash
 export MALWAREBAZAAR_AUTH_KEY=...
-python scripts/run_malware_intel_loop.py
+LOOP_AUTONOMOUS=1 python scripts/run_malware_intel_loop.py
 ```
 
 The runner:
 
 1. Fetches MalwareBazaar metadata with `get_recent`.
-2. Generates reports under `reports/YYYY-MM-DD/`.
+2. Generates reports, a technical blog, IOC feeds, STIX, and YARA under `reports/YYYY-MM-DD/`.
 3. Appends a short `LOG.md` entry.
 4. Does not download, unpack, or execute malware.
+5. Writes `harness/generated/autonomous-state.json` and
+   `harness/generated/next-commandcode-prompt.md` when `LOOP_AUTONOMOUS=1`.
 
 ## Publishing
 
@@ -37,6 +39,18 @@ python scripts/run_malware_intel_loop.py
 `LOOP_GIT_PUBLISH=1` commits generated report files and `LOG.md`.
 `LOOP_GIT_PUSH=1` pushes the commit. Leave it unset for a local commit-only review flow.
 
+## GitHub trigger
+
+`.github/workflows/malware-intel.yml` runs on:
+
+- manual `workflow_dispatch`
+- daily schedule
+- pushes to `main`
+
+The workflow ignores commits that only touch `reports/**`, `LOG.md`, or `harness/generated/**`,
+and also skips push events created by `github-actions[bot]`. That lets a normal code push start
+the loop without creating an infinite chain of report commits.
+
 ## Selector
 
 ```bash
@@ -49,6 +63,15 @@ Use `time` for the last 60 minutes, or `100` for the latest 100 additions. The d
 
 Never paste GitHub tokens or MalwareBazaar keys into prompts, markdown files, logs, or source
 code. Put them in environment variables locally or repository secrets in GitHub Actions.
+
+## Autonomous operation
+
+Use `harness/autonomous-commandcode-prompt.md` as the root prompt when you want the harness to
+continue without human intervention. The loop creates its own next prompt after each successful
+run under `harness/generated/next-commandcode-prompt.md`.
+
+The autonomous loop remains domain-scoped. It may update reports, malware-intel docs, tests, and
+workflow files. It must not edit unrelated domains or remove safety boundaries.
 
 ## Safety boundary
 
