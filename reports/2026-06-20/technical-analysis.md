@@ -1,0 +1,1195 @@
+# MalwareBazaar Technical Analysis — Metadata Intelligence
+
+## Executive Summary
+
+This report summarizes 100 recent files submitted to MalwareBazaar. All intelligence is derived from metadata — no samples were downloaded, executed, or unpacked. The analysis covers file-type distributions, identified malware families, and associated hashes.
+
+## What The Agent Did
+
+1. Queried the MalwareBazaar Community API with selector `100`.
+2. Received metadata for 100 submissions — hashes, file names, types, tags, and family labels.
+3. Normalized hash IOCs (MD5, SHA-1, SHA-256, SHA3-384, IMPHASH, TLSH, TELFHASH, GIMPHASH, SSDEEP, ICON-DHASH).
+4. Computed family and file-type frequency distributions.
+5. Generated STIX 2.1 indicator bundle, CSV and JSON IOC feeds, and hash-based YARA rules.
+
+## Outcome
+
+| Metric | Value |
+|---|---|
+| Samples | 100 |
+| Total IOCs | 626 |
+| Known families | 31 |
+| Tagged submissions | 88 |
+| Top families | unknown (69), Mirai (24), RustyStealer (2) |
+| Generation time | 2026-06-20T21:47:57.209548+00:00 |
+
+## Methodology
+
+All analysis is deterministic and metadata-bound. No behavioral sandboxing, dynamic analysis, or sample execution is performed. IOCs are exact hash values from the MalwareBazaar API. Family labels reflect MalwareBazaar's `signature` field, which may be incomplete for recently submitted or low-confidence samples.
+
+## IOC Summary
+
+The complete IOC feed is available as structured formats alongside this report. The following table summarizes the hash types collected:
+
+| IOC Type | Hash Algorithm | Count |
+|---|---|---|
+| GIMPHASH | - | (per sample) |\n| ICON-DHASH | - | (per sample) |\n| IMPHASH | - | (per sample) |\n| MD5 | - | (per sample) |\n| SHA-1 | - | (per sample) |\n| SHA-256 | - | (per sample) |\n| SHA3-384 | - | (per sample) |\n| SSDEEP | - | (per sample) |\n| TELFHASH | - | (per sample) |\n| TLSH | - | (per sample) |\n
+## File Type Distribution
+
+| File Type | Samples |
+|---:|---:|
+| elf | 64 |
+| exe | 15 |
+| sh | 10 |
+| zip | 5 |
+| unknown | 3 |
+| lnk | 2 |
+| vbs | 1 |
+
+## Malware Family Distribution
+
+| Family | Samples |
+|---:|---:|
+| unknown | 69 |
+| Mirai | 24 |
+| RustyStealer | 2 |
+| RemusStealer | 2 |
+| ConnectWise | 1 |
+| AsyncRAT | 1 |
+| Prometei | 1 |
+
+## YARA Rules
+
+The following hash-based YARA rules are generated for defensive hunting. These rules use the YARA `hash` module and will match files whose SHA-256 hash matches a known MalwareBazaar sample.
+
+```yara
+import "hash"
+
+/*
+ * MalwareBazaar hash-based YARA indicators.
+ * Generated from MalwareBazaar metadata only — samples not executed.
+ * Source: MalwareBazaar get_recent (selector=100)
+ * Generated: 2026-06-20T21:47:57.209548+00:00
+ * Total rules: 100
+ * Each rule matches a single known sample by SHA-256.
+ */
+
+rule MalwareBazaar_Hash_IOC_000575e07e3657a7
+{
+  meta:
+    sha256 = "000575e07e3657a767778a53587fd81b492fe02ea361e98de439e6345653071e"
+    description = "MalwareBazaar sample 000575e07e3657a767778a53587fd81b492fe02ea361e98de439e6345653071e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "000575e07e3657a767778a53587fd81b492fe02ea361e98de439e6345653071e"
+}
+
+rule MalwareBazaar_Hash_IOC_027531689ffd282c
+{
+  meta:
+    sha256 = "027531689ffd282ce3e8b3dd6c68acfe8ec2466ed7e1354907b1983f0678c9d6"
+    description = "MalwareBazaar sample 027531689ffd282ce3e8b3dd6c68acfe8ec2466ed7e1354907b1983f0678c9d6"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "027531689ffd282ce3e8b3dd6c68acfe8ec2466ed7e1354907b1983f0678c9d6"
+}
+
+rule MalwareBazaar_Hash_IOC_06de9c0bc74686e8
+{
+  meta:
+    sha256 = "06de9c0bc74686e8c244213d37cc4c7463a73ec3d86219e671b543fe3d8b2f97"
+    description = "MalwareBazaar sample 06de9c0bc74686e8c244213d37cc4c7463a73ec3d86219e671b543fe3d8b2f97"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "06de9c0bc74686e8c244213d37cc4c7463a73ec3d86219e671b543fe3d8b2f97"
+}
+
+rule MalwareBazaar_Hash_IOC_08566baf2de3d75a
+{
+  meta:
+    sha256 = "08566baf2de3d75a6161ffce3611c07b15029faa32c3225dfa8409e6b2b7828a"
+    description = "MalwareBazaar sample 08566baf2de3d75a6161ffce3611c07b15029faa32c3225dfa8409e6b2b7828a"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "08566baf2de3d75a6161ffce3611c07b15029faa32c3225dfa8409e6b2b7828a"
+}
+
+rule MalwareBazaar_Hash_IOC_0bc4d1eff24c7152
+{
+  meta:
+    sha256 = "0bc4d1eff24c715260b70eaf0abe32655e99a675a6edd47532aa43f843e6a815"
+    description = "MalwareBazaar sample 0bc4d1eff24c715260b70eaf0abe32655e99a675a6edd47532aa43f843e6a815"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "0bc4d1eff24c715260b70eaf0abe32655e99a675a6edd47532aa43f843e6a815"
+}
+
+rule MalwareBazaar_Hash_IOC_0e6902640affe9ac
+{
+  meta:
+    sha256 = "0e6902640affe9ac58c39d52046a073741b8e77a6ad29137bdeb6f8cf8222964"
+    description = "MalwareBazaar sample 0e6902640affe9ac58c39d52046a073741b8e77a6ad29137bdeb6f8cf8222964"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "0e6902640affe9ac58c39d52046a073741b8e77a6ad29137bdeb6f8cf8222964"
+}
+
+rule MalwareBazaar_Hash_IOC_1a16a08151ad1e69
+{
+  meta:
+    sha256 = "1a16a08151ad1e698f53d70d36c0e5dafd9c2bbc3bd2710e5904f54b91aae128"
+    description = "MalwareBazaar sample 1a16a08151ad1e698f53d70d36c0e5dafd9c2bbc3bd2710e5904f54b91aae128"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "1a16a08151ad1e698f53d70d36c0e5dafd9c2bbc3bd2710e5904f54b91aae128"
+}
+
+rule MalwareBazaar_Hash_IOC_1ce931d621b70d14
+{
+  meta:
+    sha256 = "1ce931d621b70d14bdc90b5dcb8dc8cfce60e027f60eb2ff895c60efeb8ffbe7"
+    description = "MalwareBazaar sample 1ce931d621b70d14bdc90b5dcb8dc8cfce60e027f60eb2ff895c60efeb8ffbe7"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "1ce931d621b70d14bdc90b5dcb8dc8cfce60e027f60eb2ff895c60efeb8ffbe7"
+}
+
+rule MalwareBazaar_Hash_IOC_1d99ff30758e4872
+{
+  meta:
+    sha256 = "1d99ff30758e487264c3550c2b0c3c37646e772266882809898a2ed0c5f74c4b"
+    description = "MalwareBazaar sample 1d99ff30758e487264c3550c2b0c3c37646e772266882809898a2ed0c5f74c4b"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "1d99ff30758e487264c3550c2b0c3c37646e772266882809898a2ed0c5f74c4b"
+}
+
+rule MalwareBazaar_Hash_IOC_23c8252953a84b97
+{
+  meta:
+    sha256 = "23c8252953a84b9735a79946efcb1f2b46d565905e2f032380d7c0a5940667d0"
+    description = "MalwareBazaar sample 23c8252953a84b9735a79946efcb1f2b46d565905e2f032380d7c0a5940667d0"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "23c8252953a84b9735a79946efcb1f2b46d565905e2f032380d7c0a5940667d0"
+}
+
+rule MalwareBazaar_Hash_IOC_27176ee65139931e
+{
+  meta:
+    sha256 = "27176ee65139931eb8f230b1a681bfaf74bf4685e468bfbf5487ff03d1a80b15"
+    description = "MalwareBazaar sample 27176ee65139931eb8f230b1a681bfaf74bf4685e468bfbf5487ff03d1a80b15"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "27176ee65139931eb8f230b1a681bfaf74bf4685e468bfbf5487ff03d1a80b15"
+}
+
+rule MalwareBazaar_Hash_IOC_2ae7795781a76b07
+{
+  meta:
+    sha256 = "2ae7795781a76b073d3aa3533a6bfc647114cc1462e701bfff289f6d7ce55d4e"
+    description = "MalwareBazaar sample 2ae7795781a76b073d3aa3533a6bfc647114cc1462e701bfff289f6d7ce55d4e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "2ae7795781a76b073d3aa3533a6bfc647114cc1462e701bfff289f6d7ce55d4e"
+}
+
+rule MalwareBazaar_Hash_IOC_2c380252e543a887
+{
+  meta:
+    sha256 = "2c380252e543a88730da5e5473b0234e0aa7ff2e99f1b0698141a980d08a73b9"
+    description = "MalwareBazaar sample 2c380252e543a88730da5e5473b0234e0aa7ff2e99f1b0698141a980d08a73b9"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "2c380252e543a88730da5e5473b0234e0aa7ff2e99f1b0698141a980d08a73b9"
+}
+
+rule MalwareBazaar_Hash_IOC_2e1369bc8343db24
+{
+  meta:
+    sha256 = "2e1369bc8343db24f34e4a309ba1a0efbd181150f0e2d7ddb153e179e2659773"
+    description = "MalwareBazaar sample 2e1369bc8343db24f34e4a309ba1a0efbd181150f0e2d7ddb153e179e2659773"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "2e1369bc8343db24f34e4a309ba1a0efbd181150f0e2d7ddb153e179e2659773"
+}
+
+rule MalwareBazaar_Hash_IOC_33dcdaafec603a3b
+{
+  meta:
+    sha256 = "33dcdaafec603a3b65796c06235130d6141cdfd45752235bf66b8b17f2f2ecee"
+    description = "MalwareBazaar sample 33dcdaafec603a3b65796c06235130d6141cdfd45752235bf66b8b17f2f2ecee"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "33dcdaafec603a3b65796c06235130d6141cdfd45752235bf66b8b17f2f2ecee"
+}
+
+rule MalwareBazaar_Hash_IOC_33e1522d870d0d92
+{
+  meta:
+    sha256 = "33e1522d870d0d929ac0a1733f746c58ba7abc8dcb1e9efc28d4393d4eb5d749"
+    description = "MalwareBazaar sample 33e1522d870d0d929ac0a1733f746c58ba7abc8dcb1e9efc28d4393d4eb5d749"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "33e1522d870d0d929ac0a1733f746c58ba7abc8dcb1e9efc28d4393d4eb5d749"
+}
+
+rule MalwareBazaar_Hash_IOC_3660074f4a92b21d
+{
+  meta:
+    sha256 = "3660074f4a92b21ddababd36837c86db20ccd883866bc1dbeed11ed081a1df3e"
+    description = "MalwareBazaar sample 3660074f4a92b21ddababd36837c86db20ccd883866bc1dbeed11ed081a1df3e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "3660074f4a92b21ddababd36837c86db20ccd883866bc1dbeed11ed081a1df3e"
+}
+
+rule MalwareBazaar_Hash_IOC_39f268023db21296
+{
+  meta:
+    sha256 = "39f268023db21296dfa4a259791d3d5bd559e29dfa588469ff5fa170b7c05f19"
+    description = "MalwareBazaar sample 39f268023db21296dfa4a259791d3d5bd559e29dfa588469ff5fa170b7c05f19"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "39f268023db21296dfa4a259791d3d5bd559e29dfa588469ff5fa170b7c05f19"
+}
+
+rule MalwareBazaar_Hash_IOC_40345a358400cb77
+{
+  meta:
+    sha256 = "40345a358400cb771088c33a9cf194946da95c2bb2d979e7be5e1c8c37facf33"
+    description = "MalwareBazaar sample 40345a358400cb771088c33a9cf194946da95c2bb2d979e7be5e1c8c37facf33"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "40345a358400cb771088c33a9cf194946da95c2bb2d979e7be5e1c8c37facf33"
+}
+
+rule MalwareBazaar_Hash_IOC_41541d2b0efad921
+{
+  meta:
+    sha256 = "41541d2b0efad921142ff74dae952e803c0cca19e8cc1df0b673b1ffb92162e6"
+    description = "MalwareBazaar sample 41541d2b0efad921142ff74dae952e803c0cca19e8cc1df0b673b1ffb92162e6"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "41541d2b0efad921142ff74dae952e803c0cca19e8cc1df0b673b1ffb92162e6"
+}
+
+rule MalwareBazaar_Hash_IOC_4b45fc7bd3f81203
+{
+  meta:
+    sha256 = "4b45fc7bd3f81203fb9ff383f45b39dc9bc291437a141610b76cd9f3620ec308"
+    description = "MalwareBazaar sample 4b45fc7bd3f81203fb9ff383f45b39dc9bc291437a141610b76cd9f3620ec308"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "4b45fc7bd3f81203fb9ff383f45b39dc9bc291437a141610b76cd9f3620ec308"
+}
+
+rule MalwareBazaar_Hash_IOC_4bb095a58fff5ed7
+{
+  meta:
+    sha256 = "4bb095a58fff5ed716654429a5d3e85659f5e88fdb3d70991fe74ea5d86572cf"
+    description = "MalwareBazaar sample 4bb095a58fff5ed716654429a5d3e85659f5e88fdb3d70991fe74ea5d86572cf"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "4bb095a58fff5ed716654429a5d3e85659f5e88fdb3d70991fe74ea5d86572cf"
+}
+
+rule MalwareBazaar_Hash_IOC_4c6c3fb40ded6139
+{
+  meta:
+    sha256 = "4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017"
+    description = "MalwareBazaar sample 4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017"
+}
+
+rule MalwareBazaar_Hash_IOC_4d4e52f75a6ed80e
+{
+  meta:
+    sha256 = "4d4e52f75a6ed80e486a147d377c308ac5cd111cae7b775d7a4f33bd38248c1b"
+    description = "MalwareBazaar sample 4d4e52f75a6ed80e486a147d377c308ac5cd111cae7b775d7a4f33bd38248c1b"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "4d4e52f75a6ed80e486a147d377c308ac5cd111cae7b775d7a4f33bd38248c1b"
+}
+
+rule MalwareBazaar_Hash_IOC_5122b2cc1fc99c60
+{
+  meta:
+    sha256 = "5122b2cc1fc99c60330b863c94e09e82553eff28cbfba8496f30bea88465b77d"
+    description = "MalwareBazaar sample 5122b2cc1fc99c60330b863c94e09e82553eff28cbfba8496f30bea88465b77d"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5122b2cc1fc99c60330b863c94e09e82553eff28cbfba8496f30bea88465b77d"
+}
+
+rule MalwareBazaar_Hash_IOC_526ae427fececcdf
+{
+  meta:
+    sha256 = "526ae427fececcdfb7d231d95a3a4f3ffa83c130ed5d58192daad06510f4ee69"
+    description = "MalwareBazaar sample 526ae427fececcdfb7d231d95a3a4f3ffa83c130ed5d58192daad06510f4ee69"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "526ae427fececcdfb7d231d95a3a4f3ffa83c130ed5d58192daad06510f4ee69"
+}
+
+rule MalwareBazaar_Hash_IOC_52764c8c74bc2ec1
+{
+  meta:
+    sha256 = "52764c8c74bc2ec19138f7bbaaeb30fc24f5384709409e756f3edb03848c67bb"
+    description = "MalwareBazaar sample 52764c8c74bc2ec19138f7bbaaeb30fc24f5384709409e756f3edb03848c67bb"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "52764c8c74bc2ec19138f7bbaaeb30fc24f5384709409e756f3edb03848c67bb"
+}
+
+rule MalwareBazaar_Hash_IOC_531518f1b8c7d743
+{
+  meta:
+    sha256 = "531518f1b8c7d743defda272598e38d65f902f89eb152b0881add72aaf5c2e08"
+    description = "MalwareBazaar sample 531518f1b8c7d743defda272598e38d65f902f89eb152b0881add72aaf5c2e08"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "531518f1b8c7d743defda272598e38d65f902f89eb152b0881add72aaf5c2e08"
+}
+
+rule MalwareBazaar_Hash_IOC_5390c32de7ad5886
+{
+  meta:
+    sha256 = "5390c32de7ad5886330c7e66667b41ed652e1e0e9411591c4d9be1d40e2fdb01"
+    description = "MalwareBazaar sample 5390c32de7ad5886330c7e66667b41ed652e1e0e9411591c4d9be1d40e2fdb01"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5390c32de7ad5886330c7e66667b41ed652e1e0e9411591c4d9be1d40e2fdb01"
+}
+
+rule MalwareBazaar_Hash_IOC_5401b74c9a0d32fe
+{
+  meta:
+    sha256 = "5401b74c9a0d32febbf9ecbaa6665ab839d66f53a54c06fb4f0ac14207a2c4a5"
+    description = "MalwareBazaar sample 5401b74c9a0d32febbf9ecbaa6665ab839d66f53a54c06fb4f0ac14207a2c4a5"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5401b74c9a0d32febbf9ecbaa6665ab839d66f53a54c06fb4f0ac14207a2c4a5"
+}
+
+rule MalwareBazaar_Hash_IOC_585b523ab776fe15
+{
+  meta:
+    sha256 = "585b523ab776fe15acd2f5ad75c58dfec436a4311c7bbc96758c7968ccb9ace3"
+    description = "MalwareBazaar sample 585b523ab776fe15acd2f5ad75c58dfec436a4311c7bbc96758c7968ccb9ace3"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "585b523ab776fe15acd2f5ad75c58dfec436a4311c7bbc96758c7968ccb9ace3"
+}
+
+rule MalwareBazaar_Hash_IOC_5c2d1ffb8d00e3e9
+{
+  meta:
+    sha256 = "5c2d1ffb8d00e3e93d60dc3294b08ce9afa08962d2658a67694b8f9c477e87d3"
+    description = "MalwareBazaar sample 5c2d1ffb8d00e3e93d60dc3294b08ce9afa08962d2658a67694b8f9c477e87d3"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5c2d1ffb8d00e3e93d60dc3294b08ce9afa08962d2658a67694b8f9c477e87d3"
+}
+
+rule MalwareBazaar_Hash_IOC_5cf721b03d29a2e4
+{
+  meta:
+    sha256 = "5cf721b03d29a2e45a8d9a917d86e89dc8ecd6000fd6d3a0398949421d20618a"
+    description = "MalwareBazaar sample 5cf721b03d29a2e45a8d9a917d86e89dc8ecd6000fd6d3a0398949421d20618a"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5cf721b03d29a2e45a8d9a917d86e89dc8ecd6000fd6d3a0398949421d20618a"
+}
+
+rule MalwareBazaar_Hash_IOC_5fa6ba4ecde99d59
+{
+  meta:
+    sha256 = "5fa6ba4ecde99d59b3e5f6f4ef495925f88123a24bd7a0e2a3373801c0cc0b83"
+    description = "MalwareBazaar sample 5fa6ba4ecde99d59b3e5f6f4ef495925f88123a24bd7a0e2a3373801c0cc0b83"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "5fa6ba4ecde99d59b3e5f6f4ef495925f88123a24bd7a0e2a3373801c0cc0b83"
+}
+
+rule MalwareBazaar_Hash_IOC_602fd1e0a2ff3d5a
+{
+  meta:
+    sha256 = "602fd1e0a2ff3d5a0ce13f4301e93894c8f30ceeac4f344d371f1641baf08265"
+    description = "MalwareBazaar sample 602fd1e0a2ff3d5a0ce13f4301e93894c8f30ceeac4f344d371f1641baf08265"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "602fd1e0a2ff3d5a0ce13f4301e93894c8f30ceeac4f344d371f1641baf08265"
+}
+
+rule MalwareBazaar_Hash_IOC_61dda033ee6a52ac
+{
+  meta:
+    sha256 = "61dda033ee6a52ace288049c4d5be53959a5dcd0467dcd4286f3c8203ff984a4"
+    description = "MalwareBazaar sample 61dda033ee6a52ace288049c4d5be53959a5dcd0467dcd4286f3c8203ff984a4"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "61dda033ee6a52ace288049c4d5be53959a5dcd0467dcd4286f3c8203ff984a4"
+}
+
+rule MalwareBazaar_Hash_IOC_637cc40d3f134ef6
+{
+  meta:
+    sha256 = "637cc40d3f134ef600020e513709b4389fe3c169206dcbbe34171b51528a0024"
+    description = "MalwareBazaar sample 637cc40d3f134ef600020e513709b4389fe3c169206dcbbe34171b51528a0024"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "637cc40d3f134ef600020e513709b4389fe3c169206dcbbe34171b51528a0024"
+}
+
+rule MalwareBazaar_Hash_IOC_64e27acb5c452aed
+{
+  meta:
+    sha256 = "64e27acb5c452aed9f67c35e59bf503835d0f7197b70fdd56c4773751380275f"
+    description = "MalwareBazaar sample 64e27acb5c452aed9f67c35e59bf503835d0f7197b70fdd56c4773751380275f"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "64e27acb5c452aed9f67c35e59bf503835d0f7197b70fdd56c4773751380275f"
+}
+
+rule MalwareBazaar_Hash_IOC_666abe7af5c43351
+{
+  meta:
+    sha256 = "666abe7af5c43351abba61abe9eda5f99f6b84d7702ee36faefc345eddc54384"
+    description = "MalwareBazaar sample 666abe7af5c43351abba61abe9eda5f99f6b84d7702ee36faefc345eddc54384"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "666abe7af5c43351abba61abe9eda5f99f6b84d7702ee36faefc345eddc54384"
+}
+
+rule MalwareBazaar_Hash_IOC_673337ea6fb0eba1
+{
+  meta:
+    sha256 = "673337ea6fb0eba12c2e7abe1447878e7f9ee63dad296aa8ed47578bb0c1f039"
+    description = "MalwareBazaar sample 673337ea6fb0eba12c2e7abe1447878e7f9ee63dad296aa8ed47578bb0c1f039"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "673337ea6fb0eba12c2e7abe1447878e7f9ee63dad296aa8ed47578bb0c1f039"
+}
+
+rule MalwareBazaar_Hash_IOC_691c25e6addecd53
+{
+  meta:
+    sha256 = "691c25e6addecd537d5948e809346235694f18621322f847299f464c35613615"
+    description = "MalwareBazaar sample 691c25e6addecd537d5948e809346235694f18621322f847299f464c35613615"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "691c25e6addecd537d5948e809346235694f18621322f847299f464c35613615"
+}
+
+rule MalwareBazaar_Hash_IOC_7165ccfa91053dd6
+{
+  meta:
+    sha256 = "7165ccfa91053dd6c0141ff42a6d92eeb8d19d582b0f57188ae305ec43235d32"
+    description = "MalwareBazaar sample 7165ccfa91053dd6c0141ff42a6d92eeb8d19d582b0f57188ae305ec43235d32"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7165ccfa91053dd6c0141ff42a6d92eeb8d19d582b0f57188ae305ec43235d32"
+}
+
+rule MalwareBazaar_Hash_IOC_731aa53e556fe38c
+{
+  meta:
+    sha256 = "731aa53e556fe38caf0f74bd6cbb249e35648643c295cadfdf902afd392f3b41"
+    description = "MalwareBazaar sample 731aa53e556fe38caf0f74bd6cbb249e35648643c295cadfdf902afd392f3b41"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "731aa53e556fe38caf0f74bd6cbb249e35648643c295cadfdf902afd392f3b41"
+}
+
+rule MalwareBazaar_Hash_IOC_74394ecce3f159b8
+{
+  meta:
+    sha256 = "74394ecce3f159b8a2ba94104976e18d32e8077c1df0b9f4b471128d96521b1d"
+    description = "MalwareBazaar sample 74394ecce3f159b8a2ba94104976e18d32e8077c1df0b9f4b471128d96521b1d"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "74394ecce3f159b8a2ba94104976e18d32e8077c1df0b9f4b471128d96521b1d"
+}
+
+rule MalwareBazaar_Hash_IOC_76edebe707d788ac
+{
+  meta:
+    sha256 = "76edebe707d788acf692af96e3276784d0501dd01eb272f08cbfb2e3a1c14d70"
+    description = "MalwareBazaar sample 76edebe707d788acf692af96e3276784d0501dd01eb272f08cbfb2e3a1c14d70"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "76edebe707d788acf692af96e3276784d0501dd01eb272f08cbfb2e3a1c14d70"
+}
+
+rule MalwareBazaar_Hash_IOC_7931ba55069255c1
+{
+  meta:
+    sha256 = "7931ba55069255c1392a01a20633d0d4cff9afb6b029096ef421d2798ca61e5f"
+    description = "MalwareBazaar sample 7931ba55069255c1392a01a20633d0d4cff9afb6b029096ef421d2798ca61e5f"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7931ba55069255c1392a01a20633d0d4cff9afb6b029096ef421d2798ca61e5f"
+}
+
+rule MalwareBazaar_Hash_IOC_79f2856beb38aebc
+{
+  meta:
+    sha256 = "79f2856beb38aebc676db11193bef2912299b4ebc21da484e80e36024c3b377e"
+    description = "MalwareBazaar sample 79f2856beb38aebc676db11193bef2912299b4ebc21da484e80e36024c3b377e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "79f2856beb38aebc676db11193bef2912299b4ebc21da484e80e36024c3b377e"
+}
+
+rule MalwareBazaar_Hash_IOC_7b85b11424041c21
+{
+  meta:
+    sha256 = "7b85b11424041c217a86cb3a197ce0646210592b2f068057b4b883c939634f42"
+    description = "MalwareBazaar sample 7b85b11424041c217a86cb3a197ce0646210592b2f068057b4b883c939634f42"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7b85b11424041c217a86cb3a197ce0646210592b2f068057b4b883c939634f42"
+}
+
+rule MalwareBazaar_Hash_IOC_7cc605b5fffa1478
+{
+  meta:
+    sha256 = "7cc605b5fffa1478a286c2479f7c6f947fbf1ddf44bbf72f3028b4d62bb08dcb"
+    description = "MalwareBazaar sample 7cc605b5fffa1478a286c2479f7c6f947fbf1ddf44bbf72f3028b4d62bb08dcb"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7cc605b5fffa1478a286c2479f7c6f947fbf1ddf44bbf72f3028b4d62bb08dcb"
+}
+
+rule MalwareBazaar_Hash_IOC_7ccbda568ff313b5
+{
+  meta:
+    sha256 = "7ccbda568ff313b5e75d20b3bad6b9191a5f5b53eb867d05150c732f5cb039c2"
+    description = "MalwareBazaar sample 7ccbda568ff313b5e75d20b3bad6b9191a5f5b53eb867d05150c732f5cb039c2"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7ccbda568ff313b5e75d20b3bad6b9191a5f5b53eb867d05150c732f5cb039c2"
+}
+
+rule MalwareBazaar_Hash_IOC_7d25396b6d7fb9ce
+{
+  meta:
+    sha256 = "7d25396b6d7fb9cef476ea318eae9a8c89fdffed92616b7792af5298214d5b91"
+    description = "MalwareBazaar sample 7d25396b6d7fb9cef476ea318eae9a8c89fdffed92616b7792af5298214d5b91"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7d25396b6d7fb9cef476ea318eae9a8c89fdffed92616b7792af5298214d5b91"
+}
+
+rule MalwareBazaar_Hash_IOC_7d8a76a128030322
+{
+  meta:
+    sha256 = "7d8a76a128030322c8c2a6a8a618a318f65bb4f90dc9438999e23c99f3dc6760"
+    description = "MalwareBazaar sample 7d8a76a128030322c8c2a6a8a618a318f65bb4f90dc9438999e23c99f3dc6760"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7d8a76a128030322c8c2a6a8a618a318f65bb4f90dc9438999e23c99f3dc6760"
+}
+
+rule MalwareBazaar_Hash_IOC_7f191f196150cd89
+{
+  meta:
+    sha256 = "7f191f196150cd89d2b8bf6166166304c5cfbde8b69732d58caedfa283ecc3c7"
+    description = "MalwareBazaar sample 7f191f196150cd89d2b8bf6166166304c5cfbde8b69732d58caedfa283ecc3c7"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7f191f196150cd89d2b8bf6166166304c5cfbde8b69732d58caedfa283ecc3c7"
+}
+
+rule MalwareBazaar_Hash_IOC_7f5f2aaa392cd577
+{
+  meta:
+    sha256 = "7f5f2aaa392cd5770e6c2dff7d390e15c3e6c774886408e4cfb8b0b65cb31c32"
+    description = "MalwareBazaar sample 7f5f2aaa392cd5770e6c2dff7d390e15c3e6c774886408e4cfb8b0b65cb31c32"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "7f5f2aaa392cd5770e6c2dff7d390e15c3e6c774886408e4cfb8b0b65cb31c32"
+}
+
+rule MalwareBazaar_Hash_IOC_81ae285ab750dfbd
+{
+  meta:
+    sha256 = "81ae285ab750dfbd504bea7e8f44e10b7e44dc634ace7dda017bb2de7ff2bd2a"
+    description = "MalwareBazaar sample 81ae285ab750dfbd504bea7e8f44e10b7e44dc634ace7dda017bb2de7ff2bd2a"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "81ae285ab750dfbd504bea7e8f44e10b7e44dc634ace7dda017bb2de7ff2bd2a"
+}
+
+rule MalwareBazaar_Hash_IOC_8797ddcc01829135
+{
+  meta:
+    sha256 = "8797ddcc018291354d75d56ba44b6dcdef8d8e4b593dd92a859d63200248bb76"
+    description = "MalwareBazaar sample 8797ddcc018291354d75d56ba44b6dcdef8d8e4b593dd92a859d63200248bb76"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "8797ddcc018291354d75d56ba44b6dcdef8d8e4b593dd92a859d63200248bb76"
+}
+
+rule MalwareBazaar_Hash_IOC_8b0ef90a42476f8d
+{
+  meta:
+    sha256 = "8b0ef90a42476f8df2eae4c3e271fbb558a5d136d22e4e6f87e138b6d3281a08"
+    description = "MalwareBazaar sample 8b0ef90a42476f8df2eae4c3e271fbb558a5d136d22e4e6f87e138b6d3281a08"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "8b0ef90a42476f8df2eae4c3e271fbb558a5d136d22e4e6f87e138b6d3281a08"
+}
+
+rule MalwareBazaar_Hash_IOC_915d8baa66a420bd
+{
+  meta:
+    sha256 = "915d8baa66a420bd67b75a9d6152ab99036c16d29f1b73b2ad4d8e3dbae382e2"
+    description = "MalwareBazaar sample 915d8baa66a420bd67b75a9d6152ab99036c16d29f1b73b2ad4d8e3dbae382e2"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "915d8baa66a420bd67b75a9d6152ab99036c16d29f1b73b2ad4d8e3dbae382e2"
+}
+
+rule MalwareBazaar_Hash_IOC_977d720443bbac54
+{
+  meta:
+    sha256 = "977d720443bbac5473d10ca314861eec8a6bf050b2be56485bc8d9c4766a4c7c"
+    description = "MalwareBazaar sample 977d720443bbac5473d10ca314861eec8a6bf050b2be56485bc8d9c4766a4c7c"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "977d720443bbac5473d10ca314861eec8a6bf050b2be56485bc8d9c4766a4c7c"
+}
+
+rule MalwareBazaar_Hash_IOC_97ab95191daea05b
+{
+  meta:
+    sha256 = "97ab95191daea05b15024ff2a3a52081a30d4238ba4db4efad5e232f44ab97ab"
+    description = "MalwareBazaar sample 97ab95191daea05b15024ff2a3a52081a30d4238ba4db4efad5e232f44ab97ab"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "97ab95191daea05b15024ff2a3a52081a30d4238ba4db4efad5e232f44ab97ab"
+}
+
+rule MalwareBazaar_Hash_IOC_97c458bad070c330
+{
+  meta:
+    sha256 = "97c458bad070c33011bd4e1500c208e72ee5c376e6f92dc42e81b676fef6dac8"
+    description = "MalwareBazaar sample 97c458bad070c33011bd4e1500c208e72ee5c376e6f92dc42e81b676fef6dac8"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "97c458bad070c33011bd4e1500c208e72ee5c376e6f92dc42e81b676fef6dac8"
+}
+
+rule MalwareBazaar_Hash_IOC_a32e7b6c1bab3264
+{
+  meta:
+    sha256 = "a32e7b6c1bab32642fa78f78d1891f8ba1ca8c4fa2bb382ea91350c9290a1107"
+    description = "MalwareBazaar sample a32e7b6c1bab32642fa78f78d1891f8ba1ca8c4fa2bb382ea91350c9290a1107"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "a32e7b6c1bab32642fa78f78d1891f8ba1ca8c4fa2bb382ea91350c9290a1107"
+}
+
+rule MalwareBazaar_Hash_IOC_a6ec23370de4e184
+{
+  meta:
+    sha256 = "a6ec23370de4e1849d6e91f60494fd39c6069f25b963110cb13cb60c371e8512"
+    description = "MalwareBazaar sample a6ec23370de4e1849d6e91f60494fd39c6069f25b963110cb13cb60c371e8512"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "a6ec23370de4e1849d6e91f60494fd39c6069f25b963110cb13cb60c371e8512"
+}
+
+rule MalwareBazaar_Hash_IOC_a78dfed1650aef00
+{
+  meta:
+    sha256 = "a78dfed1650aef00f19f9b86d529d42500cb2202923169692a789bb7f3bb402b"
+    description = "MalwareBazaar sample a78dfed1650aef00f19f9b86d529d42500cb2202923169692a789bb7f3bb402b"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "a78dfed1650aef00f19f9b86d529d42500cb2202923169692a789bb7f3bb402b"
+}
+
+rule MalwareBazaar_Hash_IOC_a9b58569a98930eb
+{
+  meta:
+    sha256 = "a9b58569a98930ebe0b68bddd9fb13e4ddc9e75530b283d07b853c97b6c13d8a"
+    description = "MalwareBazaar sample a9b58569a98930ebe0b68bddd9fb13e4ddc9e75530b283d07b853c97b6c13d8a"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "a9b58569a98930ebe0b68bddd9fb13e4ddc9e75530b283d07b853c97b6c13d8a"
+}
+
+rule MalwareBazaar_Hash_IOC_ad20b5dd23ef403b
+{
+  meta:
+    sha256 = "ad20b5dd23ef403b0f39c81ad354aa283409a43587ce90107ca8b6a0800bebc6"
+    description = "MalwareBazaar sample ad20b5dd23ef403b0f39c81ad354aa283409a43587ce90107ca8b6a0800bebc6"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ad20b5dd23ef403b0f39c81ad354aa283409a43587ce90107ca8b6a0800bebc6"
+}
+
+rule MalwareBazaar_Hash_IOC_ae5db9eb1406557f
+{
+  meta:
+    sha256 = "ae5db9eb1406557f12e2d9b474b2519beba3b6fc6afdb8ded74f41d258ae82cd"
+    description = "MalwareBazaar sample ae5db9eb1406557f12e2d9b474b2519beba3b6fc6afdb8ded74f41d258ae82cd"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ae5db9eb1406557f12e2d9b474b2519beba3b6fc6afdb8ded74f41d258ae82cd"
+}
+
+rule MalwareBazaar_Hash_IOC_afac970888a621eb
+{
+  meta:
+    sha256 = "afac970888a621eb5a408c1820d941839c28ce4fbc351dfa0d23402f04fcd3bc"
+    description = "MalwareBazaar sample afac970888a621eb5a408c1820d941839c28ce4fbc351dfa0d23402f04fcd3bc"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "afac970888a621eb5a408c1820d941839c28ce4fbc351dfa0d23402f04fcd3bc"
+}
+
+rule MalwareBazaar_Hash_IOC_b090e5a3b3c104c4
+{
+  meta:
+    sha256 = "b090e5a3b3c104c446018af559c074adf42dc10a8c4e34270fa2228a1f2f82c5"
+    description = "MalwareBazaar sample b090e5a3b3c104c446018af559c074adf42dc10a8c4e34270fa2228a1f2f82c5"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "b090e5a3b3c104c446018af559c074adf42dc10a8c4e34270fa2228a1f2f82c5"
+}
+
+rule MalwareBazaar_Hash_IOC_b187869c3dc6e0f1
+{
+  meta:
+    sha256 = "b187869c3dc6e0f1c3b6666867c26be9d5e728ac8b0aa88554078ad3feee2003"
+    description = "MalwareBazaar sample b187869c3dc6e0f1c3b6666867c26be9d5e728ac8b0aa88554078ad3feee2003"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "b187869c3dc6e0f1c3b6666867c26be9d5e728ac8b0aa88554078ad3feee2003"
+}
+
+rule MalwareBazaar_Hash_IOC_b67542ebf7ea604c
+{
+  meta:
+    sha256 = "b67542ebf7ea604cd661298d3e8dfb0e49592ea342267a4c1320363cd0afed50"
+    description = "MalwareBazaar sample b67542ebf7ea604cd661298d3e8dfb0e49592ea342267a4c1320363cd0afed50"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "b67542ebf7ea604cd661298d3e8dfb0e49592ea342267a4c1320363cd0afed50"
+}
+
+rule MalwareBazaar_Hash_IOC_c06c3002302f4720
+{
+  meta:
+    sha256 = "c06c3002302f47202884762c57982d86718ba4500699e9ef37d5cd513c6e8bf8"
+    description = "MalwareBazaar sample c06c3002302f47202884762c57982d86718ba4500699e9ef37d5cd513c6e8bf8"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c06c3002302f47202884762c57982d86718ba4500699e9ef37d5cd513c6e8bf8"
+}
+
+rule MalwareBazaar_Hash_IOC_c1ddca8512611169
+{
+  meta:
+    sha256 = "c1ddca8512611169717a8f9dec04cf8a5e5636d49fbbe33f6e80c7cfa8891023"
+    description = "MalwareBazaar sample c1ddca8512611169717a8f9dec04cf8a5e5636d49fbbe33f6e80c7cfa8891023"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c1ddca8512611169717a8f9dec04cf8a5e5636d49fbbe33f6e80c7cfa8891023"
+}
+
+rule MalwareBazaar_Hash_IOC_c1e97858d11f97a0
+{
+  meta:
+    sha256 = "c1e97858d11f97a0157f31aeb413c76ecd9cd96062929e2e659ae9e3c0dc78c4"
+    description = "MalwareBazaar sample c1e97858d11f97a0157f31aeb413c76ecd9cd96062929e2e659ae9e3c0dc78c4"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c1e97858d11f97a0157f31aeb413c76ecd9cd96062929e2e659ae9e3c0dc78c4"
+}
+
+rule MalwareBazaar_Hash_IOC_c32470f4960e3267
+{
+  meta:
+    sha256 = "c32470f4960e3267292b81005f792a1755d7b708aec15d083f205cc978f3a6e3"
+    description = "MalwareBazaar sample c32470f4960e3267292b81005f792a1755d7b708aec15d083f205cc978f3a6e3"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c32470f4960e3267292b81005f792a1755d7b708aec15d083f205cc978f3a6e3"
+}
+
+rule MalwareBazaar_Hash_IOC_c9b09ab0ba66f76f
+{
+  meta:
+    sha256 = "c9b09ab0ba66f76f8f4cfb00e34a941672dd84c4b535c3f328cf806d6a45cd9c"
+    description = "MalwareBazaar sample c9b09ab0ba66f76f8f4cfb00e34a941672dd84c4b535c3f328cf806d6a45cd9c"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c9b09ab0ba66f76f8f4cfb00e34a941672dd84c4b535c3f328cf806d6a45cd9c"
+}
+
+rule MalwareBazaar_Hash_IOC_c9eadf5f3be0996c
+{
+  meta:
+    sha256 = "c9eadf5f3be0996c41ad4c42f7bf530b74d8682ac630cea018dd0edefa07d4ea"
+    description = "MalwareBazaar sample c9eadf5f3be0996c41ad4c42f7bf530b74d8682ac630cea018dd0edefa07d4ea"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c9eadf5f3be0996c41ad4c42f7bf530b74d8682ac630cea018dd0edefa07d4ea"
+}
+
+rule MalwareBazaar_Hash_IOC_c9ede3834a7beceb
+{
+  meta:
+    sha256 = "c9ede3834a7beceb195f105766eed01c3cfbf146d7982bf659d3ff75ef7bafa0"
+    description = "MalwareBazaar sample c9ede3834a7beceb195f105766eed01c3cfbf146d7982bf659d3ff75ef7bafa0"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "c9ede3834a7beceb195f105766eed01c3cfbf146d7982bf659d3ff75ef7bafa0"
+}
+
+rule MalwareBazaar_Hash_IOC_ccc32204d9b5248e
+{
+  meta:
+    sha256 = "ccc32204d9b5248ee3971fad33c3becdc5c5d77fda668517203fed473ba8c748"
+    description = "MalwareBazaar sample ccc32204d9b5248ee3971fad33c3becdc5c5d77fda668517203fed473ba8c748"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ccc32204d9b5248ee3971fad33c3becdc5c5d77fda668517203fed473ba8c748"
+}
+
+rule MalwareBazaar_Hash_IOC_d0b4aa152d85c274
+{
+  meta:
+    sha256 = "d0b4aa152d85c274ef213eedde09eaf75dcdcf4d4ef026a889d846f357d4c6d6"
+    description = "MalwareBazaar sample d0b4aa152d85c274ef213eedde09eaf75dcdcf4d4ef026a889d846f357d4c6d6"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d0b4aa152d85c274ef213eedde09eaf75dcdcf4d4ef026a889d846f357d4c6d6"
+}
+
+rule MalwareBazaar_Hash_IOC_d2676ac0a5290da1
+{
+  meta:
+    sha256 = "d2676ac0a5290da1be5f312e7aaf992849c1a2c9e5bccb80b59a655de68f655b"
+    description = "MalwareBazaar sample d2676ac0a5290da1be5f312e7aaf992849c1a2c9e5bccb80b59a655de68f655b"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d2676ac0a5290da1be5f312e7aaf992849c1a2c9e5bccb80b59a655de68f655b"
+}
+
+rule MalwareBazaar_Hash_IOC_d3d74f36518d6bb5
+{
+  meta:
+    sha256 = "d3d74f36518d6bb59929f9f1601b90520e6228877ab30787e97acd857e38cf2e"
+    description = "MalwareBazaar sample d3d74f36518d6bb59929f9f1601b90520e6228877ab30787e97acd857e38cf2e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d3d74f36518d6bb59929f9f1601b90520e6228877ab30787e97acd857e38cf2e"
+}
+
+rule MalwareBazaar_Hash_IOC_d41fd9018d83a127
+{
+  meta:
+    sha256 = "d41fd9018d83a1275535f8cbe0ee0b8cbfe440eeb0d9a29bc24a75643cf0a102"
+    description = "MalwareBazaar sample d41fd9018d83a1275535f8cbe0ee0b8cbfe440eeb0d9a29bc24a75643cf0a102"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d41fd9018d83a1275535f8cbe0ee0b8cbfe440eeb0d9a29bc24a75643cf0a102"
+}
+
+rule MalwareBazaar_Hash_IOC_d431302d1890dbe5
+{
+  meta:
+    sha256 = "d431302d1890dbe576dd8a30fdd3a8aa4de1ec53f692b64553644c4a18470d99"
+    description = "MalwareBazaar sample d431302d1890dbe576dd8a30fdd3a8aa4de1ec53f692b64553644c4a18470d99"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d431302d1890dbe576dd8a30fdd3a8aa4de1ec53f692b64553644c4a18470d99"
+}
+
+rule MalwareBazaar_Hash_IOC_d9115ff47fa95067
+{
+  meta:
+    sha256 = "d9115ff47fa9506711bc9c734e8b96125f18f48a5217ccbc1f057b2ce51a465e"
+    description = "MalwareBazaar sample d9115ff47fa9506711bc9c734e8b96125f18f48a5217ccbc1f057b2ce51a465e"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d9115ff47fa9506711bc9c734e8b96125f18f48a5217ccbc1f057b2ce51a465e"
+}
+
+rule MalwareBazaar_Hash_IOC_d991f08e6d422bca
+{
+  meta:
+    sha256 = "d991f08e6d422bca943238a276b01aceff5d3f674c33531d6038a59a08c1a9e8"
+    description = "MalwareBazaar sample d991f08e6d422bca943238a276b01aceff5d3f674c33531d6038a59a08c1a9e8"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "d991f08e6d422bca943238a276b01aceff5d3f674c33531d6038a59a08c1a9e8"
+}
+
+rule MalwareBazaar_Hash_IOC_dabdb9d1e9ef6ea0
+{
+  meta:
+    sha256 = "dabdb9d1e9ef6ea07d8dd631461d4074d99030a59ae9b6746b750a51ddb9cdd3"
+    description = "MalwareBazaar sample dabdb9d1e9ef6ea07d8dd631461d4074d99030a59ae9b6746b750a51ddb9cdd3"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "dabdb9d1e9ef6ea07d8dd631461d4074d99030a59ae9b6746b750a51ddb9cdd3"
+}
+
+rule MalwareBazaar_Hash_IOC_dacf7be18ad926cb
+{
+  meta:
+    sha256 = "dacf7be18ad926cb2008f1a139439add5917bbded18e1b303bc7dd5c63cf4402"
+    description = "MalwareBazaar sample dacf7be18ad926cb2008f1a139439add5917bbded18e1b303bc7dd5c63cf4402"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "dacf7be18ad926cb2008f1a139439add5917bbded18e1b303bc7dd5c63cf4402"
+}
+
+rule MalwareBazaar_Hash_IOC_e462eb417f3ebe66
+{
+  meta:
+    sha256 = "e462eb417f3ebe66041226a9d05174353889f1d189d71be1fa0559b0b40f8c79"
+    description = "MalwareBazaar sample e462eb417f3ebe66041226a9d05174353889f1d189d71be1fa0559b0b40f8c79"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "e462eb417f3ebe66041226a9d05174353889f1d189d71be1fa0559b0b40f8c79"
+}
+
+rule MalwareBazaar_Hash_IOC_e6e09041ef99c529
+{
+  meta:
+    sha256 = "e6e09041ef99c529827b12f93d988dc29320fffdb604fbebbfc7403cffae6baf"
+    description = "MalwareBazaar sample e6e09041ef99c529827b12f93d988dc29320fffdb604fbebbfc7403cffae6baf"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "e6e09041ef99c529827b12f93d988dc29320fffdb604fbebbfc7403cffae6baf"
+}
+
+rule MalwareBazaar_Hash_IOC_e7d800b02d760d90
+{
+  meta:
+    sha256 = "e7d800b02d760d904093d0490348d225c45fce9e74192278f7ed6ba240f1daf1"
+    description = "MalwareBazaar sample e7d800b02d760d904093d0490348d225c45fce9e74192278f7ed6ba240f1daf1"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "e7d800b02d760d904093d0490348d225c45fce9e74192278f7ed6ba240f1daf1"
+}
+
+rule MalwareBazaar_Hash_IOC_ea6bdcebcb553f50
+{
+  meta:
+    sha256 = "ea6bdcebcb553f5089383938412f2e4010ea74ae1e6543b923cad89563c7a6cf"
+    description = "MalwareBazaar sample ea6bdcebcb553f5089383938412f2e4010ea74ae1e6543b923cad89563c7a6cf"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ea6bdcebcb553f5089383938412f2e4010ea74ae1e6543b923cad89563c7a6cf"
+}
+
+rule MalwareBazaar_Hash_IOC_ec2c3ddffdc0ff40
+{
+  meta:
+    sha256 = "ec2c3ddffdc0ff40a4d9c59c03221733b80fe36bb706bcbb9aa4650e05e96a5c"
+    description = "MalwareBazaar sample ec2c3ddffdc0ff40a4d9c59c03221733b80fe36bb706bcbb9aa4650e05e96a5c"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ec2c3ddffdc0ff40a4d9c59c03221733b80fe36bb706bcbb9aa4650e05e96a5c"
+}
+
+rule MalwareBazaar_Hash_IOC_ec77a80a984c029b
+{
+  meta:
+    sha256 = "ec77a80a984c029be6242314bce682b5234783801f4dbe449b250e0198bcbf26"
+    description = "MalwareBazaar sample ec77a80a984c029be6242314bce682b5234783801f4dbe449b250e0198bcbf26"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ec77a80a984c029be6242314bce682b5234783801f4dbe449b250e0198bcbf26"
+}
+
+rule MalwareBazaar_Hash_IOC_ed655d6bbc931506
+{
+  meta:
+    sha256 = "ed655d6bbc9315067360982455b4d14d5ef0c5fdf7ead51550bac30e25414afa"
+    description = "MalwareBazaar sample ed655d6bbc9315067360982455b4d14d5ef0c5fdf7ead51550bac30e25414afa"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ed655d6bbc9315067360982455b4d14d5ef0c5fdf7ead51550bac30e25414afa"
+}
+
+rule MalwareBazaar_Hash_IOC_ed6b9a8c2e638fc9
+{
+  meta:
+    sha256 = "ed6b9a8c2e638fc92a10cc88a0228e0c1dc088d5a28bb790f322137680b123f0"
+    description = "MalwareBazaar sample ed6b9a8c2e638fc92a10cc88a0228e0c1dc088d5a28bb790f322137680b123f0"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "ed6b9a8c2e638fc92a10cc88a0228e0c1dc088d5a28bb790f322137680b123f0"
+}
+
+rule MalwareBazaar_Hash_IOC_efc0aee14544530c
+{
+  meta:
+    sha256 = "efc0aee14544530c3d1b1abcd349d5f5d13069c923ea2c45c3f5a002927f41ce"
+    description = "MalwareBazaar sample efc0aee14544530c3d1b1abcd349d5f5d13069c923ea2c45c3f5a002927f41ce"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "efc0aee14544530c3d1b1abcd349d5f5d13069c923ea2c45c3f5a002927f41ce"
+}
+
+rule MalwareBazaar_Hash_IOC_f9e57e757b896dea
+{
+  meta:
+    sha256 = "f9e57e757b896deab77b71e725055453328fffb613b59c130ce90eb14e0befc7"
+    description = "MalwareBazaar sample f9e57e757b896deab77b71e725055453328fffb613b59c130ce90eb14e0befc7"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "f9e57e757b896deab77b71e725055453328fffb613b59c130ce90eb14e0befc7"
+}
+
+rule MalwareBazaar_Hash_IOC_f9f8567aaa807983
+{
+  meta:
+    sha256 = "f9f8567aaa807983097deb4b7fb130cc2374ace1fb08a6a825324d892f11c140"
+    description = "MalwareBazaar sample f9f8567aaa807983097deb4b7fb130cc2374ace1fb08a6a825324d892f11c140"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "f9f8567aaa807983097deb4b7fb130cc2374ace1fb08a6a825324d892f11c140"
+}
+
+rule MalwareBazaar_Hash_IOC_fa84bfb56f24194e
+{
+  meta:
+    sha256 = "fa84bfb56f24194e953a3b800aafe918e99ce2d00d102049ab1f4b973a9f508d"
+    description = "MalwareBazaar sample fa84bfb56f24194e953a3b800aafe918e99ce2d00d102049ab1f4b973a9f508d"
+    source = "MalwareBazaar"
+    analysis = "metadata only; sample not executed"
+  condition:
+    hash.sha256(0, filesize) == "fa84bfb56f24194e953a3b800aafe918e99ce2d00d102049ab1f4b973a9f508d"
+}
+```
+
+## Defensive Use Cases
+
+- **Network blocking**: Block outbound connections to known MalwareBazaar-indicated C2 infrastructure if IPs/domains are available.
+- **Hash scanning**: Scan endpoint storage and memory for files matching SHA-256 hashes in the IOC feed.
+- **STIX ingestion**: Import the STIX 2.1 bundle (`stix.json`) into threat intelligence platforms.
+- **Incident enrichment**: Cross-reference file hashes from investigations against the generated IOC lists.
+
+## Safety Notes
+
+- This report contains metadata-only intelligence. No raw malware is included.
+- Family labels are sourced from MalwareBazaar community submissions and may include false assignments.
+- YARA rules are exact hash-based rules — they detect known samples only, not variants.
+
+## Limitations
+
+- Metadata-only analysis cannot determine behavioral capabilities or intent.
+- "Unknown" family samples may be novel, recently submitted, or intentionally withheld by reporters.
+- YARA rules are hash-bound; behavioral or string-based coverage requires static analysis of actual samples.
