@@ -114,127 +114,6 @@ class ReportBundle:
         )
         return "\n".join(lines) + "\n"
 
-    def to_blog_markdown(self) -> str:
-        family_counts = Counter((sample.get("signature") or "unknown") for sample in self.samples)
-        file_type_counts = Counter((sample.get("file_type") or "unknown") for sample in self.samples)
-        title_day = self.generated_at.strftime("%Y-%m-%d")
-        lines = [
-            f"# MalwareBazaar Static Intelligence Analysis - {title_day}",
-            "",
-            "## Executive Summary",
-            "",
-            (
-                f"This analysis processed {len(self.samples)} recent MalwareBazaar metadata records "
-                f"and produced {len(self.iocs)} defensive IOCs. The run was static and metadata-only: "
-                "no malware was executed, unpacked, or republished."
-            ),
-            "",
-            "## What The Agent Did",
-            "",
-            "1. Queried MalwareBazaar for recent sample metadata.",
-            "2. Normalized sample hashes, families, file types, first-seen timestamps, and tags.",
-            "3. Generated IOC feeds in Markdown, CSV, JSON, and STIX 2.1.",
-            "4. Generated exact-match YARA rules from known sample SHA-256 values.",
-            "5. Wrote this technical report for defender review and GitHub publishing.",
-            "",
-            "## Outcome",
-            "",
-            f"- Samples analyzed: {len(self.samples)}",
-            f"- IOCs generated: {len(self.iocs)}",
-            f"- MalwareBazaar selector: `{self.selector}`",
-            f"- Generated at: `{self.generated_at.isoformat()}`",
-            "",
-            "## Top Malware Families",
-            "",
-            "| Family | Samples |",
-            "|---|---:|",
-        ]
-        lines.extend(f"| {family} | {count} |" for family, count in family_counts.most_common(10))
-        lines.extend(
-            [
-                "",
-                "## File Type Distribution",
-                "",
-                "| File type | Samples |",
-                "|---|---:|",
-            ]
-        )
-        lines.extend(f"| {file_type} | {count} |" for file_type, count in file_type_counts.most_common(10))
-        lines.extend(
-            [
-                "",
-                "## IOC Summary",
-                "",
-                "The generated IOC set includes sample hashes and metadata suitable for defensive "
-                "matching, enrichment, and blocklist workflows.",
-                "",
-                "| Type | Count |",
-                "|---|---:|",
-            ]
-        )
-        ioc_counts = Counter(ioc["type"] for ioc in self.iocs)
-        lines.extend(f"| {kind} | {count} |" for kind, count in ioc_counts.most_common())
-        lines.extend(
-            [
-                "",
-                "## YARA Rules",
-                "",
-                "The generated YARA rules use the `hash` module to match exact SHA-256 values from "
-                "MalwareBazaar metadata. These are high-confidence sample indicators, not generalized "
-                "family behavior signatures. Generalized rules require static source or byte-level sample "
-                "features and should not be invented from metadata alone.",
-                "",
-                "```yara",
-                self.to_yara_rules().strip(),
-                "```",
-                "",
-                "## Defensive Use",
-                "",
-                "- Import `iocs.csv` or `iocs.json` into enrichment and detection pipelines.",
-                "- Use `stix.json` where STIX-compatible tooling is available.",
-                "- Use `malwarebazaar-hash-iocs.yar` for exact known-sample matching.",
-                "- Treat family names as source-provided metadata and validate them during triage.",
-                "",
-                "## Safety Notes",
-                "",
-                "This loop did not download raw samples for this report. If source-like malware is "
-                "analyzed in future runs, the analysis path must remain static: inspect inert text, "
-                "extract IOCs, identify obfuscation, and avoid dynamic execution.",
-            ]
-        )
-        return "\n".join(lines) + "\n"
-
-    def to_yara_rules(self, *, max_rules: int = 100) -> str:
-        lines = [
-            'import "hash"',
-            "",
-        ]
-        for index, sample in enumerate(self.samples[:max_rules], start=1):
-            sha256 = str(sample.get("sha256_hash") or "").lower()
-            if len(sha256) != 64:
-                continue
-            family = sanitize_yara_identifier(str(sample.get("signature") or "unknown"))
-            file_type = sanitize_yara_string(str(sample.get("file_type") or "unknown"))
-            first_seen = sanitize_yara_string(str(sample.get("first_seen") or ""))
-            lines.extend(
-                [
-                    f"rule MalwareBazaar_{family}_{index:03d}",
-                    "{",
-                    "  meta:",
-                    '    source = "MalwareBazaar"',
-                    f'    sha256 = "{sha256}"',
-                    f'    family = "{sanitize_yara_string(str(sample.get("signature") or "unknown"))}"',
-                    f'    file_type = "{file_type}"',
-                    f'    first_seen = "{first_seen}"',
-                    "    analysis = \"metadata-only exact hash IOC\"",
-                    "  condition:",
-                    f'    hash.sha256(0, filesize) == "{sha256}"',
-                    "}",
-                    "",
-                ]
-            )
-        return "\n".join(lines).rstrip() + "\n"
-
     def to_ioc_json(self) -> str:
         return json.dumps(
             {
@@ -302,131 +181,188 @@ class ReportBundle:
     def to_blog_markdown(self) -> str:
         family_counts = Counter((sample.get("signature") or "unknown") for sample in self.samples)
         file_type_counts = Counter((sample.get("file_type") or "unknown") for sample in self.samples)
-        known_count = sum(1 for s in self.samples if s.get("signature"))
-        tagged = sum(1 for s in self.samples if s.get("tags"))
-        top3_families = ", ".join(f"{f} ({c})" for f, c in family_counts.most_common(3))
-
-        family_rows = "\n".join(
-            f"| {family} | {count} |" for family, count in family_counts.most_common(10)
+        title_day = self.generated_at.strftime("%Y-%m-%d")
+        sample_noun = "submission" if len(self.samples) == 1 else "submissions"
+        lines = [
+            f"# MalwareBazaar Sample-by-Sample Technical Analysis - {title_day}",
+            "",
+            "## Executive Summary",
+            "",
+            (
+                f"The agent analyzed {len(self.samples)} recent MalwareBazaar {sample_noun} one by one "
+                f"and extracted {len(self.iocs)} defensive IOCs. This is static metadata analysis: "
+                "samples were not downloaded, unpacked, executed, or dynamically tested."
+            ),
+            "",
+            "## What The Agent Did",
+            "",
+            "1. Queried the MalwareBazaar Community API for recent submissions.",
+            "2. Walked every returned sample individually.",
+            "3. Normalized per-sample hashes, family labels, file names, file types, tags, and timestamps.",
+            "4. Produced per-sample IOC tables and exact SHA-256 YARA rules.",
+            "5. Wrote this Markdown report for GitHub publication and defender review.",
+            "",
+            "## Run Outcome",
+            "",
+            "| Metric | Value |",
+            "|---|---:|",
+            f"| Samples analyzed | {len(self.samples)} |",
+            f"| Total IOCs | {len(self.iocs)} |",
+            f"| Unique family labels | {len(family_counts)} |",
+            f"| Unique file types | {len(file_type_counts)} |",
+            "",
+            "## Dataset Overview",
+            "",
+            "### Top Families",
+            "",
+            "| Family | Samples |",
+            "|---|---:|",
+        ]
+        lines.extend(f"| {family} | {count} |" for family, count in family_counts.most_common(10))
+        lines.extend(
+            [
+                "",
+                "### File Type Distribution",
+                "",
+                "| File type | Samples |",
+                "|---|---:|",
+            ]
         )
-        file_type_rows = "\n".join(
-            f"| {t} | {c} |" for t, c in file_type_counts.most_common(10)
+        lines.extend(f"| {file_type} | {count} |" for file_type, count in file_type_counts.most_common(10))
+        lines.extend(["", "## Per-Sample Analysis", ""])
+        for index, sample in enumerate(self.samples, start=1):
+            lines.extend(self._render_sample_analysis(sample, index))
+        lines.extend(
+            [
+                "",
+                "## Combined YARA Rules",
+                "",
+                "These rules are exact SHA-256 sample indicators. They are useful for known-sample "
+                "matching, not for detecting variants or inferring behavior. Broader YARA coverage "
+                "requires static features from source code or file bytes.",
+                "",
+                "```yara",
+                self.to_yara_rules().strip(),
+                "```",
+                "",
+                "## Limitations",
+                "",
+                "- Metadata cannot prove runtime behavior, capabilities, persistence, or C2 logic.",
+                "- `unknown` family labels mean MalwareBazaar did not provide a signature for that sample.",
+                "- Hash YARA rules match only exact known samples.",
+                "- Source-like samples should be analyzed with `analyze-source` for real static code findings.",
+            ]
         )
+        return "\n".join(lines) + "\n"
 
-        return f"""# MalwareBazaar Technical Analysis — Metadata Intelligence
-
-## Executive Summary
-
-This report summarizes {len(self.samples)} recent files submitted to MalwareBazaar. All intelligence is derived from metadata — no samples were downloaded, executed, or unpacked. The analysis covers file-type distributions, identified malware families, and associated hashes.
-
-## What The Agent Did
-
-1. Queried the MalwareBazaar Community API with selector `{self.selector}`.
-2. Received metadata for {len(self.samples)} submissions — hashes, file names, types, tags, and family labels.
-3. Normalized hash IOCs (MD5, SHA-1, SHA-256, SHA3-384, IMPHASH, TLSH, TELFHASH, GIMPHASH, SSDEEP, ICON-DHASH).
-4. Computed family and file-type frequency distributions.
-5. Generated STIX 2.1 indicator bundle, CSV and JSON IOC feeds, and hash-based YARA rules.
-
-## Outcome
-
-| Metric | Value |
-|---|---|
-| Samples | {len(self.samples)} |
-| Total IOCs | {len(self.iocs)} |
-| Known families | {known_count} |
-| Tagged submissions | {tagged} |
-| Top families | {top3_families} |
-| Generation time | {self.generated_at.isoformat()} |
-
-## Methodology
-
-All analysis is deterministic and metadata-bound. No behavioral sandboxing, dynamic analysis, or sample execution is performed. IOCs are exact hash values from the MalwareBazaar API. Family labels reflect MalwareBazaar's `signature` field, which may be incomplete for recently submitted or low-confidence samples.
-
-## IOC Summary
-
-The complete IOC feed is available as structured formats alongside this report. The following table summarizes the hash types collected:
-
-| IOC Type | Hash Algorithm | Count |
-|---|---|---|
-{"".join(f"| {kind} | - | (per sample) |\\n" for kind in sorted(set(i["type"] for i in self.iocs)))}
-## File Type Distribution
-
-| File Type | Samples |
-|---:|---:|
-{file_type_rows}
-
-## Malware Family Distribution
-
-| Family | Samples |
-|---:|---:|
-{family_rows}
-
-## YARA Rules
-
-The following hash-based YARA rules are generated for defensive hunting. These rules use the YARA `hash` module and will match files whose SHA-256 hash matches a known MalwareBazaar sample.
-
-```yara
-{self.to_yara_rules().strip()}
-```
-
-## Defensive Use Cases
-
-- **Network blocking**: Block outbound connections to known MalwareBazaar-indicated C2 infrastructure if IPs/domains are available.
-- **Hash scanning**: Scan endpoint storage and memory for files matching SHA-256 hashes in the IOC feed.
-- **STIX ingestion**: Import the STIX 2.1 bundle (`stix.json`) into threat intelligence platforms.
-- **Incident enrichment**: Cross-reference file hashes from investigations against the generated IOC lists.
-
-## Safety Notes
-
-- This report contains metadata-only intelligence. No raw malware is included.
-- Family labels are sourced from MalwareBazaar community submissions and may include false assignments.
-- YARA rules are exact hash-based rules — they detect known samples only, not variants.
-
-## Limitations
-
-- Metadata-only analysis cannot determine behavioral capabilities or intent.
-- "Unknown" family samples may be novel, recently submitted, or intentionally withheld by reporters.
-- YARA rules are hash-bound; behavioral or string-based coverage requires static analysis of actual samples.
-"""
-
-    def to_yara_rules(self) -> str:
-        sha256_hashes = sorted(
-            s["sha256_hash"] for s in self.samples if s.get("sha256_hash")
-        )
-        if not sha256_hashes:
-            return (
-                'import "hash"\n\nrule MalwareBazaar_Hash_IOCs\n{\n'
-                '  meta:\n'
-                '    description = "No SHA-256 hashes available from this pull"\n'
-                '    source = "MalwareBazaar"\n'
-                '  condition:\n    false\n}\n'
-            )
+    def to_yara_rules(self, *, max_rules: int = 100) -> str:
         lines = [
             'import "hash"',
             "",
             "/*",
-            " * MalwareBazaar hash-based YARA indicators.",
-            " * Generated from MalwareBazaar metadata only — samples not executed.",
-            f" * Source: MalwareBazaar get_recent (selector={self.selector})",
+            " * MalwareBazaar exact-hash YARA indicators.",
+            " * Generated from metadata only; samples were not executed.",
+            f" * Selector: {self.selector}",
             f" * Generated: {self.generated_at.isoformat()}",
-            f" * Total rules: {len(sha256_hashes)}",
-            " * Each rule matches a single known sample by SHA-256.",
             " */",
             "",
         ]
-        for sha256 in sha256_hashes:
-            lines.append(f'rule MalwareBazaar_Hash_IOC_{sha256[:16]}')
-            lines.append('{')
-            lines.append('  meta:')
-            lines.append(f'    sha256 = "{sha256}"')
-            lines.append(f'    description = "MalwareBazaar sample {sha256}"')
-            lines.append('    source = "MalwareBazaar"')
-            lines.append('    analysis = "metadata only; sample not executed"')
-            lines.append('  condition:')
-            lines.append(f'    hash.sha256(0, filesize) == "{sha256}"')
-            lines.append('}')
-            lines.append('')
-        return '\n'.join(lines)
+        for index, sample in enumerate(self.samples[:max_rules], start=1):
+            rule = self._sample_yara_rule(sample, index)
+            if rule:
+                lines.extend([rule, ""])
+        return "\n".join(lines).rstrip() + "\n"
+
+    def _render_sample_analysis(self, sample: dict[str, Any], index: int) -> list[str]:
+        sha256 = str(sample.get("sha256_hash") or "")
+        family = str(sample.get("signature") or "unknown")
+        file_name = str(sample.get("file_name") or "unknown")
+        file_type = str(sample.get("file_type") or "unknown")
+        first_seen = str(sample.get("first_seen") or "unknown")
+        reporter = str(sample.get("reporter") or "unknown")
+        tags = sample.get("tags") or []
+        tag_text = ", ".join(str(tag) for tag in tags) if isinstance(tags, list) else str(tags)
+        tag_text = tag_text or "none"
+        iocs = self._sample_iocs(sample)
+        rule = self._sample_yara_rule(sample, index)
+
+        lines = [
+            f"### Sample {index}: `{sha256[:16] or 'no-sha256'}`",
+            "",
+            "| Field | Value |",
+            "|---|---|",
+            f"| SHA-256 | `{sha256 or 'missing'}` |",
+            f"| Family label | `{family}` |",
+            f"| File name | `{file_name}` |",
+            f"| File type | `{file_type}` |",
+            f"| First seen | `{first_seen}` |",
+            f"| Reporter | `{reporter}` |",
+            f"| Tags | `{tag_text}` |",
+            "",
+            "#### Per-Sample IOC Table",
+            "",
+            "| Type | Value |",
+            "|---|---|",
+        ]
+        lines.extend(f"| {kind} | `{value}` |" for kind, value in iocs)
+        if not iocs:
+            lines.append("| none |  |")
+
+        lines.extend(
+            [
+                "",
+                "#### Technical Assessment",
+                "",
+                f"- The sample is tracked as `{family}` by MalwareBazaar metadata.",
+                f"- The observed artifact type is `{file_type}`; analysis here is limited to metadata and hash IOCs.",
+                "- No behavior, capability, persistence, or C2 claims are made without static source/byte features.",
+                "- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.",
+                "",
+                "#### Sample YARA Rule",
+                "",
+                "```yara",
+                rule.strip() if rule else "/* no valid SHA-256 available for this sample */",
+                "```",
+                "",
+            ]
+        )
+        return lines
+
+    def _sample_iocs(self, sample: dict[str, Any]) -> list[tuple[str, str]]:
+        iocs: list[tuple[str, str]] = []
+        for field, kind in HASH_FIELDS.items():
+            value = sample.get(field)
+            if value:
+                iocs.append((kind, str(value)))
+        return iocs
+
+    def _sample_yara_rule(self, sample: dict[str, Any], index: int) -> str:
+        sha256 = str(sample.get("sha256_hash") or "").lower()
+        if len(sha256) != 64:
+            return ""
+        family = sanitize_yara_identifier(str(sample.get("signature") or "unknown"))
+        rule_name = f"MalwareBazaar_{family}_{index:03d}_{sha256[:8]}"
+        file_type = sanitize_yara_string(str(sample.get("file_type") or "unknown"))
+        file_name = sanitize_yara_string(str(sample.get("file_name") or "unknown"))
+        first_seen = sanitize_yara_string(str(sample.get("first_seen") or "unknown"))
+        family_label = sanitize_yara_string(str(sample.get("signature") or "unknown"))
+        return "\n".join(
+            [
+                f"rule {rule_name}",
+                "{",
+                "  meta:",
+                '    source = "MalwareBazaar"',
+                '    analysis = "metadata-only exact hash IOC; sample not executed"',
+                f'    sha256 = "{sha256}"',
+                f'    family = "{family_label}"',
+                f'    file_name = "{file_name}"',
+                f'    file_type = "{file_type}"',
+                f'    first_seen = "{first_seen}"',
+                "  condition:",
+                f'    hash.sha256(0, filesize) == "{sha256}"',
+                "}",
+            ]
+        )
 
 
 def build_report_bundle(samples: list[dict[str, Any]], selector: str) -> ReportBundle:

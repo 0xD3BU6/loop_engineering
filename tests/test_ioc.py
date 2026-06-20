@@ -70,8 +70,11 @@ def test_metadata_report_generates_blog_and_yara():
     yara = bundle.to_yara_rules()
 
     assert "What The Agent Did" in blog
-    assert "IOC Summary" in blog
-    assert "YARA Rules" in blog
+    assert "Per-Sample Analysis" in blog
+    assert "Sample 1" in blog
+    assert "Per-Sample IOC Table" in blog
+    assert "Technical Assessment" in blog
+    assert "Combined YARA Rules" in blog
     assert 'import "hash"' in yara
     assert "hash.sha256(0, filesize)" in yara
     assert "a" * 64 in yara

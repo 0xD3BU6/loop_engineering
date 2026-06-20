@@ -3,7 +3,7 @@
 Generated report bundles are written under `reports/YYYY-MM-DD/`:
 
 - `malwarebazaar-report.md` - human-readable summary.
-- `technical-analysis.md` - technical blog/writeup covering actions, outcome, IOCs, and YARA.
+- `technical-analysis.md` - sample-by-sample technical blog/writeup covering actions, outcome, per-sample IOCs, and YARA.
 - `iocs.csv` - flat IOC feed.
 - `iocs.json` - structured IOC feed.
 - `stix.json` - STIX 2.1 indicator bundle.
