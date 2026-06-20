@@ -1,0 +1,88 @@
+{
+  "byte_count": 236028,
+  "entropy": 5.268,
+  "file_magic": "76 67 62 68 62 65 72 20",
+  "generated_at": "2026-06-20T22:34:31.540110+00:00",
+  "md5": "671a415b70981898a6a51d0fd2f9322b",
+  "metadata": {
+    "anonymous": 0,
+    "code_sign": [],
+    "dhash_icon": null,
+    "file_name": "Adobe_Acrobat_Reader_DC_Updater_Windows_installer_Win11_x86_x64_Win10-Win11_x64.vbs",
+    "file_size": 236028,
+    "file_type": "vbs",
+    "file_type_mime": "text/plain",
+    "first_seen": "2026-06-20 20:41:55",
+    "gimphash": null,
+    "imphash": null,
+    "intelligence": {
+      "clamav": null,
+      "downloads": "63",
+      "mail": null,
+      "uploads": "1"
+    },
+    "last_seen": null,
+    "magika": "vba",
+    "md5_hash": "671a415b70981898a6a51d0fd2f9322b",
+    "origin_country": "HU",
+    "reporter": "smica83",
+    "sha1_hash": "9ebe2e5fab3e8c4670f32873572b14ff9fc5927c",
+    "sha256_hash": "4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017",
+    "sha3_384_hash": "16be9e4d57119b5d17a0e946c2d703899bf564995c20f88e4e829f41efa007d83509863602c095021d177506cd678610",
+    "signature": "ConnectWise",
+    "ssdeep": "6144:hDSQ/iWRROPtw3D+dDQtNHPTVMBvQ/8m4bCpgkLhzpw:MQ/RwPtwK1aNHPTVYvQkPOyMTw",
+    "tags": [
+      "ConnectWise",
+      "vbs"
+    ],
+    "telfhash": null,
+    "tlsh": "T14234436E3283D90A6F768E4C429D8BC826F5E64DC5DF69C4C38094B5E7D84D720983BE",
+    "trid": null
+  },
+  "printable_string_count": 2028,
+  "selected_strings": [],
+  "sha1": "9ebe2e5fab3e8c4670f32873572b14ff9fc5927c",
+  "sha256": "4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017",
+  "source_name": "4c6c3fb40ded613933d00a87000b065649322eec736018493bc607ce72c76017.vbs",
+  "static_code": {
+    "byte_count": 236028,
+    "domains": [],
+    "entropy": 5.268,
+    "findings": [
+      {
+        "category": "obfuscation",
+        "detail": "Found 19 long base64-like blob(s)",
+        "severity": "medium",
+        "value": "base64_blob"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "z# ] ' ENvZX`'H:jIa|RWk\u0169% z #] ' =nvZX`'aUjIa|aWk\u0169% z\u0159#] '"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "zc]=vZX`'@{jIa|u k\u0169% zP ]:vZX`'L2Wk\u0169% z /] ' ujIa| \u07c7k\u0169% z ] '"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "z\u00c8#] ' \\vZX`' zjIa| Wk\u0169% zW#] ' d\u03b5vZX`'8f:jIa|Wk\u0169% zI/] '"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Text entropy is 5.27",
+        "severity": "medium",
+        "value": "high_entropy"
+      }
+    ],
+    "ips": [],
+    "language_hint": "vbscript",
+    "line_count": 2032,
+    "urls": []
+  }
+}
