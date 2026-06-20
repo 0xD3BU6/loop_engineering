@@ -35,3 +35,6 @@ Refs: [domain](domains/malware-intel/README.md) (new), [architecture](docs/malwa
 ## 2026-06-21 · AI harness runner · #infra #ops
 What: Added a one-command harness runner and CommandCode prompt contract for autonomous metadata-only report generation and optional git publishing.
 Refs: [harness](harness/README.md) (new), [runner](scripts/run_malware_intel_loop.py) (new)
+## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
+What: Generated metadata-only MalwareBazaar report with 100 samples and 625 IOCs.
+Refs: [reports/2026-06-20](reports/2026-06-20) (generated)
