@@ -55,6 +55,10 @@ Refs: [analyzer](src/loop_engineering/static_code_analysis.py) (new), [architect
 ## 2026-06-21 · Technical blog and YARA outputs · #analysis #content
 What: Added generated technical analysis blog Markdown and YARA rule outputs for both metadata reports and static source-code analysis.
 Refs: [IOC renderer](src/loop_engineering/ioc.py) (updated), [static analyzer](src/loop_engineering/static_code_analysis.py) (updated), [reports schema](reports/README.md) (updated)
+
+## 2026-06-21 · Multi-agent supervisor · #infra #ops
+What: Added an outer CommandCode supervisor that launches fresh workers with the generated next prompt and continues after pushed state advances.
+Refs: [supervisor](scripts/commandcode_supervisor.py) (new), [supervisor docs](harness/multi-agent-supervisor.md) (new)
 ## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 625 IOCs.
 Refs: [reports/2026-06-20](reports/2026-06-20) (generated)

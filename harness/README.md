@@ -73,6 +73,19 @@ run under `harness/generated/next-commandcode-prompt.md`.
 The autonomous loop remains domain-scoped. It may update reports, malware-intel docs, tests, and
 workflow files. It must not edit unrelated domains or remove safety boundaries.
 
+## Multi-agent relay
+
+If CommandCode stops after one turn and waits for another prompt, run the outer supervisor:
+
+```bash
+export COMMANDCODE_CMD='commandcode --prompt-file {prompt}'
+python scripts/commandcode_supervisor.py --iterations 24 --agents 3
+```
+
+The supervisor launches fresh workers with the generated next prompt, pulls after each worker, and
+continues when `harness/generated/autonomous-state.json` advances. See
+`harness/multi-agent-supervisor.md`.
+
 ## Safety boundary
 
 The harness may read and summarize generated reports. It must not generate exploit PoC code,

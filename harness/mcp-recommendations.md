@@ -10,6 +10,7 @@ Use the smallest tool surface that lets the autonomous loop operate.
 | Shell | Run tests and deterministic loop scripts | This repository only |
 | Network/fetch | Query MalwareBazaar metadata API and read public docs | `mb-api.abuse.ch`, `bazaar.abuse.ch` |
 | GitHub | Push report commits and inspect workflow state | `0xD3BU6/loop_engineering` |
+| Non-interactive CommandCode CLI | Let `scripts/commandcode_supervisor.py` launch fresh workers | This repository only |
 
 ## Useful optional capabilities
 
