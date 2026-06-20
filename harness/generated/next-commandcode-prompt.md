@@ -16,11 +16,11 @@ Read first:
 Current state:
 
 - Domain: `malware-intel`
-- Iteration: `1`
+- Iteration: `2`
 - Last report: `reports/2026-06-20`
 - Last samples: `100`
 - Last IOCs: `626`
-- Last run: `2026-06-20T21:47:57Z`
+- Last run: `2026-06-20T21:51:25Z`
 
 Loop:
 

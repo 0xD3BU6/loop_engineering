@@ -21,7 +21,7 @@ This report summarizes 100 recent files submitted to MalwareBazaar. All intellig
 | Known families | 31 |
 | Tagged submissions | 88 |
 | Top families | unknown (69), Mirai (24), RustyStealer (2) |
-| Generation time | 2026-06-20T21:47:57.209548+00:00 |
+| Generation time | 2026-06-20T21:51:25.222805+00:00 |
 
 ## Methodology
 
@@ -69,7 +69,7 @@ import "hash"
  * MalwareBazaar hash-based YARA indicators.
  * Generated from MalwareBazaar metadata only — samples not executed.
  * Source: MalwareBazaar get_recent (selector=100)
- * Generated: 2026-06-20T21:47:57.209548+00:00
+ * Generated: 2026-06-20T21:51:25.222805+00:00
  * Total rules: 100
  * Each rule matches a single known sample by SHA-256.
  */
