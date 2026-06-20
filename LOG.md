@@ -59,6 +59,10 @@ Refs: [IOC renderer](src/loop_engineering/ioc.py) (updated), [static analyzer](s
 ## 2026-06-21 · Multi-agent supervisor · #infra #ops
 What: Added an outer CommandCode supervisor that launches fresh workers with the generated next prompt and continues after pushed state advances.
 Refs: [supervisor](scripts/commandcode_supervisor.py) (new), [supervisor docs](harness/multi-agent-supervisor.md) (new)
+
+## 2026-06-21 · Sample-by-sample technical reports · #analysis #content
+What: Replaced aggregate-only MalwareBazaar technical blogs with per-sample sections containing metadata, IOC tables, assessments, and exact-hash YARA rules.
+Refs: [IOC renderer](src/loop_engineering/ioc.py) (updated), [reports schema](reports/README.md) (updated)
 ## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 625 IOCs.
 Refs: [reports/2026-06-20](reports/2026-06-20) (generated)
@@ -67,4 +71,7 @@ What: Generated metadata-only MalwareBazaar report with 100 samples and 626 IOCs
 Refs: [reports/2026-06-20](reports/2026-06-20) (generated)
 ## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 626 IOCs.
+Refs: [reports/2026-06-20](reports/2026-06-20) (generated)
+## 2026-06-20 · MalwareBazaar IOC report · #analysis #ops
+What: Generated metadata-only MalwareBazaar report with 100 samples and 628 IOCs.
 Refs: [reports/2026-06-20](reports/2026-06-20) (generated)
