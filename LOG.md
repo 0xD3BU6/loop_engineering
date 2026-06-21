@@ -91,3 +91,6 @@ Refs: [reports/2026-06-21/samples/8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4
 ## 2026-06-21 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 646 IOCs.
 Refs: [reports/2026-06-21](reports/2026-06-21) (generated)
+## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
+What: Analyzed one MalwareBazaar sample statically (2b48b4d74ec2b1cf, family `RemcosRAT`) and generated blog, IOC JSON, YARA, and reviewer prompt.
+Refs: [reports/2026-06-21/samples/2b48b4d74ec2b1cfbd9e732c2b4d1c58c82882007ab5624c74b15657feb9641d](reports/2026-06-21/samples/2b48b4d74ec2b1cfbd9e732c2b4d1c58c82882007ab5624c74b15657feb9641d) (generated)
