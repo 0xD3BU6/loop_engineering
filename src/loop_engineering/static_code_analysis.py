@@ -6,7 +6,7 @@ into runnable artifacts, or fetch URLs discovered in the sample.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 import base64
 import math
 import re
@@ -111,6 +111,9 @@ class StaticCodeReport:
     ips: list[str]
     domains: list[str]
     findings: list[StaticCodeFinding]
+    functions: list[dict[str, Any]] = field(default_factory=list)
+    decoded_layers: list[dict[str, Any]] = field(default_factory=list)
+    deobfuscated: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
@@ -133,16 +136,197 @@ def _looks_like_real_domain(candidate: str) -> bool:
     return len(tld) == 2 or tld in KNOWN_MULTICHAR_TLDS
 
 
+FUNCTION_DEF_RE = re.compile(r"\bfunction\s+([A-Za-z_$][\w$]*)\s*\(([^)]*)\)\s*\{", re.IGNORECASE)
+ALL_PATTERN_RES = [
+    (category, re.compile(pattern, re.IGNORECASE))
+    for category, patterns in PATTERNS.items()
+    for pattern in patterns
+]
+
+
+def extract_functions(text: str, *, max_functions: int = 40, body_chars: int = 600) -> list[dict[str, Any]]:
+    """Enumerate named functions and the suspicious behaviour each one contains.
+
+    This is a structural dissection, not execution: it brace-matches each
+    ``function name(args){ ... }`` body and annotates which behavioural patterns
+    (process spawn, download cradle, persistence, ...) appear inside it. Helps a
+    report describe a sample function by function instead of as a flat string
+    dump.
+    """
+    functions: list[dict[str, Any]] = []
+    for match in FUNCTION_DEF_RE.finditer(text):
+        body = _brace_body(text, match.end() - 1)
+        if body is None:
+            continue
+        markers = sorted({category for category, regex in ALL_PATTERN_RES if regex.search(body)})
+        calls = sorted(set(re.findall(r"([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(", body)))[:12]
+        functions.append(
+            {
+                "name": match.group(1),
+                "signature": f"function {match.group(1)}({match.group(2).strip()})",
+                "body_excerpt": body[:body_chars],
+                "truncated": len(body) > body_chars,
+                "behaviour_markers": markers,
+                "calls": calls,
+            }
+        )
+        if len(functions) >= max_functions:
+            break
+    return functions
+
+
+def _brace_body(text: str, open_index: int) -> str | None:
+    depth = 0
+    for index in range(open_index, len(text)):
+        char = text[index]
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[open_index + 1 : index].strip()
+    return None
+
+
+STRING_ASSIGN_RE = re.compile(r'([A-Za-z_$][\w$]*)\s*(\+?=)\s*"((?:[^"\\]|\\.)*)"\s*;?')
+REPLACE_OP_RE = re.compile(
+    r'([A-Za-z_$][\w$]*)\s*=\s*\1\.replace\(\s*/((?:[^/\\]|\\.)+)/[a-z]*\s*,\s*"((?:[^"\\]|\\.)*)"\s*\)',
+    re.IGNORECASE,
+)
+SPLITJOIN_OP_RE = re.compile(
+    r'([A-Za-z_$][\w$]*)\s*=\s*\1\.split\(\s*"((?:[^"\\]|\\.)*)"\s*\)\.join\(\s*"((?:[^"\\]|\\.)*)"\s*\)',
+    re.IGNORECASE,
+)
+
+
+def _unescape(value: str) -> str:
+    return (
+        value.replace('\\"', '"')
+        .replace("\\\\", "\\")
+        .replace("\\r", "\r")
+        .replace("\\n", "\n")
+        .replace("\\t", "\t")
+    )
+
+
+def recover_concatenated_strings(text: str, *, min_length: int = 120) -> list[str]:
+    """Reconstruct strings built by concatenation then a removal/replace step.
+
+    A very common script-dropper trick is to assemble a payload across many
+    ``v += "chunk"`` statements with a junk token interleaved, then strip it with
+    ``v = v.replace(/token/g, "")`` or ``v.split("token").join("")``. This pure
+    string reconstruction (no execution) recovers the cleartext so downstream IOC
+    and base64-layer extraction can see what the obfuscation hid.
+    """
+    buffers: dict[str, str] = {}
+    for var, op, literal in STRING_ASSIGN_RE.findall(text):
+        chunk = _unescape(literal)
+        if op == "+=":
+            buffers[var] = buffers.get(var, "") + chunk
+        else:
+            buffers[var] = chunk
+
+    for var, token, replacement in REPLACE_OP_RE.findall(text):
+        if var in buffers:
+            buffers[var] = buffers[var].replace(_unescape(token), _unescape(replacement))
+    for var, token, joiner in SPLITJOIN_OP_RE.findall(text):
+        if var in buffers:
+            buffers[var] = _unescape(joiner).join(buffers[var].split(_unescape(token)))
+
+    recovered = []
+    for value in buffers.values():
+        lowered = value.lower()
+        interesting = len(value) >= min_length or any(
+            marker in lowered for marker in ("powershell", "http", "cmd", "wscript", "frombase64string")
+        )
+        if interesting:
+            recovered.append(value)
+    return recovered
+
+
+def decode_payload_layers(text: str, *, max_depth: int = 3, max_layers: int = 12) -> list[dict[str, Any]]:
+    """Recursively base64-decode embedded blobs and pull IOCs from each layer.
+
+    Multi-stage droppers hide their real C2/staging hosts inside base64 (often
+    UTF-16LE for PowerShell ``-enc``). Decoding is pure byte transformation, not
+    execution. Returns one entry per decoded layer with a defanged preview and
+    any URLs/IPs/domains recovered from that layer.
+    """
+    layers: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def walk(blob_text: str, depth: int) -> None:
+        if depth > max_depth or len(layers) >= max_layers:
+            return
+        for blob in BASE64_RE.findall(blob_text):
+            if blob in seen:
+                continue
+            seen.add(blob)
+            try:
+                raw = base64.b64decode(blob + "=" * (-len(blob) % 4), validate=False)
+            except Exception:
+                continue
+            if len(raw) < 8:
+                continue
+            decoded, encoding = _decode_bytes(raw)
+            urls = sorted(set(URL_RE.findall(decoded)))
+            ips = sorted(set(IP_RE.findall(decoded)))
+            domains = sorted({host for url in urls if (host := _host_from_url(url))})
+            domains.extend(d for d in DOMAIN_RE.findall(decoded) if _looks_like_real_domain(d))
+            domains = sorted(set(domains))
+            if urls or ips or domains or _looks_like_code(decoded):
+                preview = " ".join(decoded[:200].split())
+                layers.append(
+                    {
+                        "depth": depth,
+                        "encoding": encoding,
+                        "preview": preview,
+                        "urls": urls,
+                        "ips": ips,
+                        "domains": domains,
+                    }
+                )
+            walk(decoded, depth + 1)
+
+    walk(text, 1)
+    return layers
+
+
+def _decode_bytes(raw: bytes) -> tuple[str, str]:
+    # PowerShell -enc payloads are UTF-16LE: every other byte is a NUL.
+    if len(raw) >= 2 and raw[1::2].count(0) > len(raw) // 4:
+        return raw.decode("utf-16le", errors="replace"), "utf-16le"
+    return raw.decode("utf-8", errors="replace"), "utf-8"
+
+
+def _host_from_url(url: str) -> str | None:
+    match = re.match(r"https?://([^/:\s'\"]+)", url, re.IGNORECASE)
+    if not match:
+        return None
+    host = match.group(1)
+    return None if re.fullmatch(r"[\d.]+", host) else host
+
+
+def _looks_like_code(text: str) -> bool:
+    markers = ("using System", "Add-Type", "WebClient", "DownloadData", "AppDomain", "Invoke", "function ")
+    return any(marker in text for marker in markers)
+
+
 def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticCodeReport:
     findings: list[StaticCodeFinding] = []
     entropy = shannon_entropy(text)
-    urls = sorted(set(URL_RE.findall(text)))
-    ips = sorted(set(IP_RE.findall(text)))
-    domains = sorted(domain for domain in set(DOMAIN_RE.findall(text)) if _looks_like_real_domain(domain))
+    # Recover obfuscated payloads first so IOC/layer extraction sees what the
+    # concatenation+replace trick hid, then scan the original text plus recovered
+    # cleartext together.
+    deobfuscated = recover_concatenated_strings(text)
+    corpus = text if not deobfuscated else text + "\n" + "\n".join(deobfuscated)
+    urls = sorted(set(URL_RE.findall(corpus)))
+    ips = sorted(set(IP_RE.findall(corpus)))
+    domains = sorted(domain for domain in set(DOMAIN_RE.findall(corpus)) if _looks_like_real_domain(domain))
 
     for category, patterns in PATTERNS.items():
         for pattern in patterns:
-            matches = re.findall(pattern, text, flags=re.IGNORECASE)
+            matches = re.findall(pattern, corpus, flags=re.IGNORECASE)
             if matches:
                 findings.append(
                     StaticCodeFinding(
@@ -153,7 +337,17 @@ def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticC
                     )
                 )
 
-    base64_blobs = BASE64_RE.findall(text)
+    if deobfuscated:
+        findings.append(
+            StaticCodeFinding(
+                category="obfuscation",
+                value="concat_replace_deobfuscation",
+                severity="high",
+                detail=f"Recovered {len(deobfuscated)} concatenated/obfuscated payload string(s)",
+            )
+        )
+
+    base64_blobs = BASE64_RE.findall(corpus)
     if base64_blobs:
         findings.append(
             StaticCodeFinding(
@@ -205,6 +399,9 @@ def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticC
         ips=ips,
         domains=domains,
         findings=findings,
+        functions=extract_functions(text),
+        decoded_layers=decode_payload_layers(corpus),
+        deobfuscated=deobfuscated,
     )
 
 

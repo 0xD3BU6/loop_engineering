@@ -23,7 +23,10 @@ rule Static_Source_Malware_Indicators
     language_hint = "javascript"
     analysis = "static text only; sample not executed"
   strings:
-    $persistence_01 = /Startup/ nocase
+    $shell_execution_01 = /powershell(?:\.exe)?/ nocase
+    $powershell_cradle_02 = /Invoke-Expression|\bIEX\b/ nocase
+    $powershell_cradle_03 = /FromBase64String/ nocase
+    $persistence_04 = /Startup/ nocase
   condition:
     any of them
 }
@@ -38,6 +41,22 @@ rule Single_Sample_Metadata_Network_daf2410a4e6da576
   strings:
     $n01 = "46.183.223.7" nocase
     $n02 = "kelvin654.duckdns.org" nocase
+  condition:
+    any of them
+}
+
+
+rule Single_Sample_Decoded_Payload_daf2410a4e6da576
+{
+  meta:
+    source = "loop-engineering single-sample analysis (decoded payload layers)"
+    analysis = "indicators recovered by statically decoding embedded base64; not executed"
+    sha256 = "daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a501d6618063c7950437"
+  strings:
+    $d01 = "http://kickstrean.art/1.jpg" nocase
+    $d02 = "https://66.63.170.33/img/1.jpg" nocase
+    $d03 = "66.63.170.33" nocase
+    $d04 = "kickstrean.art" nocase
   condition:
     any of them
 }

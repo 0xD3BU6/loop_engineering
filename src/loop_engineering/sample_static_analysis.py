@@ -159,6 +159,10 @@ class SingleSampleAnalysis:
             {"type": "DOMAIN", "value": value, "source": "single-sample-static-analysis"}
             for value in self.static_code.domains
         )
+        for layer in self.static_code.decoded_layers:
+            iocs.extend({"type": "URL", "value": value, "source": "static-decoded-layer"} for value in layer.get("urls", []))
+            iocs.extend({"type": "IP", "value": value, "source": "static-decoded-layer"} for value in layer.get("ips", []))
+            iocs.extend({"type": "DOMAIN", "value": value, "source": "static-decoded-layer"} for value in layer.get("domains", []))
         metadata_iocs = network_iocs_from_metadata(self.metadata)
         iocs.extend(
             {"type": "IP", "value": value, "source": "malwarebazaar-metadata"}
@@ -168,6 +172,15 @@ class SingleSampleAnalysis:
             {"type": "DOMAIN", "value": value, "source": "malwarebazaar-metadata"}
             for value in metadata_iocs["domains"]
         )
+        # Deduplicate while preserving the first (most specific) source seen.
+        seen: set[tuple[str, str]] = set()
+        unique_iocs = []
+        for ioc in iocs:
+            key = (ioc["type"], ioc["value"])
+            if key not in seen:
+                seen.add(key)
+                unique_iocs.append(ioc)
+        iocs = unique_iocs
         return json.dumps(
             {
                 "generated_at": self.generated_at.isoformat(),
@@ -224,7 +237,104 @@ class SingleSampleAnalysis:
             for index, value in enumerate(metadata_values, start=1):
                 lines.append(f'    $n{index:02d} = "{sanitize_yara_string(value)}" nocase')
             lines.extend(["  condition:", "    any of them", "}", ""])
+
+        decoded_values: list[str] = []
+        for layer in self.static_code.decoded_layers:
+            decoded_values.extend(layer.get("urls", []) + layer.get("ips", []) + layer.get("domains", []))
+        decoded_values = unique_preserve_order(decoded_values)
+        if decoded_values:
+            lines.extend(
+                [
+                    "",
+                    f"rule Single_Sample_Decoded_Payload_{self.sha256[:16]}",
+                    "{",
+                    "  meta:",
+                    '    source = "loop-engineering single-sample analysis (decoded payload layers)"',
+                    '    analysis = "indicators recovered by statically decoding embedded base64; not executed"',
+                    f'    sha256 = "{self.sha256}"',
+                    "  strings:",
+                ]
+            )
+            for index, value in enumerate(decoded_values, start=1):
+                lines.append(f'    $d{index:02d} = "{sanitize_yara_string(value)}" nocase')
+            lines.extend(["  condition:", "    any of them", "}", ""])
         return "\n".join(lines)
+
+    def _render_code_dissection(self) -> list[str]:
+        sc = self.static_code
+        if not (sc.deobfuscated or sc.decoded_layers or sc.functions):
+            return []
+        lines = ["", "## Code Dissection", ""]
+
+        if sc.deobfuscated:
+            lines.extend(
+                [
+                    "### Deobfuscation",
+                    "",
+                    (
+                        "The sample assembles a payload through string concatenation and then strips a "
+                        "junk token to reveal it. Reconstructing that string statically (no execution) "
+                        "recovers the launched command:"
+                    ),
+                    "",
+                    "```text",
+                    truncate_markdown(" ".join(sc.deobfuscated[0].split()), 600),
+                    "```",
+                    "",
+                ]
+            )
+
+        if sc.decoded_layers:
+            lines.extend(
+                [
+                    "### Decoded Payload Layers",
+                    "",
+                    "Each base64 layer was decoded as inert bytes (not executed). Network indicators "
+                    "recovered here come from the sample's own code, not from MalwareBazaar metadata.",
+                    "",
+                    "| Layer | Encoding | Recovered indicators | Preview |",
+                    "|---|---|---|---|",
+                ]
+            )
+            for layer in sc.decoded_layers:
+                indicators = ", ".join(defang(v) for v in (layer.get("urls", []) + layer.get("ips", []) + layer.get("domains", []))) or "—"
+                preview = truncate_markdown(layer.get("preview", ""), 120)
+                lines.append(f"| {layer.get('depth')} | {layer.get('encoding')} | {indicators} | `{preview}` |")
+            lines.append("")
+
+        if sc.functions:
+            lines.extend(["### Functions", ""])
+            for func in sc.functions:
+                markers = ", ".join(func.get("behaviour_markers") or []) or "no flagged behaviour (likely decoy/helper)"
+                calls = ", ".join(f"`{c}`" for c in func.get("calls") or []) or "—"
+                lines.extend(
+                    [
+                        f"#### `{func.get('signature')}`",
+                        "",
+                        f"- Behaviour: {markers}",
+                        f"- Calls: {calls}",
+                        "",
+                        "```javascript",
+                        truncate_code(func.get("body_excerpt", ""), 600) + ("\n// ... truncated ..." if func.get("truncated") and len(func.get("body_excerpt", "")) <= 600 else ""),
+                        "```",
+                        "",
+                    ]
+                )
+
+        # The top-level (non-function) execution is where the real behaviour lives.
+        markers = sorted({finding.category for finding in sc.findings if finding.severity in {"high", "medium"}})
+        if markers:
+            lines.extend(
+                [
+                    "### Top-Level Execution Behaviour",
+                    "",
+                    "Behaviour detected across the sample (including recovered/deobfuscated code): "
+                    + ", ".join(f"`{m}`" for m in markers)
+                    + ".",
+                    "",
+                ]
+            )
+        return lines
 
     def to_blog_markdown(self) -> str:
         family = self.metadata.get("signature") or "unknown"
@@ -243,6 +353,12 @@ class SingleSampleAnalysis:
                 f"single artifact. The sample was not executed, loaded, imported, or dynamically tested. "
                 f"Static evidence produced {3 + len(self.static_code.urls) + len(self.static_code.ips) + len(self.static_code.domains)} IOCs "
                 f"and {len(findings)} code/string findings"
+                + (
+                    f", recovered {decoded_count} network indicator(s) by decoding the sample's own "
+                    "obfuscated/base64 payload layers"
+                    if (decoded_count := sum(len(L.get("urls", [])) + len(L.get("ips", [])) + len(L.get("domains", [])) for L in self.static_code.decoded_layers))
+                    else ""
+                )
                 + (
                     f", plus {len(network_meta['ips']) + len(network_meta['domains'])} metadata-derived "
                     "network indicator(s) listed separately below."
@@ -313,6 +429,9 @@ class SingleSampleAnalysis:
             )
             lines.extend(f"| IP | `{value}` | metadata |" for value in metadata_iocs["ips"])
             lines.extend(f"| Domain | `{value}` | metadata |" for value in metadata_iocs["domains"])
+
+        lines.extend(self._render_code_dissection())
+
         lines.extend(
             [
                 "",
@@ -548,3 +667,14 @@ def sanitize_yara_string(value: str) -> str:
 def truncate_markdown(value: str, limit: int) -> str:
     value = value.replace("|", "\\|").replace("\n", " ")
     return value if len(value) <= limit else value[: limit - 3] + "..."
+
+
+def truncate_code(value: str, limit: int) -> str:
+    """Truncate a code excerpt for a fenced block, preserving newlines."""
+    value = value.replace("```", "``​`")
+    return value if len(value) <= limit else value[:limit] + "\n// ... truncated ..."
+
+
+def defang(value: str) -> str:
+    """Render a network indicator non-clickable for safe publication."""
+    return value.replace("http", "hxxp").replace(".", "[.]")

