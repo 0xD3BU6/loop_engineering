@@ -719,11 +719,27 @@ class SingleSampleAnalysis:
         return "\n".join(lines) + "\n"
 
 
-def select_single_candidate(samples: list[dict[str, Any]], seen_hashes: set[str]) -> dict[str, Any]:
-    unseen = [sample for sample in samples if str(sample.get("sha256_hash") or "").lower() not in seen_hashes]
-    pool = unseen or samples
+def _candidate_fits(sample: dict[str, Any], max_bytes: int | None) -> bool:
+    if max_bytes is None:
+        return True
+    try:
+        return int(sample.get("file_size") or 0) <= max_bytes
+    except (TypeError, ValueError):
+        return True  # unknown size: let the post-download guard decide
+
+
+def select_single_candidate(
+    samples: list[dict[str, Any]],
+    seen_hashes: set[str],
+    max_bytes: int | None = None,
+) -> dict[str, Any]:
+    candidates = [sample for sample in samples if _candidate_fits(sample, max_bytes)]
+    unseen = [sample for sample in candidates if str(sample.get("sha256_hash") or "").lower() not in seen_hashes]
+    # In size-bounded (loop) mode never fall back to already-seen samples: that
+    # would re-pick and re-fail the same oversized binaries every iteration.
+    pool = unseen if max_bytes is not None else (unseen or candidates)
     if not pool:
-        raise ValueError("No MalwareBazaar candidates available")
+        raise ValueError("No unseen MalwareBazaar candidate available within size limit")
     return sorted(pool, key=candidate_score, reverse=True)[0]
 
 

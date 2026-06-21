@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 import zipfile
 
+import pytest
+
 from loop_engineering.sample_static_analysis import (
     analyze_sample_bytes,
     network_iocs_from_metadata,
@@ -32,6 +34,20 @@ def test_select_single_candidate_prefers_source_like_unseen():
     selected = select_single_candidate(samples, seen_hashes=set())
 
     assert selected["sha256_hash"] == "a" * 64
+
+
+def test_select_single_candidate_skips_oversized_and_does_not_repick_seen():
+    big = {"sha256_hash": "c" * 64, "file_name": "big.elf", "file_type": "elf", "file_size": 70_000_000}
+    small_unseen = dict(METADATA, file_size=4000)
+    samples = [big, small_unseen]
+
+    selected = select_single_candidate(samples, seen_hashes=set(), max_bytes=8_388_608)
+    assert selected["sha256_hash"] == "a" * 64  # the small one, not the 70MB binary
+
+    # When the only in-range sample is already seen, size-bounded mode skips
+    # rather than re-picking it (which previously caused repeated failures).
+    with pytest.raises(ValueError):
+        select_single_candidate(samples, seen_hashes={"a" * 64}, max_bytes=8_388_608)
 
 
 def test_single_sample_outputs_are_sanitized_and_verifiable(tmp_path: Path):

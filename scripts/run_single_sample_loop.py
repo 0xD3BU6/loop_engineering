@@ -70,7 +70,15 @@ def main() -> int:
         )
         state = read_state()
         samples = client.get_recent(selector=selector)
-        candidate = select_single_candidate(samples, set(state.get("analyzed_hashes", [])))
+        try:
+            candidate = select_single_candidate(
+                samples, set(state.get("analyzed_hashes", [])), max_bytes=MAX_SAMPLE_BYTES
+            )
+        except ValueError as exc:
+            # No fresh in-range candidate this pull (e.g. only oversized binaries
+            # left). Not a failure — skip cleanly so the loop keeps going.
+            print(f"skipped: {exc}")
+            return 0
         sha256 = str(candidate.get("sha256_hash") or "").lower()
         if not sha256:
             raise MalwareBazaarError("Selected candidate has no SHA-256 hash")
