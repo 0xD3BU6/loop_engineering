@@ -137,6 +137,7 @@ class SingleSampleAnalysis:
     printable_string_count: int
     selected_strings: list[str]
     static_code: StaticCodeReport
+    source_excerpt: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
@@ -336,33 +337,163 @@ class SingleSampleAnalysis:
             )
         return lines
 
-    def to_blog_markdown(self) -> str:
+    def _narrative_title(self, family: str, file_type: str) -> str:
+        kind = "dropper" if any(f.category == "shell_dropper" for f in self.static_code.findings) else (
+            "loader" if self.static_code.deobfuscated or self.static_code.decoded_layers else "sample"
+        )
+        label = family if family != "unknown" else "An unlabelled"
+        return f"Storytime: Dissecting a {label} {file_type.upper()} {kind}"
+
+    def _render_story(self, family: str, file_type: str, source_url: str, decoded_count: int) -> list[str]:
+        sc = self.static_code
+        lang = sc.language_hint if sc.language_hint != "unknown" else file_type
+        high = sorted({f.category for f in sc.findings if f.severity == "high"})
+
+        lines = [
+            f"# {self._narrative_title(family, file_type)}",
+            "",
+            f"> **Source:** [MalwareBazaar]({source_url}) · **SHA-256** `{self.sha256}` · "
+            f"**Family** `{family}` · **Static analysis only — the sample was never run.**",
+            "",
+            "## The Story",
+            "",
+        ]
+
+        opener = (
+            f"It showed up on MalwareBazaar as a {self.byte_count}-byte `{file_type}` file"
+            + (f", tagged `{family}`" if family != "unknown" else ", with no family label")
+            + ". We pulled exactly one copy into quarantine, cracked open the password-protected "
+            "archive, and read the bytes as inert text. Nothing here was executed — every claim "
+            "below comes from reading the code, not running it. Here is what it was hiding."
+        )
+        lines.append(opener)
+        lines.append("")
+
+        # First contact: the code as it arrived.
+        lines.extend(
+            [
+                "## First Contact — The Code As It Arrived",
+                "",
+                "Straight out of the archive, a portion of the sample looks like this (defanged):",
+                "",
+                f"```{lang}",
+                self.source_excerpt or "(no readable source excerpt)",
+                "```",
+                "",
+            ]
+        )
+
+        # The reveal: deobfuscation.
+        if sc.deobfuscated:
+            recovered = " ".join(sc.deobfuscated[0].split())
+            lines.extend(
+                [
+                    "## Peeling Back the Obfuscation",
+                    "",
+                    "That wall of noise is deliberate. The sample assembles its real payload one "
+                    "fragment at a time and laces every fragment with a junk token, so a casual look "
+                    "(or a naive string scan) sees gibberish. Undo that concatenation and strip the "
+                    "junk token — purely as text, nothing runs — and the mask drops:",
+                    "",
+                    "```text",
+                    truncate_code(defang_text(recovered), 700),
+                    "```",
+                    "",
+                    "Now the intent is legible. It hands a command to the system instead of doing "
+                    "the work in plain sight.",
+                    "",
+                ]
+            )
+
+        # Following the chain through decoded layers.
+        chain_layers = [layer for layer in sc.decoded_layers if layer.get("urls") or layer.get("ips") or layer.get("domains") or layer.get("preview")]
+        if chain_layers:
+            lines.extend(["## Following the Chain", "", "Each wrapper peels back to another (decoded as bytes, never executed):", ""])
+            for layer in chain_layers:
+                indicators = layer.get("urls", []) + layer.get("ips", []) + layer.get("domains", [])
+                hook = (
+                    f"reaching out to {', '.join(defang(v) for v in indicators)}"
+                    if indicators
+                    else "carrying more stage logic"
+                )
+                lines.append(
+                    f"- **Layer {layer.get('depth')}** ({layer.get('encoding')}) — {hook}. "
+                    f"Preview: `{truncate_markdown(layer.get('preview', ''), 110)}`"
+                )
+            lines.append("")
+
+        if high:
+            lines.extend(
+                [
+                    "## What It Wants To Do",
+                    "",
+                    "The behaviour that matters, recovered from the (deobfuscated) code: "
+                    + ", ".join(f"`{cat}`" for cat in high)
+                    + ". "
+                    + self._behaviour_prose(high),
+                    "",
+                ]
+            )
+        return lines
+
+    def _behaviour_prose(self, categories: list[str]) -> str:
+        notes = {
+            "shell_dropper": "It pulls follow-on payloads down with a shell download tool, makes them executable, and launches them — a classic drop-and-run loader.",
+            "powershell_cradle": "It leans on a PowerShell download/exec cradle to fetch and run its next stage in memory.",
+            "shell_execution": "It shells out to the OS to run external commands.",
+            "dynamic_execution": "It builds and evaluates code at runtime, a common way to hide the real logic until execution.",
+        }
+        return " ".join(notes[c] for c in categories if c in notes)
+
+    def _render_knowledge_section(self, correlations: dict[str, Any] | None) -> list[str]:
+        if not correlations:
+            return []
+        lines = ["", "## What We've Learned So Far", "", "How this sample sits against everything the loop has analyzed before:", ""]
+        corpus = correlations.get("corpus_size_before", 0)
+        lines.append(f"- Corpus before this sample: **{corpus}** prior sample(s).")
+        if correlations.get("is_new_family"):
+            lines.append(f"- First time the loop has seen the `{self.metadata.get('signature')}` family.")
+        elif correlations.get("family_seen_before"):
+            lines.append(f"- The `{self.metadata.get('signature')}` family has been seen **{correlations['family_seen_before']}** time(s) before.")
+        for overlap in correlations.get("infra_overlap", []):
+            others = ", ".join(f"`{sha[:12]}`" for sha in overlap["also_in"])
+            lines.append(f"- **Infrastructure reuse:** {overlap['type']} `{overlap['indicator']}` also appeared in {others}.")
+        recurring = correlations.get("recurring_techniques", {})
+        if recurring:
+            techniques = ", ".join(f"`{t}` (×{c})" for t, c in sorted(recurring.items(), key=lambda kv: -kv[1]))
+            lines.append(f"- Recurring techniques across the corpus: {techniques}.")
+        if not correlations.get("infra_overlap") and not recurring and not correlations.get("family_seen_before"):
+            lines.append("- No overlap with earlier samples yet — this one expands the knowledge base.")
+        lines.append("")
+        return lines
+
+    def to_blog_markdown(self, correlations: dict[str, Any] | None = None) -> str:
         family = self.metadata.get("signature") or "unknown"
         file_name = self.metadata.get("file_name") or self.source_name
         file_type = self.metadata.get("file_type") or "unknown"
         tags = self.metadata.get("tags") or []
         tag_text = ", ".join(str(tag) for tag in tags) if isinstance(tags, list) else str(tags)
         findings = self.static_code.findings
-        lines = [
-            f"# Single-Sample Static Malware Analysis - `{self.sha256[:16]}`",
-            "",
+        decoded_count = sum(len(L.get("urls", [])) + len(L.get("ips", [])) + len(L.get("domains", [])) for L in self.static_code.decoded_layers)
+        network_meta = network_iocs_from_metadata(self.metadata)
+        source_url = f"https://bazaar.abuse.ch/sample/{self.sha256}/"
+
+        lines = self._render_story(family, file_type, source_url, decoded_count)
+        lines += [
             "## Executive Summary",
             "",
             (
-                f"The agent selected one MalwareBazaar submission and performed static analysis on that "
-                f"single artifact. The sample was not executed, loaded, imported, or dynamically tested. "
+                f"One MalwareBazaar submission, analyzed statically — never executed, loaded, imported, or dynamically tested. "
                 f"Static evidence produced {3 + len(self.static_code.urls) + len(self.static_code.ips) + len(self.static_code.domains)} IOCs "
                 f"and {len(findings)} code/string findings"
                 + (
-                    f", recovered {decoded_count} network indicator(s) by decoding the sample's own "
-                    "obfuscated/base64 payload layers"
-                    if (decoded_count := sum(len(L.get("urls", [])) + len(L.get("ips", [])) + len(L.get("domains", [])) for L in self.static_code.decoded_layers))
+                    f", recovered {decoded_count} network indicator(s) by decoding the sample's own obfuscated/base64 payload layers"
+                    if decoded_count
                     else ""
                 )
                 + (
-                    f", plus {len(network_meta['ips']) + len(network_meta['domains'])} metadata-derived "
-                    "network indicator(s) listed separately below."
-                    if (network_meta := network_iocs_from_metadata(self.metadata))["ips"] or network_meta["domains"]
+                    f", plus {len(network_meta['ips']) + len(network_meta['domains'])} metadata-derived network indicator(s) listed separately below."
+                    if network_meta["ips"] or network_meta["domains"]
                     else "."
                 )
             ),
@@ -463,6 +594,9 @@ class SingleSampleAnalysis:
             lines.extend(f"| `{truncate_markdown(value, 180)}` |" for value in self.selected_strings[:30])
         else:
             lines.append("| none |")
+
+        lines.extend(self._render_knowledge_section(correlations))
+
         lines.extend(
             [
                 "",
@@ -512,6 +646,7 @@ def analyze_sample_bytes(data: bytes, metadata: dict[str, Any], *, source_name: 
     text = decode_text_for_analysis(data, strings)
     static_code = analyze_source_text(text, language_hint=infer_language(metadata, source_name))
     selected_strings = select_interesting_strings(strings, static_code)
+    source_excerpt = build_source_excerpt(text)
     return SingleSampleAnalysis(
         generated_at=datetime.now(UTC),
         metadata=metadata,
@@ -525,6 +660,7 @@ def analyze_sample_bytes(data: bytes, metadata: dict[str, Any], *, source_name: 
         printable_string_count=len(strings),
         selected_strings=selected_strings,
         static_code=static_code,
+        source_excerpt=source_excerpt,
     )
 
 
@@ -603,11 +739,15 @@ def infer_language(metadata: dict[str, Any], source_name: str) -> str:
     return str(metadata.get("file_type") or "unknown")
 
 
-def write_single_sample_outputs(analysis: SingleSampleAnalysis, reports_dir: Path) -> Path:
+def write_single_sample_outputs(
+    analysis: SingleSampleAnalysis,
+    reports_dir: Path,
+    correlations: dict[str, Any] | None = None,
+) -> Path:
     day = analysis.generated_at.strftime("%Y-%m-%d")
     target = reports_dir / day / "samples" / analysis.sha256
     target.mkdir(parents=True, exist_ok=True)
-    (target / "technical-analysis.md").write_text(analysis.to_blog_markdown(), encoding="utf-8")
+    (target / "technical-analysis.md").write_text(analysis.to_blog_markdown(correlations), encoding="utf-8")
     (target / "analysis.json").write_text(analysis.to_json(), encoding="utf-8")
     (target / "iocs.json").write_text(analysis.to_ioc_json(), encoding="utf-8")
     (target / "sample.yar").write_text(analysis.to_yara(), encoding="utf-8")
@@ -678,3 +818,33 @@ def truncate_code(value: str, limit: int) -> str:
 def defang(value: str) -> str:
     """Render a network indicator non-clickable for safe publication."""
     return value.replace("http", "hxxp").replace(".", "[.]")
+
+
+_URL_DEFANG_RE = re.compile(r"https?://", re.IGNORECASE)
+_IP_DEFANG_RE = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+
+
+def defang_text(text: str) -> str:
+    """Defang network indicators inside a code excerpt without mangling the code.
+
+    Only URL schemes and bare IPv4 addresses are neutralised so the excerpt is
+    safe to publish (non-clickable, non-resolvable) while the surrounding code
+    stays readable.
+    """
+    text = _URL_DEFANG_RE.sub(lambda m: m.group(0).replace("http", "hxxp"), text)
+    return _IP_DEFANG_RE.sub(lambda m: m.group(0).replace(".", "[.]"), text)
+
+
+def build_source_excerpt(text: str, *, max_lines: int = 22, max_chars: int = 1500) -> str:
+    """A bounded, defanged slice of the sample for the writeup.
+
+    Shows a representative *portion* of the code (not the whole file) so a reader
+    can see the obfuscation first-hand. Network indicators are defanged.
+    """
+    lines = [line.rstrip() for line in text.splitlines() if line.strip()]
+    excerpt = "\n".join(lines[:max_lines])
+    if len(excerpt) > max_chars:
+        excerpt = excerpt[:max_chars] + "\n... (truncated)"
+    elif len(lines) > max_lines:
+        excerpt += "\n... (truncated)"
+    return defang_text(excerpt)

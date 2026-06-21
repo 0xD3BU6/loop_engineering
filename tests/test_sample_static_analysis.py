@@ -46,9 +46,10 @@ def test_single_sample_outputs_are_sanitized_and_verifiable(tmp_path: Path):
     assert (report_dir / "sample.yar").exists()
     assert not (report_dir / "loader.js").exists()
     blog = (report_dir / "technical-analysis.md").read_text(encoding="utf-8")
-    assert "Single-Sample Static Malware Analysis" in blog
+    assert "## The Story" in blog
+    assert f"https://bazaar.abuse.ch/sample/{analysis.sha256}/" in blog  # source link
     assert "https://c2.example/a" in blog
-    assert "The sample was not executed" in blog
+    assert "never executed" in blog
     analysis_json = json.loads((report_dir / "analysis.json").read_text(encoding="utf-8"))
     assert analysis_json["sha256"] == analysis.sha256
 

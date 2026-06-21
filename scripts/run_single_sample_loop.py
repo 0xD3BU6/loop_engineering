@@ -31,9 +31,20 @@ from loop_engineering.sample_static_analysis import (  # noqa: E402
     select_single_candidate,
     write_single_sample_outputs,
 )
+from loop_engineering.knowledge import (  # noqa: E402
+    build_record,
+    correlate,
+    load_knowledge,
+    render_knowledge_doc,
+    render_observations_markdown,
+    update_knowledge,
+)
 
 
 STATE_PATH = ROOT / "harness" / "generated" / "single-sample-state.json"
+KNOWLEDGE_PATH = ROOT / "signals" / "malware-intel" / "knowledge.json"
+OBSERVATIONS_PATH = ROOT / "signals" / "malware-intel" / "observations.md"
+KNOWLEDGE_DOC_PATH = ROOT / "docs" / "malware-intel-knowledge.md"
 MAX_SAMPLE_BYTES = int(os.getenv("LOOP_MAX_SAMPLE_BYTES", str(8 * 1024 * 1024)))
 ZIP_PASSWORD = b"infected"
 
@@ -68,8 +79,19 @@ def main() -> int:
         zip_path = client.download_sample_zip(sha256, sample_quarantine, allow_raw_download=settings.allow_raw_download)
         source_name, sample_bytes = read_one_member_from_zip(zip_path)
         analysis = analyze_sample_bytes(sample_bytes, candidate, source_name=source_name)
-        report_dir = write_single_sample_outputs(analysis, settings.reports_dir)
+
+        # Self-improvement: correlate this sample against everything seen before,
+        # embed the findings in the report, then fold it into the knowledge base.
+        rel_report_dir = str((settings.reports_dir / analysis.generated_at.strftime("%Y-%m-%d") / "samples" / analysis.sha256))
+        record = build_record(analysis, report_dir=rel_report_dir)
+        knowledge = load_knowledge(KNOWLEDGE_PATH)
+        correlations = correlate(knowledge, record)
+
+        report_dir = write_single_sample_outputs(analysis, settings.reports_dir, correlations)
         verify_report_dir(report_dir)
+
+        knowledge = update_knowledge(knowledge, record)
+        write_knowledge_base(knowledge)
 
         state = update_state(state, sha256, report_dir, analysis)
         write_state(state)
@@ -130,6 +152,14 @@ def source_member_score(name: str) -> tuple[int, str]:
     lower = name.lower()
     source_extensions = (".js", ".jse", ".ps1", ".py", ".sh", ".vbs", ".vbe", ".vba", ".bat", ".cmd", ".php")
     return (100 if lower.endswith(source_extensions) else 0, name)
+
+
+def write_knowledge_base(knowledge: dict[str, object]) -> None:
+    KNOWLEDGE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    KNOWLEDGE_DOC_PATH.parent.mkdir(parents=True, exist_ok=True)
+    KNOWLEDGE_PATH.write_text(json.dumps(knowledge, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    OBSERVATIONS_PATH.write_text(render_observations_markdown(knowledge), encoding="utf-8")
+    KNOWLEDGE_DOC_PATH.write_text(render_knowledge_doc(knowledge), encoding="utf-8")
 
 
 def read_state() -> dict[str, object]:
@@ -212,7 +242,15 @@ def publish_outputs(report_dir: Path) -> int:
         print("publish=skipped reason=not-a-git-repository")
         return 0
     rel_report_dir = report_dir.relative_to(ROOT) if report_dir.is_absolute() else report_dir
-    paths = ["LOG.md", str(rel_report_dir), "harness/generated/single-sample-state.json", "harness/generated/single-sample-next-prompt.md"]
+    paths = [
+        "LOG.md",
+        str(rel_report_dir),
+        "harness/generated/single-sample-state.json",
+        "harness/generated/single-sample-next-prompt.md",
+        "signals/malware-intel/knowledge.json",
+        "signals/malware-intel/observations.md",
+        "docs/malware-intel-knowledge.md",
+    ]
     run(["git", "add", *paths])
     diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=ROOT)
     if diff.returncode == 0:
