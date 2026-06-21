@@ -14,6 +14,13 @@ from typing import Any
 
 
 URL_RE = re.compile(r"https?://[^\s'\"<>]+", re.IGNORECASE)
+# Trailing characters that are almost always source-code punctuation, not part
+# of the URL (shell `;`, string quotes, closing brackets, sentence punctuation).
+URL_TRAILING_TRIM = "\";',)]}>.;`"
+
+
+def _extract_urls(text: str) -> list[str]:
+    return sorted({url.rstrip(URL_TRAILING_TRIM) for url in URL_RE.findall(text)})
 IP_RE = re.compile(r"\b(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)\b")
 DOMAIN_RE = re.compile(r"\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2,24})\b", re.IGNORECASE)
 BASE64_RE = re.compile(r"\b[A-Za-z0-9+/]{80,}={0,2}\b")
@@ -89,6 +96,14 @@ PATTERNS = {
         r"XMLHttpRequest",
         r"fetch\s*\(",
         r"WinHttp",
+    ],
+    "shell_dropper": [
+        r"\bwget\b",
+        r"\bcurl\b",
+        r"\btftp\b",
+        r"\bchmod\s+(?:\+x|777|755)",
+        r"\|\s*(?:sh|bash)\b",
+        r"\bbusybox\b",
     ],
 }
 
@@ -269,7 +284,7 @@ def decode_payload_layers(text: str, *, max_depth: int = 3, max_layers: int = 12
             if len(raw) < 8:
                 continue
             decoded, encoding = _decode_bytes(raw)
-            urls = sorted(set(URL_RE.findall(decoded)))
+            urls = _extract_urls(decoded)
             ips = sorted(set(IP_RE.findall(decoded)))
             domains = sorted({host for url in urls if (host := _host_from_url(url))})
             domains.extend(d for d in DOMAIN_RE.findall(decoded) if _looks_like_real_domain(d))
@@ -320,7 +335,7 @@ def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticC
     # cleartext together.
     deobfuscated = recover_concatenated_strings(text)
     corpus = text if not deobfuscated else text + "\n" + "\n".join(deobfuscated)
-    urls = sorted(set(URL_RE.findall(corpus)))
+    urls = _extract_urls(corpus)
     ips = sorted(set(IP_RE.findall(corpus)))
     domains = sorted(domain for domain in set(DOMAIN_RE.findall(corpus)) if _looks_like_real_domain(domain))
 
@@ -406,7 +421,7 @@ def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticC
 
 
 def severity_for_category(category: str) -> str:
-    if category in {"dynamic_execution", "shell_execution", "powershell_cradle"}:
+    if category in {"dynamic_execution", "shell_execution", "powershell_cradle", "shell_dropper"}:
         return "high"
     if category in {"persistence", "anti_analysis", "networking"}:
         return "medium"
