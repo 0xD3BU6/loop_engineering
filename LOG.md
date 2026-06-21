@@ -88,3 +88,6 @@ Refs: [reports/2026-06-21/samples/daf2410a4e6da576f80df9cfd4b69eb8b2ee74c49948a5
 ## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
 What: Analyzed one MalwareBazaar sample statically (8985fe09d5b08240, family `Mirai`) and generated blog, IOC JSON, YARA, and reviewer prompt.
 Refs: [reports/2026-06-21/samples/8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9](reports/2026-06-21/samples/8985fe09d5b08240ba19c5bb2d1db585be19690dd63ab4b5b777484d73875bc9) (generated)
+## 2026-06-21 · MalwareBazaar IOC report · #analysis #ops
+What: Generated metadata-only MalwareBazaar report with 100 samples and 646 IOCs.
+Refs: [reports/2026-06-21](reports/2026-06-21) (generated)
