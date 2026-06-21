@@ -7,8 +7,8 @@ Read:
 - `CLAUDE.md`
 - `domains/malware-intel/README.md`
 - `docs/malware-intel-architecture.md`
-- `reports/2026-06-21/samples/409f260ddaaf01908f13af576dd0e8e9cfbc7fea549f1f461fea0cb2d5d4b8bc/technical-analysis.md`
-- `reports/2026-06-21/samples/409f260ddaaf01908f13af576dd0e8e9cfbc7fea549f1f461fea0cb2d5d4b8bc/reviewer-prompt.md`
+- `reports/2026-06-21/samples/2011c98d44911abf78217ecc29dadb6c1dcb28506ac4970a1937eee54ccc31af/technical-analysis.md`
+- `reports/2026-06-21/samples/2011c98d44911abf78217ecc29dadb6c1dcb28506ac4970a1937eee54ccc31af/reviewer-prompt.md`
 
 Tasks:
 

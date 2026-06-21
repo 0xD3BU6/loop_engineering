@@ -1,0 +1,116 @@
+{
+  "byte_count": 207872,
+  "entropy": 7.451,
+  "file_magic": "PE/MZ executable",
+  "generated_at": "2026-06-21T16:42:44.099186+00:00",
+  "md5": "ce8dbd9fce3e739bfed8a23a96a92fe0",
+  "metadata": {
+    "anonymous": 0,
+    "code_sign": [],
+    "dhash_icon": null,
+    "file_name": "navent.io.exe",
+    "file_size": 207872,
+    "file_type": "exe",
+    "file_type_mime": "application/x-dosexec",
+    "first_seen": "2026-06-21 16:10:05",
+    "gimphash": null,
+    "imphash": "f34d5f2d4577ed6d9ceec516c1f5a744",
+    "intelligence": {
+      "clamav": null,
+      "downloads": "96",
+      "mail": null,
+      "uploads": "1"
+    },
+    "last_seen": null,
+    "magika": "pebin",
+    "md5_hash": "ce8dbd9fce3e739bfed8a23a96a92fe0",
+    "origin_country": "NL",
+    "reporter": "abuse_ch",
+    "sha1_hash": "e68d17c94b4d37b1a9639bbebc542dafec3f9db3",
+    "sha256_hash": "2011c98d44911abf78217ecc29dadb6c1dcb28506ac4970a1937eee54ccc31af",
+    "sha3_384_hash": "6846b20fce6b4845760c2b5d6ad791158a23f4c2b6703a476c3b480ff6c6c6cf7aa3d115410f3b50c0d18430161bcd8a",
+    "signature": "NanoCore",
+    "ssdeep": "3072:szEqV6B1jHa6dtJ10jgvzcgi+oG/j9iaMP2s/HIfRsC6wwBLsjAIZnB/nFgMbszn:sLV6Bta6dtJmakIM5q+LsjAcW/zhIRg",
+    "tags": [
+      "exe",
+      "NanoCore",
+      "RAT"
+    ],
+    "telfhash": null,
+    "tlsh": "T1FC14D0553BA84A2FE2DE85B9702212139379C2E7E8C3F3DE28E451B64F567E50A071D3",
+    "trid": [
+      "70.3% (.EXE) Generic CIL Executable (.NET, Mono, etc.) (73123/4/13)",
+      "6.3% (.DLL) Win32 Dynamic Link Library (generic) (6578/25/2)",
+      "6.2% (.EXE) Win64 Executable (generic) (6522/11/2)",
+      "4.8% (.EXE) Win16 NE executable (generic) (5038/12/1)",
+      "4.3% (.EXE) Win32 Executable (generic) (4504/4/1)"
+    ]
+  },
+  "printable_string_count": 2109,
+  "selected_strings": [
+    "lSystem.Resources.ResourceReader, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089#System.Resources.RuntimeResourceSet",
+    "System.IO",
+    "System.IO.Compression",
+    "System.Net",
+    "System.Net.Sockets",
+    "8.0.0.0",
+    "1.2.2.0",
+    "Se.oI",
+    "O0.bv\"^~I",
+    "8.Dl^A",
+    "c.uo."
+  ],
+  "sha1": "e68d17c94b4d37b1a9639bbebc542dafec3f9db3",
+  "sha256": "2011c98d44911abf78217ecc29dadb6c1dcb28506ac4970a1937eee54ccc31af",
+  "source_excerpt": "!This program cannot be run in DOS mode.\n.text\n`.reloc\nB.rsrc\n-(&s8\n-&&s9\n,$&s:\n&&*}&\n&&*}#\n&&*}#\n&&*}(\n-0&sY\n-p&~C\n-*& r\n-T&s,\n-2&~}\n-#&~7\n-,&~~\n-/&~J\n+# S&\n-\\&(#\n.# G'\n... (truncated)",
+  "source_name": "2011c98d44911abf78217ecc29dadb6c1dcb28506ac4970a1937eee54ccc31af.exe",
+  "static_code": {
+    "byte_count": 50050,
+    "decoded_layers": [],
+    "deobfuscated": [],
+    "domains": [
+      "8.Dl",
+      "O0.bv",
+      "Se.oI",
+      "System.IO",
+      "System.Net",
+      "c.uo"
+    ],
+    "entropy": 6.052,
+    "findings": [
+      {
+        "category": "persistence",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "medium",
+        "value": "Startup"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Found 1 long base64-like blob(s)",
+        "severity": "medium",
+        "value": "base64_blob"
+      },
+      {
+        "category": "decoded_hint",
+        "detail": "Preview from base64-like blob; not executed",
+        "severity": "info",
+        "value": "< \u0457\\ F< \u0457\\ F< \u0457\\ F< \u0457\\ F< \u0457\\ F"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Text entropy is 6.05",
+        "severity": "medium",
+        "value": "high_entropy"
+      }
+    ],
+    "functions": [],
+    "ips": [
+      "1.2.2.0",
+      "2.0.0.0",
+      "8.0.0.0"
+    ],
+    "language_hint": "exe",
+    "line_count": 2109,
+    "urls": []
+  }
+}
