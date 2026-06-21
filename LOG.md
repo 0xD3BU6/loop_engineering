@@ -100,3 +100,6 @@ Refs: [reports/2026-06-21/samples/ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c
 ## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
 What: Analyzed one MalwareBazaar sample statically (76771c0cfe10218f, family `unknown`) and generated blog, IOC JSON, YARA, and reviewer prompt.
 Refs: [reports/2026-06-21/samples/76771c0cfe10218fc1e8ba4ad2adfde996e1f5fd4b9987294da57e5b2a496e50](reports/2026-06-21/samples/76771c0cfe10218fc1e8ba4ad2adfde996e1f5fd4b9987294da57e5b2a496e50) (generated)
+## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
+What: Analyzed one MalwareBazaar sample statically (4374049d24a766ea, family `unknown`) and generated blog, IOC JSON, YARA, and reviewer prompt.
+Refs: [reports/2026-06-21/samples/4374049d24a766eac84cdd1995bbd236d14956a11123de0402a8cd4669aa0be0](reports/2026-06-21/samples/4374049d24a766eac84cdd1995bbd236d14956a11123de0402a8cd4669aa0be0) (generated)
