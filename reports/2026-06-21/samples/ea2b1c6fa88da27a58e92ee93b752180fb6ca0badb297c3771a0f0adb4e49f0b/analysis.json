@@ -1,0 +1,148 @@
+{
+  "byte_count": 13982,
+  "entropy": 5.156,
+  "file_magic": "script with shebang",
+  "generated_at": "2026-06-21T16:29:01.966812+00:00",
+  "md5": "e3a12d8a0dc98b06b548a766aa77dc9c",
+  "metadata": {
+    "anonymous": 0,
+    "code_sign": [],
+    "dhash_icon": null,
+    "file_name": "init.sh",
+    "file_size": 13982,
+    "file_type": "sh",
+    "file_type_mime": "text/x-shellscript",
+    "first_seen": "2026-06-21 15:27:42",
+    "gimphash": null,
+    "imphash": null,
+    "intelligence": {
+      "clamav": null,
+      "downloads": "49",
+      "mail": null,
+      "uploads": "1"
+    },
+    "last_seen": null,
+    "magika": "shell",
+    "md5_hash": "e3a12d8a0dc98b06b548a766aa77dc9c",
+    "origin_country": "DE",
+    "reporter": "abuse_ch",
+    "sha1_hash": "adb94417d3aec78b7779161ba359ce18816a3e09",
+    "sha256_hash": "ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c3771a0f0adb4e49f0b",
+    "sha3_384_hash": "b4c6acdc4f9402a61299252696b4421c5d152614da514ba6016d029cd584375717b1a817e29704dcb5043bfe201c6be7",
+    "signature": null,
+    "ssdeep": "192:5VtWxos/MbhrlqT8/2hEPVmhxZPKgjlhtOtHDmh5RDKlE3As+SU8x0PNIZXG8/Pm:dTlkES1LURYRQEw3FNnVUA",
+    "tags": [
+      "sh"
+    ],
+    "telfhash": null,
+    "tlsh": "T15C529651ED26A270256D80F5BACB2501F50F412B460C7A05B1AFA254BF3CFAC61FD7BA",
+    "trid": [
+      "70.0% (.SH) Linux/UNIX shell script (7000/1)",
+      "30.0% (.) Unix-like shebang (var.3) (gen) (3000/1)"
+    ]
+  },
+  "printable_string_count": 365,
+  "selected_strings": [
+    "# init.sh",
+    "BASE_URL=\"http://91.239.211.89/bins\"",
+    "MINER_URL=\"http://91.239.211.89/miner/xmrig\"",
+    "printf '#!/bin/sh\\necho ok\\n' > \"$testfile\" 2>/dev/null || return 1",
+    "local guard=\"$miner_dest-guard.sh\"",
+    "if command -v crontab >/dev/null 2>&1; then",
+    "(crontab -l 2>/dev/null | grep -v \"$guard\"; echo \"$WATCHDOG_CRON $guard\") | crontab - 2>/dev/null || true",
+    "log_msg \"init.sh started",
+    "[ -f /usr/local/lib/libprocesshider.so ] && export LD_PRELOAD=/usr/local/lib/libprocesshider.so",
+    "if (echo >/dev/tcp/127.0.0.1/$CTRL_PORT) 2>/dev/null; then"
+  ],
+  "sha1": "adb94417d3aec78b7779161ba359ce18816a3e09",
+  "sha256": "ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c3771a0f0adb4e49f0b",
+  "source_excerpt": "#!/bin/bash\n# ==============================================================================\n# init.sh \u2013 Stage\u20111 loader with verbose logging\n# Logs every major step to /tmp/.deploy.log and prints log at end.\n# Compatible with busybox / OpenWrt (no od, uses /proc/cpuinfo for endianness).\n# ==============================================================================\nset -o pipefail\n# ---------- configuration ----------\nBASE_URL=\"hxxp://91[.]239[.]211[.]89/bins\"\nMINER_URL=\"hxxp://91[.]239[.]211[.]89/miner/xmrig\"\nTIMEOUT=10\nWATCHDOG_CRON=\"*/5 * * * *\"\nMINER_PID_FILE=\"/tmp/.miner.pid\"\nLOCK_DIR=\"/tmp/.miner.lock\"\nCTRL_PORT=42780\nBOT_STARTUP_DELAY=12\nLOG_FILE=\"/tmp/.deploy.log\"\n# ---------- helpers ----------\nlog_msg() {\n    echo \"$@\"\n    echo \"[$(date '+%H:%M:%S')] $@\" >> \"$LOG_FILE\"\n}\n... (truncated)",
+  "source_name": "ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c3771a0f0adb4e49f0b.sh",
+  "static_code": {
+    "byte_count": 13982,
+    "decoded_layers": [],
+    "deobfuscated": [
+      "http://91.239.211.89/bins",
+      "http://91.239.211.89/miner/xmrig"
+    ],
+    "domains": [
+      "guard.sh",
+      "init.sh",
+      "libprocesshider.so"
+    ],
+    "entropy": 5.147,
+    "findings": [
+      {
+        "category": "shell_execution",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "/bin/sh"
+      },
+      {
+        "category": "persistence",
+        "detail": "Matched 2 occurrence(s)",
+        "severity": "medium",
+        "value": "Startup"
+      },
+      {
+        "category": "persistence",
+        "detail": "Matched 3 occurrence(s)",
+        "severity": "medium",
+        "value": "crontab"
+      },
+      {
+        "category": "persistence",
+        "detail": "Matched 7 occurrence(s)",
+        "severity": "medium",
+        "value": "systemd"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 5 occurrence(s)",
+        "severity": "high",
+        "value": "\\bwget\\b"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 5 occurrence(s)",
+        "severity": "high",
+        "value": "\\bcurl\\b"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 9 occurrence(s)",
+        "severity": "high",
+        "value": "\\bchmod\\s+(?:\\+x|777|755)"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "\\|\\s*(?:sh|bash)\\b"
+      },
+      {
+        "category": "shell_dropper",
+        "detail": "Matched 1 occurrence(s)",
+        "severity": "high",
+        "value": "\\bbusybox\\b"
+      },
+      {
+        "category": "obfuscation",
+        "detail": "Recovered 2 concatenated/obfuscated payload string(s)",
+        "severity": "high",
+        "value": "concat_replace_deobfuscation"
+      }
+    ],
+    "functions": [],
+    "ips": [
+      "127.0.0.1",
+      "91.239.211.89"
+    ],
+    "language_hint": "shell",
+    "line_count": 415,
+    "urls": [
+      "http://91.239.211.89/bins",
+      "http://91.239.211.89/miner/xmrig"
+    ]
+  }
+}

@@ -94,3 +94,6 @@ Refs: [reports/2026-06-21](reports/2026-06-21) (generated)
 ## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
 What: Analyzed one MalwareBazaar sample statically (2b48b4d74ec2b1cf, family `RemcosRAT`) and generated blog, IOC JSON, YARA, and reviewer prompt.
 Refs: [reports/2026-06-21/samples/2b48b4d74ec2b1cfbd9e732c2b4d1c58c82882007ab5624c74b15657feb9641d](reports/2026-06-21/samples/2b48b4d74ec2b1cfbd9e732c2b4d1c58c82882007ab5624c74b15657feb9641d) (generated)
+## 2026-06-21 · Single-sample static malware analysis · #analysis #ops
+What: Analyzed one MalwareBazaar sample statically (ea2b1c6fa88da27a, family `unknown`) and generated blog, IOC JSON, YARA, and reviewer prompt.
+Refs: [reports/2026-06-21/samples/ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c3771a0f0adb4e49f0b](reports/2026-06-21/samples/ea2b1c6fa88da27a58e92ee93b752180fb6ca0badb297c3771a0f0adb4e49f0b) (generated)
