@@ -434,6 +434,103 @@ class SingleSampleAnalysis:
                     "",
                 ]
             )
+        lines.extend(self._render_architecture(family, file_type))
+        return lines
+
+    _SYSTEM_IMPACT = {
+        "shell_dropper": (
+            "Payload delivery / botnet enlistment",
+            "Pulls additional executables from attacker infrastructure, marks them runnable, and launches them — the host becomes a node executing attacker-controlled code.",
+        ),
+        "powershell_cradle": (
+            "Fileless in-memory execution",
+            "Uses a PowerShell download/exec cradle to fetch and run the next stage in memory, leaving little on disk.",
+        ),
+        "shell_execution": (
+            "Process execution",
+            "Spawns OS child processes / shells to run external commands.",
+        ),
+        "dynamic_execution": (
+            "Runtime code generation",
+            "Builds and evaluates code at runtime to keep the real logic hidden from static inspection.",
+        ),
+        "persistence": (
+            "Persistence",
+            "Installs an autostart hook (registry Run key, Startup folder, cron, or systemd) so it survives reboot.",
+        ),
+        "networking": (
+            "Network egress",
+            "Opens outbound connections to remote infrastructure.",
+        ),
+        "anti_analysis": (
+            "Evasion",
+            "Probes for VM/sandbox/debugger or stalls execution to dodge automated analysis.",
+        ),
+        "obfuscation": (
+            "Obfuscation",
+            "Hides its real payload behind encoding/packing to defeat casual inspection.",
+        ),
+    }
+
+    def _render_architecture(self, family: str, file_type: str) -> list[str]:
+        sc = self.static_code
+        categories = sorted({f.category for f in sc.findings})
+        metadata_iocs = network_iocs_from_metadata(self.metadata)
+        has_network = bool(
+            sc.urls or sc.ips or sc.domains or metadata_iocs["ips"] or metadata_iocs["domains"]
+            or any(L.get("urls") or L.get("ips") or L.get("domains") for L in sc.decoded_layers)
+        )
+        if not categories and not has_network and not sc.decoded_layers:
+            return []
+
+        lines = [
+            "## Technical Architecture & System Impact",
+            "",
+            "How the pieces fit together and what each stage would do to a host that ran it "
+            "(reconstructed from static evidence — nothing here was executed):",
+            "",
+            "### Execution chain",
+            "",
+        ]
+
+        stage = 0
+        kind = "shell dropper" if "shell_dropper" in categories else ("loader" if (sc.deobfuscated or sc.decoded_layers) else "script")
+        lines.append(f"- **Stage {stage} — delivery:** the `{file_type}` {kind} analyzed here lands on the host and runs.")
+        if sc.deobfuscated:
+            stage += 1
+            lines.append(f"- **Stage {stage} — deobfuscation & hand-off:** it rebuilds a hidden command from fragmented/encoded strings and hands it to the system shell or interpreter.")
+        for layer in sc.decoded_layers:
+            stage += 1
+            indicators = layer.get("urls", []) + layer.get("ips", []) + layer.get("domains", [])
+            tail = f" reaching {', '.join(defang(v) for v in indicators)}" if indicators else " carrying further stage logic"
+            lines.append(f"- **Stage {stage} — decoded {layer.get('encoding')} payload:**{tail}.")
+        if metadata_iocs["ips"] or metadata_iocs["domains"]:
+            stage += 1
+            c2 = ", ".join(defang(v) for v in metadata_iocs["domains"] + metadata_iocs["ips"])
+            fam = f"`{family}` " if family != "unknown" else ""
+            lines.append(f"- **Stage {stage} — command & control:** the {fam}payload beacons to {c2} for tasking.")
+
+        lines.extend(["", "### System surfaces touched", "", "| Surface | Effect on the host |", "|---|---|"])
+        for category in categories:
+            if category not in self._SYSTEM_IMPACT:
+                continue  # info-only markers (e.g. decoded_hint) are not system surfaces
+            surface, impact = self._SYSTEM_IMPACT[category]
+            lines.append(f"| {surface} | {impact} |")
+        if has_network and "networking" not in categories and "shell_dropper" not in categories:
+            lines.append("| Network egress | Contacts the remote indicators listed above. |")
+
+        # Blast radius summary.
+        blast = []
+        if "shell_dropper" in categories or "powershell_cradle" in categories:
+            blast.append("fetches and runs further attacker code")
+        if has_network:
+            blast.append("establishes outbound C2")
+        if "persistence" in categories:
+            blast.append("persists across reboot")
+        if blast:
+            lines.extend(["", f"**Blast radius:** a host that ran this would, by design, {', '.join(blast)}. Treat any host with these indicators as compromised pending response.", ""])
+        else:
+            lines.append("")
         return lines
 
     def _behaviour_prose(self, categories: list[str]) -> str:

