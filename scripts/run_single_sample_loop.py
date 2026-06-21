@@ -13,6 +13,7 @@ from datetime import UTC, datetime
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import zipfile
@@ -98,8 +99,31 @@ def read_one_member_from_zip(zip_path: Path) -> tuple[str, bytes]:
             raise ValueError(
                 f"Selected member is {member.file_size} bytes, above LOOP_MAX_SAMPLE_BYTES={MAX_SAMPLE_BYTES}"
             )
-        with archive.open(member, pwd=ZIP_PASSWORD) as handle:
-            return member.filename, handle.read(MAX_SAMPLE_BYTES + 1)
+        try:
+            with archive.open(member, pwd=ZIP_PASSWORD) as handle:
+                return member.filename, handle.read(MAX_SAMPLE_BYTES + 1)
+        except NotImplementedError:
+            # MalwareBazaar now ships AES-encrypted ZIPs, which the stdlib zipfile
+            # cannot decrypt. Fall back to 7z for the decrypt step only; selection
+            # above still uses the stdlib central directory.
+            data = _extract_member_via_7z(zip_path, member.filename)
+            return member.filename, data[: MAX_SAMPLE_BYTES + 1]
+
+
+def _extract_member_via_7z(zip_path: Path, member_name: str) -> bytes:
+    seven_zip = shutil.which("7z") or shutil.which("7za") or shutil.which("7zr")
+    if seven_zip is None:
+        raise ValueError(
+            "Archive uses AES encryption that the stdlib cannot decrypt and no 7z binary is available"
+        )
+    result = subprocess.run(
+        [seven_zip, "e", "-so", "-p" + ZIP_PASSWORD.decode(), str(zip_path), member_name],
+        capture_output=True,
+    )
+    if result.returncode != 0:
+        detail = result.stderr.decode(errors="replace").strip() or "unknown 7z error"
+        raise ValueError(f"7z failed to extract {member_name}: {detail}")
+    return result.stdout
 
 
 def source_member_score(name: str) -> tuple[int, str]:

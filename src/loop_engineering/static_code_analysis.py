@@ -19,6 +19,31 @@ DOMAIN_RE = re.compile(r"\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2
 BASE64_RE = re.compile(r"\b[A-Za-z0-9+/]{80,}={0,2}\b")
 HEX_BLOB_RE = re.compile(r"(?:\\x[0-9a-fA-F]{2}){16,}|(?:0x[0-9a-fA-F]{2}[,\s]*){16,}")
 
+# Multi-character gTLDs / reserved TLDs we accept in addition to any two-letter
+# ccTLD. Without this allowlist DOMAIN_RE matches source-code member access such
+# as `obj.replace` or `ns.Dictionary` as if they were domains, flooding the IOC
+# list with false positives. Two-letter TLDs (covering all ccTLDs) are accepted
+# separately in _looks_like_real_domain.
+KNOWN_MULTICHAR_TLDS = frozenset(
+    {
+        # reserved (RFC 2606 / 6761) — kept so docs/tests can use them safely
+        "example", "test", "invalid", "localhost", "local",
+        # classic gTLDs
+        "com", "net", "org", "info", "biz", "name", "pro", "mobi", "aero",
+        "asia", "cat", "coop", "int", "jobs", "museum", "tel", "travel", "edu",
+        "gov", "mil", "arpa", "xxx",
+        # new gTLDs commonly abused in malware C2 / phishing
+        "top", "xyz", "online", "site", "club", "shop", "app", "dev", "page",
+        "link", "live", "icu", "cyou", "monster", "work", "click", "vip",
+        "buzz", "fun", "space", "website", "tech", "store", "cloud", "win",
+        "bid", "stream", "download", "gdn", "racing", "loan", "men", "date",
+        "party", "review", "trade", "accountant", "science", "faith", "cricket",
+        "host", "press", "fund", "agency", "today", "world", "life", "email",
+        "digital", "network", "systems", "services", "solutions", "support",
+        "tk", "pw", "cc", "io", "co", "me", "tv", "ai",
+    }
+)
+
 
 PATTERNS = {
     "dynamic_execution": [
@@ -93,12 +118,27 @@ class StaticCodeReport:
         return data
 
 
+def _looks_like_real_domain(candidate: str) -> bool:
+    """Filter DOMAIN_RE hits that are actually source-code member access.
+
+    A candidate is kept only when its right-most label is a plausible TLD: a
+    two-letter ccTLD or a known multi-character gTLD. This rejects tokens like
+    ``obj.replace`` or ``ns.Dictionary`` while keeping ``kelvin654.duckdns.org``
+    and reserved domains such as ``evil.example``. Pure-numeric matches (an IP
+    captured by the domain regex) are also dropped.
+    """
+    if candidate.replace(".", "").isdigit():
+        return False
+    tld = candidate.rsplit(".", 1)[-1].lower()
+    return len(tld) == 2 or tld in KNOWN_MULTICHAR_TLDS
+
+
 def analyze_source_text(text: str, *, language_hint: str = "unknown") -> StaticCodeReport:
     findings: list[StaticCodeFinding] = []
     entropy = shannon_entropy(text)
     urls = sorted(set(URL_RE.findall(text)))
     ips = sorted(set(IP_RE.findall(text)))
-    domains = sorted(domain for domain in set(DOMAIN_RE.findall(text)) if not domain.replace(".", "").isdigit())
+    domains = sorted(domain for domain in set(DOMAIN_RE.findall(text)) if _looks_like_real_domain(domain))
 
     for category, patterns in PATTERNS.items():
         for pattern in patterns:

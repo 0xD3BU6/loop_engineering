@@ -5,6 +5,7 @@ import zipfile
 
 from loop_engineering.sample_static_analysis import (
     analyze_sample_bytes,
+    network_iocs_from_metadata,
     select_single_candidate,
     write_single_sample_outputs,
 )
@@ -50,6 +51,32 @@ def test_single_sample_outputs_are_sanitized_and_verifiable(tmp_path: Path):
     assert "The sample was not executed" in blog
     analysis_json = json.loads((report_dir / "analysis.json").read_text(encoding="utf-8"))
     assert analysis_json["sha256"] == analysis.sha256
+
+
+def test_network_iocs_from_metadata_decodes_dash_encoded_tags():
+    metadata = {"tags": ["46-183-223-7", "js", "kelvin654-duckdns-org", "RemcosRAT", "spam-ita"]}
+
+    result = network_iocs_from_metadata(metadata)
+
+    assert result["ips"] == ["46.183.223.7"]
+    assert result["domains"] == ["kelvin654.duckdns.org"]
+    # Non-network tags and bogus TLDs (spam.ita) are not promoted to IOCs.
+    assert "spam.ita" not in result["domains"]
+
+
+def test_metadata_network_iocs_surface_in_report(tmp_path: Path):
+    metadata = dict(METADATA, tags=["46-183-223-7", "kelvin654-duckdns-org"])
+    analysis = analyze_sample_bytes(b"var x = 1;", metadata, source_name="loader.js")
+
+    report_dir = write_single_sample_outputs(analysis, tmp_path / "reports")
+
+    iocs = json.loads((report_dir / "iocs.json").read_text(encoding="utf-8"))["iocs"]
+    metadata_iocs = {(i["type"], i["value"]) for i in iocs if i["source"] == "malwarebazaar-metadata"}
+    assert ("IP", "46.183.223.7") in metadata_iocs
+    assert ("DOMAIN", "kelvin654.duckdns.org") in metadata_iocs
+    blog = (report_dir / "technical-analysis.md").read_text(encoding="utf-8")
+    assert "Metadata-Derived Network Indicators" in blog
+    assert "46.183.223.7" in blog
 
 
 def test_read_one_member_from_password_zip_prefers_source_file(tmp_path: Path):

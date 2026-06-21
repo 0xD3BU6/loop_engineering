@@ -26,6 +26,22 @@ callback = "192.0.2.10"
     assert "powershell_cradle" in categories
 
 
+def test_domain_extraction_ignores_source_member_access():
+    text = """
+var hbdakAhh = ojbkjknkinhS.Get("Win32_Process");
+hbdakAhh = hbdakAhh.replace(/x/g, "").split(".");
+var d = new ActiveXObject("Scripting.Dictionary");
+beacon("kelvin654.duckdns.org");
+"""
+
+    report = analyze_source_text(text, language_hint="javascript")
+
+    # Real C2 domain is kept; JS member access is not mistaken for a domain.
+    assert "kelvin654.duckdns.org" in report.domains
+    for noise in ("hbdakAhh.replace", "hbdakAhh.split", "ojbkjknkinhS.Get", "Scripting.Dictionary"):
+        assert noise not in report.domains
+
+
 def test_static_analysis_reports_obfuscation_without_execution():
     blob = "A" * 120
     report = analyze_source_text(f"payload = '{blob}'", language_hint="javascript")

@@ -16,6 +16,7 @@ import re
 from typing import Any
 
 from loop_engineering.static_code_analysis import (
+    KNOWN_MULTICHAR_TLDS,
     StaticCodeReport,
     analyze_source_text,
     render_static_code_yara,
@@ -74,6 +75,54 @@ SUSPICIOUS_STRING_MARKERS = [
 ]
 
 
+def network_iocs_from_metadata(metadata: dict[str, Any]) -> dict[str, list[str]]:
+    """Recover network indicators that live only in MalwareBazaar metadata.
+
+    MalwareBazaar encodes IOC tags with dashes instead of dots (e.g.
+    ``46-183-223-7`` or ``kelvin654-duckdns-org``). These are analyst-supplied
+    context, not bytes observed in the sample, so callers must label them as
+    metadata-derived rather than statically observed. IPv4 reconstruction is
+    exact; domain reconstruction is heuristic because an encoded dot is
+    indistinguishable from a real hyphen, so the caller preserves the raw tag.
+    """
+    ips: list[str] = []
+    domains: list[str] = []
+    tags = metadata.get("tags") or []
+    if not isinstance(tags, list):
+        tags = [tags]
+    for raw in tags:
+        tag = str(raw).strip()
+        if not tag:
+            continue
+        ip = _tag_to_ipv4(tag)
+        if ip is not None:
+            ips.append(ip)
+            continue
+        domain = _tag_to_domain(tag)
+        if domain is not None:
+            domains.append(domain)
+    return {"ips": sorted(set(ips)), "domains": sorted(set(domains))}
+
+
+def _tag_to_ipv4(tag: str) -> str | None:
+    parts = tag.split("-")
+    if len(parts) != 4 or not all(part.isdigit() for part in parts):
+        return None
+    if all(0 <= int(part) <= 255 for part in parts):
+        return ".".join(parts)
+    return None
+
+
+def _tag_to_domain(tag: str) -> str | None:
+    if "-" not in tag:
+        return None
+    candidate = tag.replace("-", ".")
+    tld = candidate.rsplit(".", 1)[-1].lower()
+    if len(tld) == 2 or tld in KNOWN_MULTICHAR_TLDS:
+        return candidate
+    return None
+
+
 @dataclass(frozen=True)
 class SingleSampleAnalysis:
     generated_at: datetime
@@ -109,6 +158,15 @@ class SingleSampleAnalysis:
         iocs.extend(
             {"type": "DOMAIN", "value": value, "source": "single-sample-static-analysis"}
             for value in self.static_code.domains
+        )
+        metadata_iocs = network_iocs_from_metadata(self.metadata)
+        iocs.extend(
+            {"type": "IP", "value": value, "source": "malwarebazaar-metadata"}
+            for value in metadata_iocs["ips"]
+        )
+        iocs.extend(
+            {"type": "DOMAIN", "value": value, "source": "malwarebazaar-metadata"}
+            for value in metadata_iocs["domains"]
         )
         return json.dumps(
             {
@@ -147,6 +205,25 @@ class SingleSampleAnalysis:
             lines.append('    $placeholder = "no_selected_static_strings"')
             condition = f'hash.sha256(0, filesize) == "{self.sha256}"'
         lines.extend(["  condition:", f"    {condition}", "}", "", static_yara.strip(), ""])
+
+        metadata_iocs = network_iocs_from_metadata(self.metadata)
+        metadata_values = metadata_iocs["ips"] + metadata_iocs["domains"]
+        if metadata_values:
+            lines.extend(
+                [
+                    "",
+                    f"rule Single_Sample_Metadata_Network_{self.sha256[:16]}",
+                    "{",
+                    "  meta:",
+                    '    source = "loop-engineering single-sample analysis (MalwareBazaar metadata)"',
+                    '    analysis = "network indicators from submission tags; not statically observed"',
+                    f'    sha256 = "{self.sha256}"',
+                    "  strings:",
+                ]
+            )
+            for index, value in enumerate(metadata_values, start=1):
+                lines.append(f'    $n{index:02d} = "{sanitize_yara_string(value)}" nocase')
+            lines.extend(["  condition:", "    any of them", "}", ""])
         return "\n".join(lines)
 
     def to_blog_markdown(self) -> str:
@@ -165,7 +242,13 @@ class SingleSampleAnalysis:
                 f"The agent selected one MalwareBazaar submission and performed static analysis on that "
                 f"single artifact. The sample was not executed, loaded, imported, or dynamically tested. "
                 f"Static evidence produced {3 + len(self.static_code.urls) + len(self.static_code.ips) + len(self.static_code.domains)} IOCs "
-                f"and {len(findings)} code/string findings."
+                f"and {len(findings)} code/string findings"
+                + (
+                    f", plus {len(network_meta['ips']) + len(network_meta['domains'])} metadata-derived "
+                    "network indicator(s) listed separately below."
+                    if (network_meta := network_iocs_from_metadata(self.metadata))["ips"] or network_meta["domains"]
+                    else "."
+                )
             ),
             "",
             "## What The Agent Did",
@@ -210,6 +293,26 @@ class SingleSampleAnalysis:
         lines.extend(f"| URL | `{value}` |" for value in self.static_code.urls)
         lines.extend(f"| IP | `{value}` |" for value in self.static_code.ips)
         lines.extend(f"| Domain | `{value}` |" for value in self.static_code.domains)
+        metadata_iocs = network_iocs_from_metadata(self.metadata)
+        if metadata_iocs["ips"] or metadata_iocs["domains"]:
+            lines.extend(
+                [
+                    "",
+                    "## Metadata-Derived Network Indicators",
+                    "",
+                    (
+                        "These indicators come from MalwareBazaar submission tags, not from bytes "
+                        "observed in this sample. The payload is obfuscated, so its real C2 is not "
+                        "visible to static text extraction. Domain values are reconstructed from "
+                        "dash-encoded tags and should be verified before blocking."
+                    ),
+                    "",
+                    "| Type | Value | Source tag |",
+                    "|---|---|---|",
+                ]
+            )
+            lines.extend(f"| IP | `{value}` | metadata |" for value in metadata_iocs["ips"])
+            lines.extend(f"| Domain | `{value}` | metadata |" for value in metadata_iocs["domains"])
         lines.extend(
             [
                 "",
