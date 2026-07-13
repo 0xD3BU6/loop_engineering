@@ -1,0 +1,6332 @@
+# MalwareBazaar Sample-by-Sample Technical Analysis - 2026-07-13
+
+## Executive Summary
+
+The agent analyzed 100 recent MalwareBazaar submissions one by one and extracted 653 defensive IOCs. This is static metadata analysis: samples were not downloaded, unpacked, executed, or dynamically tested.
+
+## What The Agent Did
+
+1. Queried the MalwareBazaar Community API for recent submissions.
+2. Walked every returned sample individually.
+3. Normalized per-sample hashes, family labels, file names, file types, tags, and timestamps.
+4. Produced per-sample IOC tables and exact SHA-256 YARA rules.
+5. Wrote this Markdown report for GitHub publication and defender review.
+
+## Run Outcome
+
+| Metric | Value |
+|---|---:|
+| Samples analyzed | 100 |
+| Total IOCs | 653 |
+| Unique family labels | 18 |
+| Unique file types | 12 |
+
+## Dataset Overview
+
+### Top Families
+
+| Family | Samples |
+|---|---:|
+| unknown | 58 |
+| Mirai | 14 |
+| Stealc | 5 |
+| ValleyRAT | 4 |
+| AsyncRAT | 3 |
+| Vidar | 3 |
+| WannaCry | 2 |
+| AgentTesla | 1 |
+| GCleaner | 1 |
+| SheetRAT | 1 |
+
+### File Type Distribution
+
+| File type | Samples |
+|---|---:|
+| exe | 45 |
+| elf | 19 |
+| sh | 17 |
+| msi | 4 |
+| zip | 4 |
+| unknown | 3 |
+| js | 2 |
+| dll | 2 |
+| vbs | 1 |
+| ps1 | 1 |
+
+## Per-Sample Analysis
+
+### Sample 1: `52a961e6e33da2fe`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-13 03:52:12` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3fc0e74e8c3216a4b7dc30d7c65d91ac` |
+| SHA-1 | `6d360baf43aa810fe0b24967f48e99397e3b88ca` |
+| SHA-256 | `52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8` |
+| SHA3-384 | `987921756c932a0fde226d4c4d61833d8eebef92da8f47506e6a475210d4eeeb4cfec263b23d4e4f31af8e93cf08cbc8` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T1CFE6330CA7D016EEEAB3107DEED546A3F591B4764F31C5EB979892969E0B0D0CC39B02` |
+| SSDEEP | `393216:kJrS3VmPDTAjfmSXMCHWUjXxcuI3/PGTAI:kw3VkDTAr1XMb8XmH/O7` |
+| ICON-DHASH | `71d89ea292c6f471` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_001_52a961e6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 03:52:12"
+  condition:
+    hash.sha256(0, filesize) == "52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8"
+}
+```
+
+### Sample 2: `ed0f08343c0f3288`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a` |
+| Family label | `AsyncRAT` |
+| File name | `S8APP.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 03:45:23` |
+| Reporter | `anonymous` |
+| Tags | `AsyncRAT, exe, rat` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `0264751f6495eff1100a4c14e5e6a8dc` |
+| SHA-1 | `e0052a8ad8311e1ca2074362c9828afd6880811a` |
+| SHA-256 | `ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a` |
+| SHA3-384 | `19d99235759b2c15b7af1289133b4777dfb92806b7ea0f6c067a2d8090c65eaf02f6a93827355dc0efa1a172918f2f55` |
+| IMPHASH | `f34d5f2d4577ed6d9ceec516c1f5a744` |
+| TLSH | `T18FC22C0833E8C576D1FD4A7D883386109735A95B9D23DB5A5FC490AE2933BC98B14FD4` |
+| SSDEEP | `384:lgSVEEMiNPWiilvaR90gVqH9qbuUsAbQxnCJfJBndnjJoKX3:lgSVXFWaIIbqBiBn5X3` |
+
+#### Technical Assessment
+
+- The sample is tracked as `AsyncRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_AsyncRAT_002_ed0f0834
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a"
+    family = "AsyncRAT"
+    file_name = "S8APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 03:45:23"
+  condition:
+    hash.sha256(0, filesize) == "ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a"
+}
+```
+
+### Sample 3: `09cc1c77657400e8`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366` |
+| Family label | `unknown` |
+| File name | `PDA-MV OCEAN WY-268546-1-PDF.vbs` |
+| File type | `vbs` |
+| First seen | `2026-07-13 03:32:51` |
+| Reporter | `threatcat_ch` |
+| Tags | `vbs` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `4e7829f84d108462bf354ad2f0286471` |
+| SHA-1 | `213d3978a71fc890b8ed0fcf07187efb2a3215d6` |
+| SHA-256 | `09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366` |
+| SHA3-384 | `141ba153ed7adde7c81b7a9fe7d465e20b445f8dc566d2efd27071dcdef2e7e83a1795ddc7a3b717177518c1e6219a40` |
+| TLSH | `T16EC21CB2BB55028309DB31E7C97C0F278964C6A041317C64AFBA771E8847EDC67EE619` |
+| SSDEEP | `768:Atlxt/oChkD/pDIHL/H6DHyn0d+u0eF0QXTKhMtkbVA8NuS+Nq:qNNo/ro0d+u0edXTKh8kbO8Nt` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `vbs`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_003_09cc1c77
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366"
+    family = "unknown"
+    file_name = "PDA-MV OCEAN WY-268546-1-PDF.vbs"
+    file_type = "vbs"
+    first_seen = "2026-07-13 03:32:51"
+  condition:
+    hash.sha256(0, filesize) == "09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366"
+}
+```
+
+### Sample 4: `fe5bb7f1f37e84ec`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-13 02:52:12` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `37a467e33e90d404c041e9f7d1de4727` |
+| SHA-1 | `91f1a89b15e43871f441917eea55c86baa083609` |
+| SHA-256 | `fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed` |
+| SHA3-384 | `ecbe7f5f2dd60f19bdcf98a9fa38fdd996993f0dc893dd4bf2c8d1eebb15a3fc01068e3ba12a4022263c8483eee8d5fa` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T18EE6332416C006EFD6B3923DEDA21D65D2B6707F0732C8EB1BB4979A6E131E14C3E616` |
+| SSDEEP | `393216:2rUw8dNgugziRaFNTqgjGXMCHWUjXccuI3/PGTAI:2wwY6u/oXugjGXMb8XJH/O7` |
+| ICON-DHASH | `e0b960c0dc797218` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_004_fe5bb7f1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 02:52:12"
+  condition:
+    hash.sha256(0, filesize) == "fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed"
+}
+```
+
+### Sample 5: `ad4a584f5e622c10`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d` |
+| Family label | `unknown` |
+| File name | `app_setup.6653007.msi` |
+| File type | `msi` |
+| First seen | `2026-07-13 02:43:04` |
+| Reporter | `CNGaoLing` |
+| Tags | `msi, SilverFox, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `ce4907cacd3b212e5d05baa6f6a8ffec` |
+| SHA-1 | `e154f026d9135b568253a21271f215ba5acfc620` |
+| SHA-256 | `ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d` |
+| SHA3-384 | `d18934395bcf4e07e68da497966eda00d90b282cd942f2d40af15e9d394949971b188f981789deaa2cb3852262908b9b` |
+| TLSH | `T11CA633DA9C871975E06BC77005A2322C702DBFD4AEB90D0E3DE53A0D9EB25106D776E8` |
+| SSDEEP | `196608:G1UU/jiaIAyxWgWesH90QJNU8ZLuAcYPqzUgZB1/B:wUE2xAXV2+LuAkUYX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `msi`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_005_ad4a584f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d"
+    family = "unknown"
+    file_name = "app_setup.6653007.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 02:43:04"
+  condition:
+    hash.sha256(0, filesize) == "ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d"
+}
+```
+
+### Sample 6: `81f68f61a8f7cf1a`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9` |
+| Family label | `unknown` |
+| File name | `app_setup.6653006.msi` |
+| File type | `msi` |
+| First seen | `2026-07-13 02:41:50` |
+| Reporter | `CNGaoLing` |
+| Tags | `msi, SilverFox, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `1211dd54cb40ecaf4e850f52ee499757` |
+| SHA-1 | `22dbb2023acdcc7ddb610da0823c5144c738bcfd` |
+| SHA-256 | `81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9` |
+| SHA3-384 | `1d0b97230bab6cb033191ff8f36d71ad33951ef22e295a8030505fb320e179dde74464b527fcbb562bb7217951b3e388` |
+| TLSH | `T10766336BF8CA2871C01FC7B4915B3A3E75AA7FC24B948D13BBE5390C0D7612488B6759` |
+| SSDEEP | `196608:iwc9bNDGDwaf5dcIiUsnQmd9tCf/IJ9xd/mo+FFISlSKG:iwc9V45r1+nQmdjC/IVI3kSlu` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `msi`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_006_81f68f61
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9"
+    family = "unknown"
+    file_name = "app_setup.6653006.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 02:41:50"
+  condition:
+    hash.sha256(0, filesize) == "81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9"
+}
+```
+
+### Sample 7: `856e540dd3765d8e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643` |
+| Family label | `AgentTesla` |
+| File name | `Quotation.js` |
+| File type | `js` |
+| First seen | `2026-07-13 02:37:22` |
+| Reporter | `threatcat_ch` |
+| Tags | `AgentTesla, js` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `6fc4b9e14bb0cd3cde529d1b5f91d716` |
+| SHA-1 | `28e80a1b9f93c17337995029b5354c087ec99e0e` |
+| SHA-256 | `856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643` |
+| SHA3-384 | `5ab4514a98abe303840f5c3cf67434c1e58058e3f7baa419778e11fb9b5d86e88e6eb4afe1a03c2bb8fd34a08ac19aa2` |
+| TLSH | `T1FC751B7A4D2A55828424527E45FE78BCD7641FBD69BB148BF4394B8877330A186F0F32` |
+| SSDEEP | `192:rllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllk:wSZ+tGg+jbPlWi8wsEw6lny` |
+
+#### Technical Assessment
+
+- The sample is tracked as `AgentTesla` by MalwareBazaar metadata.
+- The observed artifact type is `js`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_AgentTesla_007_856e540d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643"
+    family = "AgentTesla"
+    file_name = "Quotation.js"
+    file_type = "js"
+    first_seen = "2026-07-13 02:37:22"
+  condition:
+    hash.sha256(0, filesize) == "856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643"
+}
+```
+
+### Sample 8: `f6a5fcb77d8ce982`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-13 02:23:30` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `516105b33f53a38b52e3132f28f4d5a9` |
+| SHA-1 | `765c134c551c9aa6b1ed502d632e294b263c7109` |
+| SHA-256 | `f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3` |
+| SHA3-384 | `6cb9b08ccf8138461d8c5b78105be51764885b39439357e0c0d5e70eeb25d9383594ef0b0e46f0c31d976595ac07a27a` |
+| TLSH | `T157236C551A857C149A99C4371D7E2F0CBDAD43E6320852EE7FCB3CF28C8AA9D920971D` |
+| SSDEEP | `768:JVEJVIhtMm9GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:nEJ2MDcr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_008_f6a5fcb7
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 02:23:30"
+  condition:
+    hash.sha256(0, filesize) == "f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3"
+}
+```
+
+### Sample 9: `aca480ae93ba4362`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8` |
+| Family label | `AsyncRAT` |
+| File name | `AU88APP.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 02:22:44` |
+| Reporter | `anonymous` |
+| Tags | `AsyncRAT, exe, rat` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `e243eebb350f2a6a46e92fbf60f6630a` |
+| SHA-1 | `8f8297759c03d8098cc69ad4aa852e55f28c5406` |
+| SHA-256 | `aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8` |
+| SHA3-384 | `4320382b6f210c3509bbfc39345ce8adef4ad64cf2671d7b3a01138cec9728d0edb3bf063e46cfb7991f944def79f139` |
+| IMPHASH | `f34d5f2d4577ed6d9ceec516c1f5a744` |
+| TLSH | `T1E5C21A0833E8C672D1FE4ABA883385009779E55B9913D75A5FC490AE29637CD8B18FE4` |
+| SSDEEP | `384:tTdv2D9YfxWceOsVa/KFHbh0yH9qbuUscCbQxnCJfJBndnjJPVK0m:Zdvhi1VDHF0wIb1BBiBnU0m` |
+
+#### Technical Assessment
+
+- The sample is tracked as `AsyncRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_AsyncRAT_009_aca480ae
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8"
+    family = "AsyncRAT"
+    file_name = "AU88APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 02:22:44"
+  condition:
+    hash.sha256(0, filesize) == "aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8"
+}
+```
+
+### Sample 10: `1317a25d33bcffbc`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:52:10` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `901c4fcf11b2620486cb424fc990725f` |
+| SHA-1 | `0c1927b3ae832189caffd16a04c4b09592ce9af3` |
+| SHA-256 | `1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577` |
+| SHA3-384 | `2c1f4c02c57dc3bcfd5f1b9fb0517a78987ba022342cc4d817a20eaa75c6330bcfec30f73d95452b4f8b95393d853861` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T1CBE6334CA7C015FEFAB30138BDD2529BD8E978694B31C9DB935856A09E672E14C3CB13` |
+| SSDEEP | `393216:R7Teso+ev4HfprMxhBUjtlaXMCHWUjXDcuI3/PGTAI:RNn64HJMw2XMb8XgH/O7` |
+| ICON-DHASH | `d4f0f0e8e8617130` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_010_1317a25d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:52:10"
+  condition:
+    hash.sha256(0, filesize) == "1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577"
+}
+```
+
+### Sample 11: `eede323c8bd03701`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe` |
+| Family label | `GCleaner` |
+| File name | `Setup.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:38:45` |
+| Reporter | `iamaachum` |
+| Tags | `exe, GCleaner, unluckytool-com` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `043ecb65c4d4003504dc1d2324bdc7d0` |
+| SHA-1 | `adfd78e5d0ff90d4d9212f69a4cb5bf95256f463` |
+| SHA-256 | `eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe` |
+| SHA3-384 | `b7e1aaac7e0df5942ef1ed1aa050ecc8a4caae766913667942906a06401ea888f9e2d5a6a4e1b3230c7c156912713de0` |
+| IMPHASH | `b214386fa7f97d3d3252c87b8bce8333` |
+| TLSH | `T1B7E48E22A2E0C437D2621E7D9D1FE3ED9836BE102D2994462BD45D4C7EF8E837966343` |
+| SSDEEP | `12288:D+ZPf6yIvNeNF682QTY8ZO5NQW41vMPALj7w:69f0YKsTR0zQWsIR` |
+| ICON-DHASH | `399998ecd4d46c0e` |
+
+#### Technical Assessment
+
+- The sample is tracked as `GCleaner` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_GCleaner_011_eede323c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe"
+    family = "GCleaner"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:38:45"
+  condition:
+    hash.sha256(0, filesize) == "eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe"
+}
+```
+
+### Sample 12: `6dcba233968441cb`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a` |
+| Family label | `unknown` |
+| File name | `HCUQAUTJ.msi` |
+| File type | `msi` |
+| First seen | `2026-07-13 01:33:13` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, HijackLoader, msi` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `4e0c131538aaff9a55fc0d9e025f87a5` |
+| SHA-1 | `0f4180a105cc71030fc8a5d6e1b93b5787c4c6e8` |
+| SHA-256 | `6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a` |
+| SHA3-384 | `fd6102ae28b24660a2124595f5fd6355db40e5c18501966fea06c5b246ad2d4f9707f41f121899fa3f5ae41c6e9d9998` |
+| TLSH | `T1F186331555C6EA85C8690A3B8B63F17CE4B2DD64BF34C9EE2AB2350C31711F4EFA40A5` |
+| SSDEEP | `196608:bRjSXalr76B/FISS+lJ4hvzzAUEb+C7F9Jd6k:bskQSylJ4hvzVE9Jd6` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `msi`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_012_6dcba233
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a"
+    family = "unknown"
+    file_name = "HCUQAUTJ.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 01:33:13"
+  condition:
+    hash.sha256(0, filesize) == "6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a"
+}
+```
+
+### Sample 13: `acf1cd593222c9dc`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5` |
+| Family label | `Stealc` |
+| File name | `UndIncomplete.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:32:29` |
+| Reporter | `iamaachum` |
+| Tags | `87-120-104-81, AsgardProtector, ClickFix, exe, Stealc` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `a2ddb304051d7e6756ea938d9d5df0b8` |
+| SHA-1 | `57233e298d61da70cb0b9d72ded591a290007ea2` |
+| SHA-256 | `acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5` |
+| SHA3-384 | `c0daa623bbfebf2f25ed2ae05003640ecc09f7cf44f59ff976351d2c182fde310ef0bfcff9e6a8e5f955fee4bc525294` |
+| IMPHASH | `646167cce332c1c252cdcb1839e0cf48` |
+| TLSH | `T188952301C7C8E071F9B463725CED41432535FEA1EF34A1C773847AAE68A66C4B67236A` |
+| SSDEEP | `49152:KA+rGZuRYoJYx61ey78F7BPZWxH1C3V5OO4lRHt0zE:KDGIlY9xWxH1C3NuHCw` |
+| ICON-DHASH | `9640c4c6c6d8c801` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Stealc` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Stealc_013_acf1cd59
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5"
+    family = "Stealc"
+    file_name = "UndIncomplete.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:32:29"
+  condition:
+    hash.sha256(0, filesize) == "acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5"
+}
+```
+
+### Sample 14: `0087b35d4460c970`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de` |
+| Family label | `Stealc` |
+| File name | `b5e9296e09961ff2_UndIcopslete2.msi` |
+| File type | `msi` |
+| First seen | `2026-07-13 01:31:51` |
+| Reporter | `iamaachum` |
+| Tags | `87-120-104-81, AsgardProtector, ClickFix, msi, Stealc` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `80a7ec2630d7ff867cc05fa2b6c35158` |
+| SHA-1 | `2c9585c6a0a33d5bf167753d1f09fb056f02ab26` |
+| SHA-256 | `0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de` |
+| SHA3-384 | `2ab00af5e098de856fb5c287c0ea71b23732ff2e014afc28a5acdabdd08ee0366c103bdb0a479ec60d1ea4617e2d09a3` |
+| TLSH | `T1FDB5121177C8C036E6A9173388FAC2A62635BD71AB30D4CB73907EAD6D716D2A931317` |
+| SSDEEP | `49152:epMOLakgNv569D9SYC01yt88FaBMLRL11CCV50KnlRHlXzv:epRaTvAKYZ4RL11CCPLHxD` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Stealc` by MalwareBazaar metadata.
+- The observed artifact type is `msi`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Stealc_014_0087b35d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de"
+    family = "Stealc"
+    file_name = "b5e9296e09961ff2_UndIcopslete2.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 01:31:51"
+  condition:
+    hash.sha256(0, filesize) == "0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de"
+}
+```
+
+### Sample 15: `957c3fc02297170c`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b` |
+| Family label | `Stealc` |
+| File name | `2gnqD3iF9lpo4CzmS.ps1` |
+| File type | `ps1` |
+| First seen | `2026-07-13 01:30:34` |
+| Reporter | `iamaachum` |
+| Tags | `87-120-104-81, AsgardProtector, ClickFix, HijackLoader, ps1, Stealc` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `dec016af4c8c7dd141216663e16e56fa` |
+| SHA-1 | `3cea4a0aa7fcc6193454722609d811f62574f017` |
+| SHA-256 | `957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b` |
+| SHA3-384 | `e548eaf17c77dbd61d4a6f01919089e5029d5fa4242e62dd02a171fbc17b38399a3e2d05e024d9aade7b573128337e1d` |
+| TLSH | `T131328A3CD6B1EDC4036F31D09A5A3F4620AD5B23F7B44B6CF9C148AA1868658DF3A19C` |
+| SSDEEP | `192:PY6uua9ArZzjPamI2/lu6tCAgBQn+9lN+pLSlyZoZwh7LHYua629C4LW4cuOmX8x:wDua9ArZ/Pah2/M6MAgB0+9L+5SaThXp` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Stealc` by MalwareBazaar metadata.
+- The observed artifact type is `ps1`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Stealc_015_957c3fc0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b"
+    family = "Stealc"
+    file_name = "2gnqD3iF9lpo4CzmS.ps1"
+    file_type = "ps1"
+    first_seen = "2026-07-13 01:30:34"
+  condition:
+    hash.sha256(0, filesize) == "957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b"
+}
+```
+
+### Sample 16: `b5af11fcbde594f4`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9` |
+| Family label | `ValleyRAT` |
+| File name | `3fd8d0f57f5c8876caacd2a4fef86ba6.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:30:15` |
+| Reporter | `abuse_ch` |
+| Tags | `exe, RAT, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3fd8d0f57f5c8876caacd2a4fef86ba6` |
+| SHA-1 | `c246702f11d9ad9505cf2c63820f0cb34717327b` |
+| SHA-256 | `b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9` |
+| SHA3-384 | `89484b43768b946e224941b69d957b8a38a789aab90679619abdddfa2020474e3d2ce467df54f16f9a699c56d5b9eae0` |
+| IMPHASH | `e9d6723ad0e9063b525f384eb48d5a19` |
+| TLSH | `T112B5E87BA5A183B8D38DB67EC163A744D433B1764732D0EB61B003668E1A4D19D3BB78` |
+| SSDEEP | `24576:0gMucAicT6LONFHQPqJWNhBsEnCVLPiSaNYB59uXDAT:jcAicT6JPqJWNhCEnCslwgu` |
+| ICON-DHASH | `371637948da5c499` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ValleyRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ValleyRAT_016_b5af11fc
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9"
+    family = "ValleyRAT"
+    file_name = "3fd8d0f57f5c8876caacd2a4fef86ba6.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:15"
+  condition:
+    hash.sha256(0, filesize) == "b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9"
+}
+```
+
+### Sample 17: `23b2d08a1e983d54`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0` |
+| Family label | `unknown` |
+| File name | `23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0` |
+| File type | `elf` |
+| First seen | `2026-07-13 01:30:14` |
+| Reporter | `EnthecSolutions` |
+| Tags | `elf, enthec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3288a2005021d95c93fd55053b7cc31e` |
+| SHA-1 | `faee72866ab1c09973bb3198c6993851e4bee0e5` |
+| SHA-256 | `23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0` |
+| SHA3-384 | `d7422e1856c8ecb359e5ab65e64f626fe40de6c92323247fddb591a69017ff8baef7d7fb2736b6dc2f8e91d68403c17d` |
+| TLSH | `T15217BE77814338E9E5A98CB4D51025426DAC388B5738A3C7BAC471F667EA7E48E3D730` |
+| SSDEEP | `49152:c8nxDgC7g9rb/TBvO90dL3BmAFd4A64nsfJ7QQzjFHWkMNRCdQqzB0dSyG2VjMQU:cqYUQuVDt0TZEz` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_017_23b2d08a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+    family = "unknown"
+    file_name = "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+    file_type = "elf"
+    first_seen = "2026-07-13 01:30:14"
+  condition:
+    hash.sha256(0, filesize) == "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+}
+```
+
+### Sample 18: `0fbe935d932ce684`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da` |
+| Family label | `ValleyRAT` |
+| File name | `13931954f080312b5b4df53c5ca8eb7a.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:30:11` |
+| Reporter | `abuse_ch` |
+| Tags | `exe, RAT, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `13931954f080312b5b4df53c5ca8eb7a` |
+| SHA-1 | `23e9590ab99ce9d2c653cb044aaf8390908548c3` |
+| SHA-256 | `0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da` |
+| SHA3-384 | `c905881926ade05769b7f47ee77be227fb1767140c2908f893e2c7b163ba163a0cfda1d379d34754677f2d6c48300e08` |
+| IMPHASH | `ee8e50343b053c670ed20dfccbcd29fc` |
+| TLSH | `T194937D0274D1C871F5B6143558B4EEA18A3EF8501F149EEB3798177E0F346C1AA36EAB` |
+| SSDEEP | `1536:anwwgs7tJ8RNOKIpQj9FVjJDf4OoNdb+H8k8Gf/qqkB0asW4ltcdxipFp1wJQH:anp7t4rIpQJjJDfwdb+HT8Gf/SBY8xch` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ValleyRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ValleyRAT_018_0fbe935d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da"
+    family = "ValleyRAT"
+    file_name = "13931954f080312b5b4df53c5ca8eb7a.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:11"
+  condition:
+    hash.sha256(0, filesize) == "0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da"
+}
+```
+
+### Sample 19: `272747b26622bc9b`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d` |
+| Family label | `ValleyRAT` |
+| File name | `FD83C55A4DE17D34DFC4E6B49E892256.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:30:08` |
+| Reporter | `abuse_ch` |
+| Tags | `exe, RAT, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `fd83c55a4de17d34dfc4e6b49e892256` |
+| SHA-1 | `20ef87fe5fc5b2ba3ac43452d33db1ad127bd6b1` |
+| SHA-256 | `272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d` |
+| SHA3-384 | `6cbe21317a3bfa86c058456089ab491f6e6fb499646c3f7fe97311ede9f7f43b9ed64c310dd0e1598161a20d6211974a` |
+| IMPHASH | `1450c9beddf63875e8aaa9b4691fb1e5` |
+| TLSH | `T1AC847C14FBE504F9E1778538CA728507EB727C9D07A0AADF23A489561F23AD09E3E711` |
+| SSDEEP | `6144:ThwQwPpZ+UPwGihxJ6GcTHhjvP5lJ/yVu51vAVW6gj+c8:eQSpQUSs/Hhr5l9qM1voDgG` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ValleyRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ValleyRAT_019_272747b2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d"
+    family = "ValleyRAT"
+    file_name = "FD83C55A4DE17D34DFC4E6B49E892256.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:08"
+  condition:
+    hash.sha256(0, filesize) == "272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d"
+}
+```
+
+### Sample 20: `42420ed30965b2e8`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5` |
+| Family label | `ValleyRAT` |
+| File name | `42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c7.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:30:05` |
+| Reporter | `abuse_ch` |
+| Tags | `exe, RAT, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `c9e798462943f33ef81ee2ef2406b83b` |
+| SHA-1 | `97c8100c3481d6b5cd4597ae3871ff0cdbb1e5f5` |
+| SHA-256 | `42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5` |
+| SHA3-384 | `0fcfccec0e96342ed41f7f99abf0bfada0fb386dd2ecbad2d53679ecc85161e7ae3044321d978d7c0eed30af6d02efde` |
+| IMPHASH | `b8bf08fa843a9ec1ce10d80fbf550c26` |
+| TLSH | `T1E6B37B2172E0C072C097253199F9EBB24A7EF93103B854CBB7E8167A5F603C16A7539B` |
+| SSDEEP | `3072:0XFiAVA5v6if7FMwrrInnjpE6Ux68XEPK8NcN:yFih5v1mwrr0Xt1y8Nc` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ValleyRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ValleyRAT_020_42420ed3
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5"
+    family = "ValleyRAT"
+    file_name = "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c7.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:05"
+  condition:
+    hash.sha256(0, filesize) == "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5"
+}
+```
+
+### Sample 21: `3e1fb4cc6c8ce65e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30` |
+| Family label | `SheetRAT` |
+| File name | `component_2.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:18:08` |
+| Reporter | `iamaachum` |
+| Tags | `2-27-63-115, donutloader, exe, fullsofts-org, SheetRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `dea25a6b76f660ff1d464c88ce57e453` |
+| SHA-1 | `e114092df6873c703be1a785646b171948d37980` |
+| SHA-256 | `3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30` |
+| SHA3-384 | `57e6fad46fba695a9b9d9f8179e8aaa299d1e5bda40dbfa8c48d8f7175bdfbf891a180c10949a07ff72dccc783e82823` |
+| TLSH | `T13435CF163BF5EE01E2AA33B940A045D443F5E4199E86DF0A22D43AF36ADFF91DB06057` |
+| SSDEEP | `24576:eOlOX6eCdBvm0+myIesqfFSZhGGtEoeJhkhfIkdb5:eOlC8H3Bf` |
+
+#### Technical Assessment
+
+- The sample is tracked as `SheetRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_SheetRAT_021_3e1fb4cc
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30"
+    family = "SheetRAT"
+    file_name = "component_2.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:18:08"
+  condition:
+    hash.sha256(0, filesize) == "3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30"
+}
+```
+
+### Sample 22: `71911c8f6eacf5ba`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc` |
+| Family label | `Vidar` |
+| File name | `component_1.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:17:20` |
+| Reporter | `iamaachum` |
+| Tags | `exe, fullsofts-org, signed, Vidar` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `695518699d12584e74873f517d311aca` |
+| SHA-1 | `ff977c5814d26d01cea48ba198c0183f4d7cabe9` |
+| SHA-256 | `71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc` |
+| SHA3-384 | `48199abf331bf8dc3c811d47bfe04af38718d2da33de1102acfa1d2c5b8064e3e409f828dc5f52f6cb68236c1a629911` |
+| IMPHASH | `d42595b695fc008ef2c56aabd8efd68e` |
+| TLSH | `T1FED59D0BBCA149F9C4A956368CB652927B35FC058F3227C32EA0B7782F766D09D75390` |
+| SSDEEP | `49152:KDs8alB6Mw6E0vhK46wLpYSKMbO5FEj/Bj8eg7qzzMRk9OIIaN41lYz+Q:KDODyWpwFEzBj8eg2fMRkAAN4bYx` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Vidar` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Vidar_022_71911c8f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc"
+    family = "Vidar"
+    file_name = "component_1.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:17:20"
+  condition:
+    hash.sha256(0, filesize) == "71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc"
+}
+```
+
+### Sample 23: `e1d2d20089aac539`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd` |
+| Family label | `unknown` |
+| File name | `libcurl.dll` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:14:05` |
+| Reporter | `iamaachum` |
+| Tags | `193-143-1-131, BlakcSeeStealer, dll` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `946c5058010f3ab0f6a804b448d74a62` |
+| SHA-1 | `16db9b07aa2845942db2944f0a1605d5203c5d46` |
+| SHA-256 | `e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd` |
+| SHA3-384 | `43331246014a43643038a3a608c29a3055262a22ec941cdfdc2f5d7b33ca07e5a888feb1c0915ff7b17bcc8f1f974139` |
+| IMPHASH | `47907213b5e9405955eb9c17fcfb37db` |
+| TLSH | `T151B60773644D32CF48920453E512A0F38CBEE936A71A92E5D48B902D39EE0ED956FF71` |
+| SSDEEP | `49152:AjyfRbOmE9IvPSy2aWMp14Pz9YwrFWfADxE2vo8MVQ9se4wFI3OMaswuqq9N9ePN:AX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_023_e1d2d200
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd"
+    family = "unknown"
+    file_name = "libcurl.dll"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:14:05"
+  condition:
+    hash.sha256(0, filesize) == "e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd"
+}
+```
+
+### Sample 24: `027004739726842d`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600` |
+| Family label | `RemusStealer` |
+| File name | `Setup.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:11:04` |
+| Reporter | `iamaachum` |
+| Tags | `exe, RemusStealer` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `7d266cb59d9721a5af42c7783d6af1b4` |
+| SHA-1 | `ca89687cc7cc4bf379c4dcf5fa8d396d9a763d48` |
+| SHA-256 | `027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600` |
+| SHA3-384 | `6c69ff20a8b0ebdaad44182ee32b9b775c63777649fee6c634e4d998686987db8b6dcb69e6c6111ca4fd835707ec0cad` |
+| IMPHASH | `20f35ed688f00eacb2c7ea603d9f248e` |
+| TLSH | `T16C241967C25371FCD642C07863667232AB33BA3947349EF707A2C7359E22AC05E79925` |
+| SSDEEP | `3072:fp4sTRjivIaGBjkdWRBHgT6vrbq3l6gVu1nZw5lmiRyFZgzx55eZ:C+HHvz8l6gVu1nZwyicZgzx55eZ` |
+
+#### Technical Assessment
+
+- The sample is tracked as `RemusStealer` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_RemusStealer_024_02700473
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600"
+    family = "RemusStealer"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:11:04"
+  condition:
+    hash.sha256(0, filesize) == "027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600"
+}
+```
+
+### Sample 25: `e27696135b673b81`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680` |
+| Family label | `unknown` |
+| File name | `SETUP.zip` |
+| File type | `zip` |
+| First seen | `2026-07-13 01:09:50` |
+| Reporter | `iamaachum` |
+| Tags | `zip` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `5bc9f0be8f29570a7699b5ba83cf0943` |
+| SHA-1 | `5c2e4a5dd458cf86ad941c8ba80fa4bf21a3f2eb` |
+| SHA-256 | `e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680` |
+| SHA3-384 | `30998c0e8aad597a12821bf2ddbbc03ba9e8777712498e388351502312977b3705974e95d7821128a75fce5132001847` |
+| TLSH | `T1CA073343D5A20F59C52D213845EB0F47ABACAF0A8525671E2B64E36F7EFB3F0492C116` |
+| SSDEEP | `393216:JFSEJXihskJE3nxdDpaZ0BIUrREwkE6+NmhVjPdmhZjWvpn6cN4pfStQapCfAE:JFSSgtJE3nj1a2BIUrREwkV1go6cqfJ9` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `zip`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_025_e2769613
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680"
+    family = "unknown"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:09:50"
+  condition:
+    hash.sha256(0, filesize) == "e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680"
+}
+```
+
+### Sample 26: `2d5b38af2b9b6b5b`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e` |
+| Family label | `AsyncRAT` |
+| File name | `AU88APP.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:09:19` |
+| Reporter | `anonymous` |
+| Tags | `AsyncRAT, exe, rat` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `72b66bac20017e024ccdef1c786c04ba` |
+| SHA-1 | `a3498ddeca65ce8bd339c08b19cfe0f0200e68f7` |
+| SHA-256 | `2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e` |
+| SHA3-384 | `cb6c3bf8659169c022833ecb60536cd9b3daf68b0d60bce39fbff8fb3d87b44d40e5c71f888f05c12ebdd43bdefb5eaa` |
+| IMPHASH | `f34d5f2d4577ed6d9ceec516c1f5a744` |
+| TLSH | `T1FFC23D0873E8C572D2FE0ABE883395009775D55B9913D75A6FC890AE2E23BCD8A14BD4` |
+| SSDEEP | `384:jgSVEEMiNPWmeOsVa/KFHbh0yH9qbuUscCbQxnCJfJBndnjJvKsbT+:jgSVXFg1VDHF0wIb1BBiBnesbT+` |
+
+#### Technical Assessment
+
+- The sample is tracked as `AsyncRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_AsyncRAT_026_2d5b38af
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e"
+    family = "AsyncRAT"
+    file_name = "AU88APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:09:19"
+  condition:
+    hash.sha256(0, filesize) == "2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e"
+}
+```
+
+### Sample 27: `24636cfe302fe7c7`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8` |
+| Family label | `CoinMiner.XMRig` |
+| File name | `SETUP.zip` |
+| File type | `zip` |
+| First seen | `2026-07-13 01:09:05` |
+| Reporter | `iamaachum` |
+| Tags | `ACRStealer, CoinMiner.XMRig, releases-cloudgateway-cc, zip` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `378bd64d4c90abb345c0ec3bf4cc4962` |
+| SHA-1 | `373f5f2af400943e959f7aeb16dca2b0cf90cb8e` |
+| SHA-256 | `24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8` |
+| SHA3-384 | `2ba571fd7d36c8e7dfc16cf5749d857abc1093b799361bb38fa836ee178c56d237b5c12d077c61bc23dc4135ec766eab` |
+| TLSH | `T1361723BCB4B5B96AF5D4433BC6C12CB2DB2CA540D7D93D9B8E2041527EC320E5F6A861` |
+| SSDEEP | `393216:VvoJYzm4PaJBjPvwL4835pf/9vV00s7UMMeEH5tWehhfkiI7UXFD1iOL:VvoJE5EtgL445ptvV0LBMhEgh9I7mmOL` |
+
+#### Technical Assessment
+
+- The sample is tracked as `CoinMiner.XMRig` by MalwareBazaar metadata.
+- The observed artifact type is `zip`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_CoinMiner_XMRig_027_24636cfe
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8"
+    family = "CoinMiner.XMRig"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:09:05"
+  condition:
+    hash.sha256(0, filesize) == "24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8"
+}
+```
+
+### Sample 28: `69bddeb75e3b47d1`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3` |
+| Family label | `unknown` |
+| File name | `Setup.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 01:08:02` |
+| Reporter | `iamaachum` |
+| Tags | `ACRStealer, auth-predatordeuce-cc, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `a7d5151806056321cd95d5cf92f4bb6b` |
+| SHA-1 | `8cd973c5089dd74a7cc4a1b7039394b5760b2ebd` |
+| SHA-256 | `69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3` |
+| SHA3-384 | `626feb9b554e85ded1a3bd2fcdbc956041ddbf58a41d992c8bff0565d280e94bf6c4e97c4d5a6a397f87ae6562e22566` |
+| TLSH | `T138254AAB039C79A0E4B97CBF1C22BE5A4A68BDDBF1D4F1C702D7507261B84C1109966F` |
+| SSDEEP | `24576:LZyPalaz4BsxXP7KG1+dfbI9il4dAAj7HzRIVx:dya+k5u2D2Abx` |
+| ICON-DHASH | `71cc96b2b296cc71` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_028_69bddeb7
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3"
+    family = "unknown"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:08:02"
+  condition:
+    hash.sha256(0, filesize) == "69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3"
+}
+```
+
+### Sample 29: `c938353d905fe678`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500` |
+| Family label | `unknown` |
+| File name | `SETUP.zip` |
+| File type | `zip` |
+| First seen | `2026-07-13 01:07:06` |
+| Reporter | `iamaachum` |
+| Tags | `zip` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `b7f341ece7cf17d1bddcc297b54c9564` |
+| SHA-1 | `a8d71c39c43db3d91af6803b840dab1bbd973e03` |
+| SHA-256 | `c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500` |
+| SHA3-384 | `689803186876c5cbdfa3cd07c1a10d001895684bd12230fd3eaf91a4fe8a03964ac91e8108d4aa73e4f71ab8d663989f` |
+| TLSH | `T1B47733966A2C304BEDC1CBFD49A639CC1057359C18A13E6E5F6B4471F673728BC2B862` |
+| SSDEEP | `786432:tnNcJdJq2oT6cnKkiFfPPLoaf2SlcSLEMLRV3+LJPKO1PWv:V6bqHVWfTRVOPKew` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `zip`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_029_c938353d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500"
+    family = "unknown"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:07:06"
+  condition:
+    hash.sha256(0, filesize) == "c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500"
+}
+```
+
+### Sample 30: `e2a2f9aa22b14099`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513` |
+| Family label | `unknown` |
+| File name | `PikaCraft-Mods.jar` |
+| File type | `jar` |
+| First seen | `2026-07-13 01:05:46` |
+| Reporter | `anonymous` |
+| Tags | `CuteCraft, downloader, irahook, jar, java, Minecraft, stealer` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `69900f399262322e2e3d1cb13c0ee1a1` |
+| SHA-256 | `e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `jar`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_030_e2a2f9aa
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513"
+    family = "unknown"
+    file_name = "PikaCraft-Mods.jar"
+    file_type = "jar"
+    first_seen = "2026-07-13 01:05:46"
+  condition:
+    hash.sha256(0, filesize) == "e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513"
+}
+```
+
+### Sample 31: `451459c1bacaf827`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3` |
+| Family label | `unknown` |
+| File name | `lil` |
+| File type | `sh` |
+| First seen | `2026-07-13 01:00:19` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3bab007dfeb311771c1eafaa73704cb5` |
+| SHA-1 | `34d032a5e6eb5ea75fdfab2c82390722201f081a` |
+| SHA-256 | `451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3` |
+| SHA3-384 | `5ebfa1ebc449d4eea3c47c6478d0ef27c4bf8651d578dbe3fd080b4b5c3e407b30e821da1e2947379a8a1f00952f5ebf` |
+| TLSH | `T16301AFD944405C4080A9995C21E75494F410C3CE194B4F75BF5C6E3DEB8CD14B03AF8D` |
+| SSDEEP | `12:dOXOsYxcysE+vhCFN0zvy/RQvZowHkai8CFn9CDpTCXviFSCeE/l0FCs3YX:kXCKysE2hi0ziQvZoha32w9i5k873YX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_031_451459c1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3"
+    family = "unknown"
+    file_name = "lil"
+    file_type = "sh"
+    first_seen = "2026-07-13 01:00:19"
+  condition:
+    hash.sha256(0, filesize) == "451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3"
+}
+```
+
+### Sample 32: `72f4226176d79e9a`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b` |
+| Family label | `unknown` |
+| File name | `bot` |
+| File type | `elf` |
+| First seen | `2026-07-13 01:00:18` |
+| Reporter | `abuse_ch` |
+| Tags | `elf` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `84f832c4990c37746aff6131ab8f9099` |
+| SHA-1 | `69082ff2be135607f369b0e12f0d6f660188795f` |
+| SHA-256 | `72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b` |
+| SHA3-384 | `424742665c2737c131cd16f538764617f1488be50b2b3fef37563c944058067b8b7b81d3334cc5fd1cb00c95783456be` |
+| TLSH | `T1DBC51227B26224ACE55BC47487CEC1B2EA39B46502267B3B7BD896313F38C614F5D712` |
+| SSDEEP | `49152:pS/qu3q+ov508MFm5NNUgn1A5JUMt6oE5/p7SEi3+/xQaSk25s3nvL:YiCtovKTUvmMy5qUVkf3xQa52+3z` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_032_72f42261
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b"
+    family = "unknown"
+    file_name = "bot"
+    file_type = "elf"
+    first_seen = "2026-07-13 01:00:18"
+  condition:
+    hash.sha256(0, filesize) == "72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b"
+}
+```
+
+### Sample 33: `2012fa14729a5c09`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd` |
+| Family label | `unknown` |
+| File name | `Installer_v1509_x64.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:58:27` |
+| Reporter | `iamaachum` |
+| Tags | `CNBackdoor, exe, tommysbakescodes-ws` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `9f12bd92b5cca81e0645f4ec2db8857f` |
+| SHA-1 | `951e9a9ae06fc1cc6d3ab076785f69aaa235e13f` |
+| SHA-256 | `2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd` |
+| SHA3-384 | `9723853fc1560e9465c046e661d9ca4530d8b98c50a5bafc1bed9d1df8cad3183eca9c91ecc0893d2928756e2fea2504` |
+| IMPHASH | `a56f115ee5ef2625bd949acaeec66b76` |
+| TLSH | `T1971733579B76D6D2D5AA167401E8C1B0C21FB2BD3ED4B2F00345C728EC289B95DBAB34` |
+| SSDEEP | `393216:PSQYuOEonTcAJnz/vmSh3u4Q3uTWHqsEngi1S/zakw+ikXjftu:6LEonTcAJp+LuyFCgigakw+ikXx` |
+| ICON-DHASH | `70e8ccf0d4dcdcdc` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_033_2012fa14
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd"
+    family = "unknown"
+    file_name = "Installer_v1509_x64.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:58:27"
+  condition:
+    hash.sha256(0, filesize) == "2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd"
+}
+```
+
+### Sample 34: `77ccda79bc51c0da`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae` |
+| Family label | `unknown` |
+| File name | `Installer.iso` |
+| File type | `iso` |
+| First seen | `2026-07-13 00:57:01` |
+| Reporter | `iamaachum` |
+| Tags | `CNBackdoor, iso, tommysbakescodes-ws` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `8a489e4108817b877522ad4b11f7cb9f` |
+| SHA-1 | `d6b8a17c3f5483a8d091882e00e865fa40029c65` |
+| SHA-256 | `77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae` |
+| SHA3-384 | `f555854aea47ea70f327a378e38ace7dcb51b72b5a7f9e658a5e427fb5a6aeae323c7f6b3b45498ddda26d1772954b3a` |
+| TLSH | `T1BC1733579B76D6D2D5AA167001E8C0B0C21FB2BD3ED4B2F01349C724ED289B95DBAB34` |
+| SSDEEP | `393216:NSQYuOEonTcAJnz/vmSh3u4Q3uTWHqsEngi1S/zakw+ikXjftu:0LEonTcAJp+LuyFCgigakw+ikXx` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `iso`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_034_77ccda79
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae"
+    family = "unknown"
+    file_name = "Installer.iso"
+    file_type = "iso"
+    first_seen = "2026-07-13 00:57:01"
+  condition:
+    hash.sha256(0, filesize) == "77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae"
+}
+```
+
+### Sample 35: `1e13c2c9eac72daf`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913` |
+| Family label | `Vidar` |
+| File name | `Download_Movie_Maker_2.6_For_Windows_7.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:55:09` |
+| Reporter | `iamaachum` |
+| Tags | `exe, micronsoftwares-com, signed, Vidar` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `26aa06f7c7609ba04e3ff3ff25ee46ab` |
+| SHA-1 | `ad69c3ce50248510e585c81fb06d4629cc419cb5` |
+| SHA-256 | `1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913` |
+| SHA3-384 | `835b1739cc2c70d880791b593739ab9335817bc53bcfcbd921a3dc0a6b9e5d4ec58b09b4fd2afe82281878db441c83a3` |
+| IMPHASH | `d42595b695fc008ef2c56aabd8efd68e` |
+| TLSH | `T1BEF57C06BCA549E6C0AEB33289B35192BB35BC181B3527D72E90B7782F727D19C36714` |
+| SSDEEP | `49152:lVEkRHDjUOAvaPKnW5HgAhPsujHI5rUhX+EPg6fClA8YUr:lf1MWDskI5ApPEAu` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Vidar` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Vidar_035_1e13c2c9
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913"
+    family = "Vidar"
+    file_name = "Download_Movie_Maker_2.6_For_Windows_7.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:55:09"
+  condition:
+    hash.sha256(0, filesize) == "1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913"
+}
+```
+
+### Sample 36: `5fbe14b476d7bfc8`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde` |
+| Family label | `unknown` |
+| File name | `payload_decrypted.zip` |
+| File type | `zip` |
+| First seen | `2026-07-13 00:54:25` |
+| Reporter | `iamaachum` |
+| Tags | `dropped-by-RenPyLoader, zecoorigelabs-shop, zip` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3f78bb45edde3de709fdb0da1e44ea9e` |
+| SHA-1 | `e182ec877718ed306d7d628a9e953c8e8a98a1e9` |
+| SHA-256 | `5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde` |
+| SHA3-384 | `be1df78e54c587d240b7da89c3e724d926431e1664061c4d04be9556e3067183625acd99aa6595cd98bec542b090e153` |
+| TLSH | `T102A6317B07C087BAF3D847C4446A342E22F9F156B9A43559BB3369EFBC1A9974038607` |
+| SSDEEP | `6144:ERLX75Ozcl6BTMjhJBhxPh8/GTyndxPSyQznInVECV35wgsQ7zDXJ5slCqjgxoZ:EB5OzeHP4IQ7zSjgKZ` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `zip`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_036_5fbe14b4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde"
+    family = "unknown"
+    file_name = "payload_decrypted.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 00:54:25"
+  condition:
+    hash.sha256(0, filesize) == "5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde"
+}
+```
+
+### Sample 37: `e9a85beb46d004de`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6` |
+| Family label | `unknown` |
+| File name | `ws-Setup-Complete.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:53:22` |
+| Reporter | `iamaachum` |
+| Tags | `ACRStealer, dl-connectivityplatform-cc, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `91d8d003272a2df442f288fba6f89044` |
+| SHA-1 | `77dca9c1a9332d91e71eaf8d2554229a8d9ed8dd` |
+| SHA-256 | `e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6` |
+| SHA3-384 | `c77ad0381833228ab39bf5aa1c82b1e24be56ac8ea58f41adc88d6147a8ac817c78e804b5632bfc20a4825bf5cd3b8a6` |
+| TLSH | `T1BCD49E26DAD281F1E9434476B33FF71FAB361E0A8960C7DAD7F52CA0A972640D94F181` |
+| SSDEEP | `12288:YPTENJXZverMycADRVekdTcVGFXCy52rt3Kz8RgsoUF68+Kqsm:YP4NqMycADRwc4VsSy52rFZgslF6iq` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_037_e9a85beb
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6"
+    family = "unknown"
+    file_name = "ws-Setup-Complete.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:53:22"
+  condition:
+    hash.sha256(0, filesize) == "e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6"
+}
+```
+
+### Sample 38: `4a338c6ca796c18d`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:52:16` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `22fb2d30626d382bf149340e1c05f31f` |
+| SHA-1 | `7c601de7e06ddd56313e3b0223d944692389ecec` |
+| SHA-256 | `4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b` |
+| SHA3-384 | `ccc46d32c1e16f19c4c4fe6845838e262d9c06fe5ba58761a8dbd01b08ff750e6ca3306ecec7b200a316408167304773` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T12BE6332492D122ADD773A13D7ED152A9D0ACB8B54B32C98F13DC82B17E672E04D3D61B` |
+| SSDEEP | `393216:9o5q+BVoT32L146DVYcXMCHWUjXVcuI3/PGTAI:9TQm32L14C5XMb8XiH/O7` |
+| ICON-DHASH | `b271e8cccce8f0f0` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_038_4a338c6c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:52:16"
+  condition:
+    hash.sha256(0, filesize) == "4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b"
+}
+```
+
+### Sample 39: `2879a63cd7c75388`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed` |
+| Family label | `unknown` |
+| File name | `busywget.sh` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:47:19` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `a917421bb484903458f76f27bb513140` |
+| SHA-1 | `75a7531ea5919f8eeacf7ad2f3238f2189be8ba6` |
+| SHA-256 | `2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed` |
+| SHA3-384 | `384f91dfe00fd3ea395fa50f6659c8c2081130504e1cf39fea832d143cc552a1000996fddb1b352198dec5e7a19004c6` |
+| TLSH | `T1BB215BDE46608ACC4982864979708588DA9E4BC1EC43CF4D6CD905BB31BCA74776FF84` |
+| SSDEEP | `24:H2qlUb8LwIqausW40Ln8pgRl89AJ+22MSKvgzro97C6:WqSDausW40Ln8pgRl89AJ+2zSnkpn` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_039_2879a63c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed"
+    family = "unknown"
+    file_name = "busywget.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:47:19"
+  condition:
+    hash.sha256(0, filesize) == "2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed"
+}
+```
+
+### Sample 40: `62bf6f399d872c70`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb` |
+| Family label | `unknown` |
+| File name | `callaputa.sh` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:44:17` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `e5674cb6d8a7d0955038237edafd8767` |
+| SHA-1 | `4c1c8df8e43554f5aed9cedc0ef1233af43820c8` |
+| SHA-256 | `62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb` |
+| SHA3-384 | `b2cbefd7eb5dd3359200f523f0a6139ebb9ae62d44bf63c9008c167229748751075faafa3e687be6e7e6b1f8cdd5ca6d` |
+| TLSH | `T17431FE8D4A30D6CD5E838A4C7A7096C4D95E5782FCD2CB0DB9D5095B207C27836AFF81` |
+| SSDEEP | `48:kUOYiYiwUKa9amyW4mW4toNUypcpjQkU8fnY8ff+ffN3+D+LEoDZuAKqP:zOYiYiw7a9aZW5WRUySE8fnY8ff+ffN1` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_040_62bf6f39
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb"
+    family = "unknown"
+    file_name = "callaputa.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:44:17"
+  condition:
+    hash.sha256(0, filesize) == "62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb"
+}
+```
+
+### Sample 41: `1c62a0417a9b2f70`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:27:16` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `9874382b087411b023addcd6496789a3` |
+| SHA-1 | `1169dfef4a173dc66d1ff3b177b96b222d4d9035` |
+| SHA-256 | `1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c` |
+| SHA3-384 | `067f4f4d7540090826a9e3b50d1497902f65ae486e655fdac898ee22d50e07750cb315de0b4cfa6b18b3aef6074f08d8` |
+| TLSH | `T12C236C6516857C14AE98C4365C7F2F0CB9AD43E6314492EE7FCE3CF28C4A6ADA20971D` |
+| SSDEEP | `768:nr9NyXsZztCh9GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:rHusZ7cr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_041_1c62a041
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:27:16"
+  condition:
+    hash.sha256(0, filesize) == "1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c"
+}
+```
+
+### Sample 42: `6962c8746be0f2b3`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5` |
+| Family label | `ZigClipper` |
+| File name | `dashboard.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:13:00` |
+| Reporter | `iamaachum` |
+| Tags | `45-115-27-4, celebration-internet-cc, exe, signed, ZigClipper` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `1381a14bc511b5e2141ad7531cefb7c0` |
+| SHA-1 | `70faf60d0ee0296ae189d00fe72a223e91ef70b4` |
+| SHA-256 | `6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5` |
+| SHA3-384 | `5b6b143b4787238eed64fdda4bb70f92785917e7d6b8682b05bca7f417654fc8c8251090f9dca5e0b68a61da2afea5d8` |
+| TLSH | `T12FE4398F452899D1D43972B3C02AFB0EAB39FCA5669591DF1A673321F93C5498C0B237` |
+| SSDEEP | `12288:8m0uYRrH3YK+Ci3eplBc/rwmn2cQDuGNaArnTxZaVjE5wTWvtXHfjKn5T7cy1iVT:8m0uYRrH3YK+Ci3eplBc/rwm2cQDuGNJ` |
+| ICON-DHASH | `71d4e8ece8e8d470` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ZigClipper` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ZigClipper_042_6962c874
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5"
+    family = "ZigClipper"
+    file_name = "dashboard.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:13:00"
+  condition:
+    hash.sha256(0, filesize) == "6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5"
+}
+```
+
+### Sample 43: `99dc1ea286648ec8`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593` |
+| Family label | `unknown` |
+| File name | `zira-miszsn.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:11:52` |
+| Reporter | `iamaachum` |
+| Tags | `dropped-by-ACRStealer, exe, kffd3-vexlatech-cc, ZigClipper` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `80588ad7bcc4c92c0b9e005178cf8414` |
+| SHA-1 | `8caf6a3d3175bb375650179e74ec405169f7fb27` |
+| SHA-256 | `99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593` |
+| SHA3-384 | `03ede0f4fe3eba48f783bca725f2830570ef39ac8d7ebe4b8cd49fe0f7161b38126d3e3acba7092feaece74475e9cdf6` |
+| IMPHASH | `d7a140ad86093e229082e6f8b7493b94` |
+| TLSH | `T19B06011DE38D52E8D213D134CBA65232EBB4B85A0761B9EB165EC7192FB79D01F3A310` |
+| SSDEEP | `49152:K6K1K+gBUcOSrSCVb6KbS7RWxHzwiIH5NZSV4P0coLPdAptvDy1d+HzKbC6Hsq1q:huQzG0YQVA0/LPmry1dhLTjUCc` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_043_99dc1ea2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593"
+    family = "unknown"
+    file_name = "zira-miszsn.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:11:52"
+  condition:
+    hash.sha256(0, filesize) == "99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593"
+}
+```
+
+### Sample 44: `1d55f1f5d777b3ed`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58` |
+| Family label | `unknown` |
+| File name | `wget.sh` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:10:47` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3e2923e53eb5fb2d0e614b89d28924ed` |
+| SHA-1 | `ea6140645b8fa5245b204912a8b432355cd6fd0a` |
+| SHA-256 | `1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58` |
+| SHA3-384 | `9f2bc151c9f46e725efb73c55b226daddf6edf816a4ce86ade96552cda87a71573072f2653889c9423809db9ae2e8f90` |
+| TLSH | `T1731106DE5A219ACC4D428A89797046C4D99E83C1FCA3CF0DA9E1456B20BC3653A6DF82` |
+| SSDEEP | `24:HEUlUb8LWJauyW40LNCpgRkU89A3+22MoKvg5ro9xC6:kUoJauyW40LNCpgRkU89A3+2zoNkXn` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_044_1d55f1f5
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58"
+    family = "unknown"
+    file_name = "wget.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:10:47"
+  condition:
+    hash.sha256(0, filesize) == "1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58"
+}
+```
+
+### Sample 45: `41f967f412cf6e45`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207` |
+| Family label | `unknown` |
+| File name | `wr.php` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:08:15` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `6999acadf419ac12aea0439a797ac5c5` |
+| SHA-1 | `c1d0438e82d97d54913267d7279b5e9f19c4a9dd` |
+| SHA-256 | `41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207` |
+| SHA3-384 | `1ecc551bb31ef932b20609a4fbf66a23799d3aaa3bd841ddf2b716897d79eee06b2e2597eeaf03b4f7959290d0dd0817` |
+| TLSH | `T11EC27D966A867C44BDC94A3E4CBD2B1D6DF5C3D1324942AC3D8A3C719C11F9CD618B1A` |
+| SSDEEP | `768:c8vCB+25j6es8RL9FYpMSUpi+20qUpi+20YQX:c8l25Jdd2QX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_045_41f967f4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:08:15"
+  condition:
+    hash.sha256(0, filesize) == "41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207"
+}
+```
+
+### Sample 46: `b871f50abbd7e06e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c` |
+| Family label | `LummaStealer` |
+| File name | `L2703900.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:07:29` |
+| Reporter | `iamaachum` |
+| Tags | `ACRStealer, dropped-by-RemusStealer, exe, logs-incidentmanager-cc, not-LummaStealer, signed` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `0960024eb037c62476bc4d22db17f864` |
+| SHA-1 | `0fc6d6a2887b18d8bd931151c8015d86429a8389` |
+| SHA-256 | `b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c` |
+| SHA3-384 | `a1e84daadfe67d7fa9bbc034553aba63b9c5a97a63c8d7b07d47f84e442ab68481737f33bc39408d4f105918ac7a82a3` |
+| IMPHASH | `1aae8bf580c846f39c71c05898e57e88` |
+| TLSH | `T105D55B51FEC745F2E807163295E763AF2339AD054F35DB93EB047A79EA7B2D10822209` |
+| SSDEEP | `24576:9Hf9kGKrug/LrfcGGt3Ydcm13EyKm7dsg6SkgIiutw7JQ3QfvaTYayABF6d1OeOd:9/9RTt+IOKV0aV6d1OQFxbsJdR3` |
+
+#### Technical Assessment
+
+- The sample is tracked as `LummaStealer` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_LummaStealer_046_b871f50a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c"
+    family = "LummaStealer"
+    file_name = "L2703900.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:07:29"
+  condition:
+    hash.sha256(0, filesize) == "b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c"
+}
+```
+
+### Sample 47: `c1d77fd1e31a3470`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a` |
+| Family label | `unknown` |
+| File name | `clean_driver_dll.exe` |
+| File type | `exe` |
+| First seen | `2026-07-13 00:06:05` |
+| Reporter | `iamaachum` |
+| Tags | `dropped-by-RemusStealer, exe, kffd3-vexlatech-cc, signed, ZigClipper` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `8d8762ae9961e6b75bc4b8ce1edfbb61` |
+| SHA-1 | `6e769a664dd64b933d569c7ff6f86a721f92b43a` |
+| SHA-256 | `c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a` |
+| SHA3-384 | `f4bb8e02c30fc557c27cb776fd03f5f85e12211339c205d423edcb31329a194778acba23160031d6feae39f6da524072` |
+| IMPHASH | `d42595b695fc008ef2c56aabd8efd68e` |
+| TLSH | `T10B465A17BDA149E9C0AE933188B651967B74BC090F3223DB2E90B7782F72BD09D35B54` |
+| SSDEEP | `24576:7w7or5z4qu4WfAesZBYYbqPLoPdiCO7oi4Q5nEt07BvA2Bele5rK2y0HE0WhYq:7w7S50qCfZsYcqDAO7ow5nEU8iof` |
+| ICON-DHASH | `b474f0f0f9f9f968` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_047_c1d77fd1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a"
+    family = "unknown"
+    file_name = "clean_driver_dll.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:06:05"
+  condition:
+    hash.sha256(0, filesize) == "c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a"
+}
+```
+
+### Sample 48: `319f9b804960033b`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2` |
+| Family label | `unknown` |
+| File name | `p` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:03:44` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `5ee7c0f871d1cf686ee225e3e5ce9c5d` |
+| SHA-1 | `5aa222e4510740f778c6a210cc3af393c36a8568` |
+| SHA-256 | `319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2` |
+| SHA3-384 | `ebb359b51a5328ebd1728af072bab9c71aaa7422f94fb4f0cfaf15d52f56c73ee7cfce51f7cfd965477f9529c92b5db6` |
+| TLSH | `T10F01ABDA4940AD4080299A5DA2E7A1D0B451C3CE094A0F787F9C5E2CFB8C910B03AF8D` |
+| SSDEEP | `12:dOXOsYxcysE+vhCFN0zvy/RQvZowHkai8CFles9CDVTCTviFSCeO/l0FCs30auD:kXCKysE2hi0ziQvZoha36Hw5c5287307` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_048_319f9b80
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2"
+    family = "unknown"
+    file_name = "p"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:03:44"
+  condition:
+    hash.sha256(0, filesize) == "319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2"
+}
+```
+
+### Sample 49: `0383c4aaa366711c`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd` |
+| Family label | `unknown` |
+| File name | `wr.php` |
+| File type | `sh` |
+| First seen | `2026-07-13 00:00:44` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `f18174b0501012dda634c047d164f508` |
+| SHA-1 | `acc30497fa14baa750045ea5f44cd6788fc00798` |
+| SHA-256 | `0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd` |
+| SHA3-384 | `74fe4b32e85423fe51075e2774f34221826214f77d335267b74fde8a2194070c20a43fb1216420532db01d324c378b7d` |
+| TLSH | `T157C27D966A867C44BEC94A3E4CBD2B1D6DF5C3D1324942AC3D8B3C719C12F9CD618B1A` |
+| SSDEEP | `768:08vCB+25j6es8Rb9FYpMSUpi+20qUpi+20YQX:08l25Jtd2QX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_049_0383c4aa
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:00:44"
+  condition:
+    hash.sha256(0, filesize) == "0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd"
+}
+```
+
+### Sample 50: `05b70f3f4f9bda0e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 23:52:10` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `308e5edf5571d41dcafc02c64b768bdb` |
+| SHA-1 | `199cae35735258460c0026e890fb5e03a1bb835e` |
+| SHA-256 | `05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356` |
+| SHA3-384 | `e859a34ac76438bed42d173fc10aa295e864486686881786e4a749ba3423a3f2c77fdaa9c5372c81af56b9e4fbf1983b` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T195E63329AEE412FDD5774039EEE199D2E678B8311B31C99F139C86325E232D01E3D267` |
+| SSDEEP | `393216:G6ox7Yps+ID+u+KbmSyXMCHWUjXccuI3/PGTAI:GSlID+uwSyXMb8XJH/O7` |
+| ICON-DHASH | `e86864e1d8e8ec5a` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_050_05b70f3f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:52:10"
+  condition:
+    hash.sha256(0, filesize) == "05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356"
+}
+```
+
+### Sample 51: `4d9a77f6f96f6089`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6` |
+| Family label | `Gh0stRAT` |
+| File name | `接码后台-3.0.1（电脑端）.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 23:44:22` |
+| Reporter | `CNGaoLing` |
+| Tags | `exe, Gh0stRAT, SilverFox, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `8e3cc95612c9f5c531bd6b8eb004dd10` |
+| SHA-1 | `434240e2a416f73ff8498f8bbc7597ac57599c60` |
+| SHA-256 | `4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6` |
+| SHA3-384 | `372fb5f743e1d9a992bb64ecff314af13625870905af5e1a341d09a9ed473f366bf94d926debc702aff830357218a75b` |
+| IMPHASH | `40ab50289f7ef5fae60801f88d4541fc` |
+| TLSH | `T13E573313F6CBA13DE05E4B321972E15144F376A1B633AE528BF8C8A8CF694901D7E356` |
+| SSDEEP | `786432:3Pi66SkmiZmrrMpjrrM1pnUNOJYMYwk5IwFwo/BNO:3PBkmiErM9M/nUNOJYwk5vFw0Bg` |
+| ICON-DHASH | `0000b2c1f1f0e8e9` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Gh0stRAT` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Gh0stRAT_051_4d9a77f6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6"
+    family = "Gh0stRAT"
+    file_name = "接码后台-3.0.1（电脑端）.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:44:22"
+  condition:
+    hash.sha256(0, filesize) == "4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6"
+}
+```
+
+### Sample 52: `dfacebad09d75d41`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da` |
+| Family label | `unknown` |
+| File name | `Feishu_Setup.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 23:43:47` |
+| Reporter | `CNGaoLing` |
+| Tags | `exe, SilverFox, ValleyRAT` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `26d7035a2330793f6d67f2b3c5429f95` |
+| SHA-1 | `e6c21df0a8142465a410de7e6da31ece2c2fab4a` |
+| SHA-256 | `dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da` |
+| SHA3-384 | `c4c853d16c73d0986cc635b6a4c1ca4c0f4932055286fff338d3c83a0da44d8f76c3a2c898e6f7bd0f0a3ae17a6c79bb` |
+| IMPHASH | `48fe88e0492732b61e81e006305b27a1` |
+| TLSH | `T1AC36BE96AEAD40D8D895D075C557491BE7B6BC242331838B317DFA5B6F333920E2E322` |
+| SSDEEP | `98304:qTQUX2D2LH8oRO+TJOTs5BqrSZ5DgOc+pV6UHsiXMoj9ghi1RebMIg9Cbk/V+thx:qF2UH/rTJOTs5BqrSZ5DgOc+pVNsiXMb` |
+| ICON-DHASH | `a084a8d089a8a7a6` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_052_dfacebad
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da"
+    family = "unknown"
+    file_name = "Feishu_Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:43:47"
+  condition:
+    hash.sha256(0, filesize) == "dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da"
+}
+```
+
+### Sample 53: `e9b3f3a8f1a509b6`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 23:25:46` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `6b3f65093a05923a72038586ff77ba55` |
+| SHA-1 | `6fa41d32b9ed1ed28e5552ea31c751f17d9352ef` |
+| SHA-256 | `e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc` |
+| SHA3-384 | `04d90a7113519a0c739b60cc9f1740ec654832f79084f53390e0e25266eaf683fe19f2ccf9f2528aaa2f81834bdabd48` |
+| TLSH | `T185235B512A857C14AA98C8371D7F2F0CB9A942E6324452DE7FCF3CF68C4AADD920961D` |
+| SSDEEP | `768:xQFWzZx5i9GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:qkzZcr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_053_e9b3f3a8
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 23:25:46"
+  condition:
+    hash.sha256(0, filesize) == "e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc"
+}
+```
+
+### Sample 54: `97171de21a4982d2`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e` |
+| Family label | `unknown` |
+| File name | `97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e` |
+| File type | `unknown` |
+| First seen | `2026-07-12 23:00:18` |
+| Reporter | `EnthecSolutions` |
+| Tags | `enthec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `fd725a2c64f4bb33e4ca78414995f8da` |
+| SHA-256 | `97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `unknown`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_054_97171de2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+    family = "unknown"
+    file_name = "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:18"
+  condition:
+    hash.sha256(0, filesize) == "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+}
+```
+
+### Sample 55: `912909ee04be855e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13` |
+| Family label | `unknown` |
+| File name | `912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13` |
+| File type | `unknown` |
+| First seen | `2026-07-12 23:00:15` |
+| Reporter | `EnthecSolutions` |
+| Tags | `enthec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `7ab6e5d426c9a4e4b0d3d043cc8f917f` |
+| SHA-256 | `912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `unknown`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_055_912909ee
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+    family = "unknown"
+    file_name = "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:15"
+  condition:
+    hash.sha256(0, filesize) == "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+}
+```
+
+### Sample 56: `27f22ab5b7b65234`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263` |
+| Family label | `unknown` |
+| File name | `27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263` |
+| File type | `unknown` |
+| First seen | `2026-07-12 23:00:13` |
+| Reporter | `EnthecSolutions` |
+| Tags | `enthec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `e8b72ecb6ff9afb5c8f396f0277324b6` |
+| SHA-256 | `27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `unknown`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_056_27f22ab5
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+    family = "unknown"
+    file_name = "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:13"
+  condition:
+    hash.sha256(0, filesize) == "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+}
+```
+
+### Sample 57: `46d64d84eb8912ec`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 22:52:12` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `197846dd206377ebdfb1519989a59d82` |
+| SHA-1 | `47dab623d1b32009c813b72ce2e46cac8b374834` |
+| SHA-256 | `46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0` |
+| SHA3-384 | `ba0885d03a49f29788c1fa9a9bad222fd5eff4719c546191fb56166c22673ac4ad7e2bdcb40b112085dcd7139e9d486f` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T170E633195AE405F9E6F3813CEED263D9E5C4B4794B36CADF0B9843B1AD272D0483D226` |
+| SSDEEP | `393216:5gAhKu/WpN/x5+FYKV+zxVYXMCHWUjXAcuI3/PGTAI:5gbpNpAJVqYXMb8XVH/O7` |
+| ICON-DHASH | `407860c0dcf9f100` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_057_46d64d84
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 22:52:12"
+  condition:
+    hash.sha256(0, filesize) == "46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0"
+}
+```
+
+### Sample 58: `3dbe040d00856791`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564` |
+| Family label | `WannaCry` |
+| File name | `3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564` |
+| File type | `exe` |
+| First seen | `2026-07-12 22:15:17` |
+| Reporter | `pawscobbler` |
+| Tags | `dionaea, exe, WannaCry` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `776fc765041a985b5e30f281975ae6b7` |
+| SHA-1 | `3b1244a9ecac0a16764cdfc563d1586bf975647c` |
+| SHA-256 | `3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564` |
+| SHA3-384 | `a2d39ed838f9d4ad7e8116474e7bb2417524e413336f04b6ed9c77af1ebbdc46e17b2442aee7e1e0e1473a87dd31d2ac` |
+| IMPHASH | `0cdadfa1098d845dd3b4cf92625b5f04` |
+| TLSH | `T10036C00A379CC0B8C456927498B75E25E7B7BC4A1334C24F5B64CB6A1F63391BA39B13` |
+| SSDEEP | `6144:jIYVTH5DgSgmE9l9yNqIYVTH5DgSg8ajldktM0XXrs2Qh:jbLgmwbLgPluxQh` |
+
+#### Technical Assessment
+
+- The sample is tracked as `WannaCry` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_WannaCry_058_3dbe040d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+    family = "WannaCry"
+    file_name = "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+    file_type = "exe"
+    first_seen = "2026-07-12 22:15:17"
+  condition:
+    hash.sha256(0, filesize) == "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+}
+```
+
+### Sample 59: `82dcb68bc62aca80`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53` |
+| Family label | `unknown` |
+| File name | `82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53` |
+| File type | `sh` |
+| First seen | `2026-07-12 21:58:55` |
+| Reporter | `c2hunter` |
+| Tags | `sh, wraith` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `d32c108fee5841a0cb1b2a475350bb39` |
+| SHA-1 | `baf9287b832db89ac776ab0ba707e9fa85be9df4` |
+| SHA-256 | `82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53` |
+| SHA3-384 | `f28ebb9c41d1e85e6ccfc4903dba899eef95e7c99a809ad7682e9fa9fcd7ff7d53554464a990e7c6ad1a0fcec84829b7` |
+| TLSH | `T1F05125E4EC28C8303B79802EF1CF61A45AC3482F04593959325FBA990F5C45CB6AF77A` |
+| SSDEEP | `96:cOOniRH6cAD11LqjIZtwtJDxe7JdRqU4YGF:006bHnwtJD07JdUb` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_059_82dcb68b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+    family = "unknown"
+    file_name = "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+    file_type = "sh"
+    first_seen = "2026-07-12 21:58:55"
+  condition:
+    hash.sha256(0, filesize) == "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+}
+```
+
+### Sample 60: `7d09e2f4a9ee2502`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6` |
+| Family label | `Stealc` |
+| File name | `QuickFetch.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 21:52:19` |
+| Reporter | `iamaachum` |
+| Tags | `87-120-104-81, AsgardProtector, dropped-by-OffLoader, exe, Stealc` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `852d9a34235fc2c168be654268ff28c3` |
+| SHA-1 | `de89589ca983276dc41a74c7e8ba919c6a6ecf62` |
+| SHA-256 | `7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6` |
+| SHA3-384 | `6d51fc3da0350f6dd5e1f223c69b8b433c12f7f9de905aadfd252e2d0e54d06dfaaad1e0751965c535234063135bea8e` |
+| IMPHASH | `646167cce332c1c252cdcb1839e0cf48` |
+| TLSH | `T1F0A5330A96F88852D9D40B7104ED77161A32B9639B3443CB4A88CC5FBE2B8D5D6317BF` |
+| SSDEEP | `49152:AIyWYyaWqk37e+vHdDoupcwK0Kmb8w8tjEnQzPeq:AIWpAv+nwxid7e` |
+| ICON-DHASH | `86b5dad9e9449a33` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Stealc` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Stealc_060_7d09e2f4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6"
+    family = "Stealc"
+    file_name = "QuickFetch.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 21:52:19"
+  condition:
+    hash.sha256(0, filesize) == "7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6"
+}
+```
+
+### Sample 61: `5aa8a38b28fc275c`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 21:52:11` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `89a8f46c8196d1ff1a92c2f675b172df` |
+| SHA-1 | `3b583c7d634ff04968b198dfec44e181bdd09a6f` |
+| SHA-256 | `5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4` |
+| SHA3-384 | `1afb82d9a5dbfd5cb6e7c4c49d3331a4e65a6fffcba6d54fe21d6a187f11f851d6b8e805f9a51b878601bc8c81a9c2e2` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T193E6334CB5E106DFFDB3803ECEE16292E294B86A0371CA8B5B5043A65D673E14C3B657` |
+| SSDEEP | `393216:qb0fjSG41b/3xXMCHWUjXMcuI3/PGTAI:qUjsvxXMb8XZH/O7` |
+| ICON-DHASH | `70f0e4c4c4e4f070` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_061_5aa8a38b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 21:52:11"
+  condition:
+    hash.sha256(0, filesize) == "5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4"
+}
+```
+
+### Sample 62: `4820ca1776bc4bb9`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673` |
+| Family label | `unknown` |
+| File name | `aypapo.sh` |
+| File type | `sh` |
+| First seen | `2026-07-12 21:41:11` |
+| Reporter | `adliwahid` |
+| Tags | `none` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `262031a1644860ef950f4ccae6984846` |
+| SHA-1 | `f9ae6100f2dfdb352bcdeb48092745e284e3d853` |
+| SHA-256 | `4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673` |
+| SHA3-384 | `1e1b183fac2a7bed0eee2542746cb28ca4f1cbb91a2272b8ddd5aedeb238070098b45125981f66d523c0bdcdf475c3f3` |
+| TLSH | `T12411BACF0211C708D897E674B1A7D854A56FE9A022860F4BAAE5B836E54FCA1700AF90` |
+| SSDEEP | `24:IGJNJx+k5JPJB+gJBPMgJBvRJNNvJd5JLJz/Jm3gJow+YJob+BJoe+yJoZ+E:RJNJUk5JPJNJKgJPJLJd5JLJz/JFJXvu` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_062_4820ca17
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673"
+    family = "unknown"
+    file_name = "aypapo.sh"
+    file_type = "sh"
+    first_seen = "2026-07-12 21:41:11"
+  condition:
+    hash.sha256(0, filesize) == "4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673"
+}
+```
+
+### Sample 63: `5b7f993b896cc48c`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916` |
+| Family label | `Mirai` |
+| File name | `ppc` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:36:31` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx-dec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `0d858d18d15b54eec99ed7ad33d664de` |
+| SHA-1 | `2c625268d90b69dcc2c2d46f54259443354d9035` |
+| SHA-256 | `5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916` |
+| SHA3-384 | `2235e39930f3310bbca59983d38c73997efef93c86078903272ab4038abbae1b41b8ef4d61e55c1c2a29579e6a125ee5` |
+| TLSH | `T11DD32805730C0847D2673EB43B3F27D1D7AFDA8221A4EA05254FAA8E9172E731589EDD` |
+| SSDEEP | `1536:XVh64FT17h1xpMBbijtnoRFvAPyx+MQOip8qEDppqxdcXVrtT:XpTlh1xSGBoUPn8NvJ1` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_063_5b7f993b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916"
+    family = "Mirai"
+    file_name = "ppc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:36:31"
+  condition:
+    hash.sha256(0, filesize) == "5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916"
+}
+```
+
+### Sample 64: `7456bd8a1a137573`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9` |
+| Family label | `Mirai` |
+| File name | `i686` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:56` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx-dec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `f0278111f1512a47dad2b0d397c37558` |
+| SHA-1 | `efa913e30caa157eaa9b4d58714d6b651328c646` |
+| SHA-256 | `7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9` |
+| SHA3-384 | `33a613ef87f4c7e3c6ded96463be9b2c6a69779b9b1e49984ae1775830d95340887eb90fc434ca9c30e5e7b8964ff5b5` |
+| TLSH | `T10AA339C5FA83D1F5D81708346162BB3FCB31C9AA8066DA4ADF9A6F31CA37541C716368` |
+| TELFHASH | `t1e15128f7197b0cd8abd0ad41d31e6b512c1eeb7b21a032f141b39425226bec241b9c3d` |
+| SSDEEP | `1536:jhQDIyL3UWM9Gzu4ZHr2v+1j9UxrB4lWDSmi8:jh2TAWM0zTr2v+1I4w2w` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_064_7456bd8a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9"
+    family = "Mirai"
+    file_name = "i686"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:56"
+  condition:
+    hash.sha256(0, filesize) == "7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9"
+}
+```
+
+### Sample 65: `ab12736b7adf8b43`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141` |
+| Family label | `Mirai` |
+| File name | `mpsl` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:49` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx-dec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `341c7ff48769487720d2a9ca449c1b07` |
+| SHA-1 | `13237fc1b6611172e49c895d847c4300a4a57040` |
+| SHA-256 | `ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141` |
+| SHA3-384 | `fd4c5c4fb6f5cef61cfd63e4197404c8d1bee59f866785fcda12d4773fa812c91bce1c9dd384de70d301fc3fca6a9614` |
+| TLSH | `T16704C70AAFA10EBBD8AFDD3706E90A0229CCA41725A43F757574D528F64E60F1AD3C74` |
+| SSDEEP | `3072:1IYNJvs8Wt8En7+RgCNelBg/R5DLcVk+:1ICU8E8EdC0lBs53P` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_065_ab12736b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141"
+    family = "Mirai"
+    file_name = "mpsl"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:49"
+  condition:
+    hash.sha256(0, filesize) == "ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141"
+}
+```
+
+### Sample 66: `9d140cfba3ee024e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f` |
+| Family label | `Mirai` |
+| File name | `x86` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:45` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx-dec` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `551bd323c2e19a92964a6c66d892ffb2` |
+| SHA-1 | `0c922f6b727d51686c40393d87832da7f70d24df` |
+| SHA-256 | `9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f` |
+| SHA3-384 | `7c049d10da57e6dc4276ab30037af13af568b82ea154132011c701a412afbf5579825de2ee9f98ddf407f8bd788460b9` |
+| TLSH | `T1F0A349C5D6C3D8FAFC5204362026BF36DE33D67E212ADE87C3AD9A21A831511C61A75C` |
+| TELFHASH | `t1a15115fb1d7a0de8f7d46840d30e1fe12d5ed73b152076e245b25c6022a7ac192bac39` |
+| SSDEEP | `1536:NFyiVawbC+RJ8dA4MP2Et/U9WViSu5jrckeSH:NQ7ARJaJAt8oruZrcK` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_066_9d140cfb
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f"
+    family = "Mirai"
+    file_name = "x86"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:45"
+  condition:
+    hash.sha256(0, filesize) == "9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f"
+}
+```
+
+### Sample 67: `49c9517333340e28`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca` |
+| Family label | `Mirai` |
+| File name | `arc` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:41` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3cd1427b73dff5a2d22ea729e645751a` |
+| SHA-1 | `d17d5475c5c14afbb1d3b4b9d0d47e71d18fbe28` |
+| SHA-256 | `49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca` |
+| SHA3-384 | `e02c8a802284da6f900189f7ac1662228fc1fc1989889c9e73613b96e02aa6062126ffc2fc6692f6951506b5ca08c885` |
+| TLSH | `T139B3AEEFF34B1491D86187F017C39BEE3E6322119E6B95E77C0E263A19761DB090A391` |
+| SSDEEP | `1536:4BL+VT0QJGaWYT/0nWNp3qZWSY+BP5w+gx/LW0:6ADGaNzYWLqZ9Y+Bi+gxq` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_067_49c95173
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca"
+    family = "Mirai"
+    file_name = "arc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:41"
+  condition:
+    hash.sha256(0, filesize) == "49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca"
+}
+```
+
+### Sample 68: `bf572a2541586cd3`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52` |
+| Family label | `Mirai` |
+| File name | `ppc` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:40` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3d66a3731b2f17fb97d2caafc93853c2` |
+| SHA-1 | `4fe6c8ee0b4188ab913c108dff0b9ce32f10b230` |
+| SHA-256 | `bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52` |
+| SHA3-384 | `73dfb0dbd4f6b2bd08ec225e33000930f919577e0182ec1b4264ea21b63cb3c6d99cc2ee029a1e24607171a137436ed9` |
+| TLSH | `T16B3302A8E801AE75D3EB1DF019DAD1D2B72DCE043AD6CCD10294DF17342766E9D8DA84` |
+| SSDEEP | `1536:Fxb4DADTXQom9YFRxkVrxorGNtjb4u+qgw09q:F14UTXdR6VmrGNtjb4u+qgwT` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_068_bf572a25
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52"
+    family = "Mirai"
+    file_name = "ppc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:40"
+  condition:
+    hash.sha256(0, filesize) == "bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52"
+}
+```
+
+### Sample 69: `c32bc2da712e3832`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817` |
+| Family label | `Mirai` |
+| File name | `sh4` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:38` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `7de6a1ecba3ee5fdbc01d86eedb08b2d` |
+| SHA-1 | `16a003b30582e1563d3b37ed416c2a0b2773a42e` |
+| SHA-256 | `c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817` |
+| SHA3-384 | `d876fa5ec38a0db3ccb89dc4bf9fc18f4ad9e4b3c0068a7ecf4b1ac9951de055a0632a729947512c1be0b9e919f093c6` |
+| TLSH | `T10AC36AA3CC766F59C658D0B4B074CF7A6B53992091872FBA156BC3B98043D8DF6093B8` |
+| SSDEEP | `1536:saIG69k86J1OCgmp2YtgLoNChdEmZsxkAWDnMGk+KRz4UIRbbW:sE9nOVatgLMKymZseAWL8xRQbW` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_069_c32bc2da
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817"
+    family = "Mirai"
+    file_name = "sh4"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:38"
+  condition:
+    hash.sha256(0, filesize) == "c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817"
+}
+```
+
+### Sample 70: `1d788f673ebf143b`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4` |
+| Family label | `Mirai` |
+| File name | `i686` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:37` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `c40a8c0a44a315b3a080a114b056f4e8` |
+| SHA-1 | `5f7199426181df61deff1a026956e2feb6efa114` |
+| SHA-256 | `1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4` |
+| SHA3-384 | `8fb947250905b108bc067a06955f8ef777f99e509e0a0ded8d8498a28ec3d07695b66108a7341b6f88bfe2041c17da75` |
+| TLSH | `T1AD13F153B1DB7B08D26F30B92083AAEF24959635043807CBF16279239C76B2773BC566` |
+| SSDEEP | `768:FHsX72oAEJB73CwsgQk+uDHlhoUxW2LOVp7crnDn68f5dn8UnbcuyD7UHQRjZ:Fi7QEJB7VsgQkBDHlho0W2LOVpwrLt56` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_070_1d788f67
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4"
+    family = "Mirai"
+    file_name = "i686"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:37"
+  condition:
+    hash.sha256(0, filesize) == "1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4"
+}
+```
+
+### Sample 71: `370b799b34c7742a`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23` |
+| Family label | `Mirai` |
+| File name | `spc` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:36` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `87eed0c7b549c8d3e976d687cd1bf1e2` |
+| SHA-1 | `ded481d19ca08d29694466ac6d916badb6440595` |
+| SHA-256 | `370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23` |
+| SHA3-384 | `3767069859ae59121b4c42ffff26441915470aa36af60f8ff9faabc54a63dff7019f390a4fdfc90ded6fbe52543b5f64` |
+| TLSH | `T1F3134B1355BD6607C0F8A67D02B39717B2DA775C90949B1FBE3A0ECBBA413901F2A670` |
+| TELFHASH | `t13ce02201ac658a18999b9a74ddad02a99600232761164b208f00dbe0c83f044e70ca9a` |
+| SSDEEP | `768:ImiujdRTLGkD1Sxu1qU8eCx9xwGW+R2/kPTnbz4zTlG986jOMGj4QLAOYPZJ:ImiujdAkpSw1qReCJXrR6kPTbz4zvXAF` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_071_370b799b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23"
+    family = "Mirai"
+    file_name = "spc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:36"
+  condition:
+    hash.sha256(0, filesize) == "370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23"
+}
+```
+
+### Sample 72: `d417a52753637327`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd` |
+| Family label | `Mirai` |
+| File name | `m68k` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:34` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `1184540cf579b8144460681a0d9ad857` |
+| SHA-1 | `4828088c4cc283025ac0e3917cdcffbfb1bbcdd1` |
+| SHA-256 | `d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd` |
+| SHA3-384 | `b97f5f93cf5877c16ccf77ca41fc48fddebaa88c22f0f18bda0cfba6f29bf2e805670f04af49ebda0bb5c561b9abaae5` |
+| TLSH | `T1D5F32AC7F900EEBDF81AE37648530809B130B79254925A377357797BEC3A0E8456BE86` |
+| SSDEEP | `3072:OFsZf1vj7dlJSx0mCdSaVgjbi6LVGFJzLOyZeXkPwr+:ffZJSxmdS5LM7KyZZPg+` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_072_d417a527
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd"
+    family = "Mirai"
+    file_name = "m68k"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:34"
+  condition:
+    hash.sha256(0, filesize) == "d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd"
+}
+```
+
+### Sample 73: `5e9e0863515b6a21`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206` |
+| Family label | `Mirai` |
+| File name | `mpsl` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:33` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `6c6f8164ae25f70af0cac5ad2de6b6e7` |
+| SHA-1 | `adbbc59013a28c0685160d1f5445d4d7c7aa560c` |
+| SHA-256 | `5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206` |
+| SHA3-384 | `5b40794141dd88e4fa59ff8caec9094f629a5feb99ed88bd9cd6166ff417b928920ece1f7a58b3e632863bfaa8190d5a` |
+| TLSH | `T1AB43024DEEF9AA88F85B2075C2E961B5394CB2E0307D09991711CD16B368E6F9E0CA53` |
+| SSDEEP | `768:r0kckMkkTvXsXtUr78A4sK/p4faeyCDMZJfGB0iu6OSMRC477I9hBVrrtrcWc:erVTXsXtUrgEYkyAMZJeVOE48xG` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_073_5e9e0863
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206"
+    family = "Mirai"
+    file_name = "mpsl"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:33"
+  condition:
+    hash.sha256(0, filesize) == "5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206"
+}
+```
+
+### Sample 74: `9453e63799fdac8c`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1` |
+| Family label | `Mirai` |
+| File name | `x86` |
+| File type | `elf` |
+| First seen | `2026-07-12 21:35:31` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai, upx` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `99b1f60ef1d9eacbd69cd62d0d7d1520` |
+| SHA-1 | `808d16f4bba10c33f7fc1211a1611370b84eaf4e` |
+| SHA-256 | `9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1` |
+| SHA3-384 | `f2ba016261eb5a2b67f8915295781edd3054f04517585e2db4a239dc13544e6c347311a5e31ab2a7322ecb589400b2de` |
+| TLSH | `T1DC13F1C1C5676102EB35A433385FF5D5AF1B32D8BF865B6AD2A27426046EF143F38A48` |
+| SSDEEP | `768:u7wpHaIvhh3iwkg1HTfdzoUaitD5k0dWj0c456OMbAD8DnqQkrb/MnbcuyD7UHQj:awHJh3i5g1HzdwitNhdnDam8jlkr7MnY` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_074_9453e637
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1"
+    family = "Mirai"
+    file_name = "x86"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:31"
+  condition:
+    hash.sha256(0, filesize) == "9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1"
+}
+```
+
+### Sample 75: `5e815731f67cb070`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c` |
+| Family label | `unknown` |
+| File name | `file` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:57:14` |
+| Reporter | `Bitsight` |
+| Tags | `C, dropped-by-GCleaner, exe, MIX3.file` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `e37b3d8780094609b9e378508bfb3ed1` |
+| SHA-1 | `1916089385eb14eb255842b1cf7b0dd78fa57491` |
+| SHA-256 | `5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c` |
+| SHA3-384 | `3ddf3af5f2c55b367bce95076d3d0ad212ddfcfa57394122d68cea555d861ef05d52b1262dda4a17143721b8198918f3` |
+| TLSH | `T1DF948E0991D1BC3DCD69BEB39E456481A09D5F0F97EC84E9914A3387FBB3EA0C42C51A` |
+| SSDEEP | `6144:Vbr7L840yOanwmB9UJ22SoXvrDAvBMIhmYPy9MvOt+Nf5BmdMin:VTL84eHc9Q/rDAZMI169MvOqaMin` |
+| ICON-DHASH | `f0f0c8d4d4c8f8f0` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_075_5e815731
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c"
+    family = "unknown"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:57:14"
+  condition:
+    hash.sha256(0, filesize) == "5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c"
+}
+```
+
+### Sample 76: `760e6e859327f3e3`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:52:13` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `a29342094e578be147db37a920dfc3f1` |
+| SHA-1 | `0f6407cb957fd1b54dd3f0df585d059b8d2d892b` |
+| SHA-256 | `760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4` |
+| SHA3-384 | `21d095f075ce6ab42053cfbd59abeaf61704a3651f2c2da80934640baf88d76b97b08f506e171fa1c21e82384c1212c6` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T162E63328A5E201FEFAB31038DBA206D5F5A4B8B75731C94F079993A17E271E04D79363` |
+| SSDEEP | `393216:EQ+03e99RDKsx7CshIgZIjPPXMCHWUjXfcuI3/PGTAI:EVUSXDKsx28arPXMb8X0H/O7` |
+| ICON-DHASH | `99dcf8f8dcf8e144` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_076_760e6e85
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:52:13"
+  condition:
+    hash.sha256(0, filesize) == "760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4"
+}
+```
+
+### Sample 77: `05235d0287744075`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e` |
+| Family label | `ArkeiStealer` |
+| File name | `mpclient.dll` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:43:19` |
+| Reporter | `Kejult` |
+| Tags | `ArkeiStealer, dll, exe, signed, stealc, stealer, vidar` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `8fe2e83308493424f55c45a0e46846bc` |
+| SHA-1 | `53a7721024e086647dfd36a6bf99029321cc8e2a` |
+| SHA-256 | `05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e` |
+| SHA3-384 | `1162aa270feb2b826ebde29af94c6132ffc4dc24ff83991813a69c93bc45c3ba1488aa8c0565531eea6f11f3d4f32ae3` |
+| IMPHASH | `d8b31f8c03e0c76ff245ed05a15ffe6c` |
+| TLSH | `T1EA06AD07AC814DA5C45A537249BB12617B3CBC188B3A7BE72E50B67A3F323D49C36B54` |
+| SSDEEP | `98304:JWPAo0RmfG2zr8a/BlWR54ab8yq1Nw3x6:JWYTQfG2zr8yfWRKab8yq1z` |
+
+#### Technical Assessment
+
+- The sample is tracked as `ArkeiStealer` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_ArkeiStealer_077_05235d02
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e"
+    family = "ArkeiStealer"
+    file_name = "mpclient.dll"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:43:19"
+  condition:
+    hash.sha256(0, filesize) == "05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e"
+}
+```
+
+### Sample 78: `3d23a06ec67a2a49`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49` |
+| Family label | `unknown` |
+| File name | `i` |
+| File type | `elf` |
+| First seen | `2026-07-12 20:31:30` |
+| Reporter | `abuse_ch` |
+| Tags | `elf` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `68c0124d0a75f289ca24fc578db71b0f` |
+| SHA-1 | `25dab14774df204362a3ecfaf73db7c4ccc3a439` |
+| SHA-256 | `3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49` |
+| SHA3-384 | `aae6393928cad80ef614fb06df3d6f303b45af91839c1b21e9c19187c7223e4b106c53bc5a65fa18e3f6122f972a8042` |
+| TLSH | `T1F212AF9DBF05FADAE9545CF3186D05FC49DBD26E089B307048D5B90DCA0A4AB0A5E3C4` |
+| SSDEEP | `192:fTu2PzRurki7SLDLVpVovt9SbVySN6TQ3JuGpymy/qD1zIi:flzEBkDOvTCZuQEkymy/GF` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_078_3d23a06e
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49"
+    family = "unknown"
+    file_name = "i"
+    file_type = "elf"
+    first_seen = "2026-07-12 20:31:30"
+  condition:
+    hash.sha256(0, filesize) == "3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49"
+}
+```
+
+### Sample 79: `fcf1da46d66cc6a0`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1` |
+| Family label | `unknown` |
+| File name | `WindowsDeviceSync.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:27:58` |
+| Reporter | `smica83` |
+| Tags | `exe, Fog, Ransomware` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `aaffef0dec08f7ef6370f691e2086edb` |
+| SHA-1 | `6dc7cf37242d56c99000da5b6e1fb79b2b597804` |
+| SHA-256 | `fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1` |
+| SHA3-384 | `675902580c527460ea6c7f9bd5d64821c57d94b2c90c578b2123f21f87014707bed74e2ec06c3f112d506d7d466940c7` |
+| IMPHASH | `fb0caaad6f50733b11514c7913cea514` |
+| TLSH | `T1EF521A4BBBB649FDE92841B580731A00E2FBB734476253CF57A891211DB23E17C76AC9` |
+| SSDEEP | `192:6Pf4jlBkQI4Yarey5GHocGs/rU6toG0cO5tfTclt:6IjP9ISQfIMoG0cL` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_079_fcf1da46
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1"
+    family = "unknown"
+    file_name = "WindowsDeviceSync.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:27:58"
+  condition:
+    hash.sha256(0, filesize) == "fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1"
+}
+```
+
+### Sample 80: `735d59c0949e2585`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0` |
+| Family label | `unknown` |
+| File name | `v84czzz26.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:25:01` |
+| Reporter | `smica83` |
+| Tags | `exe, LightSpy` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `847ec30a4ff2391f1eb7669c22940e51` |
+| SHA-1 | `a86a42b83570dc9dbe993b4b5073cd8cd44ed768` |
+| SHA-256 | `735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0` |
+| SHA3-384 | `688f2d26f3603eb80fceeeea3b3be991a74dd95d36df78c421bdb6d7e2b591c3faeb2f9d8d44698de3a777639c524f99` |
+| IMPHASH | `ca0be1f0383ce1e68fdbecd6db87c064` |
+| TLSH | `T15A969E5AB2A900E8E57BD078C6679707F771345603309AEB06E087692F37BE05A7F712` |
+| SSDEEP | `98304:Oq9D7NJ1yT+K8KCGvffm+ZAKsSeq62QdFllwnRa5q5x:/9DP1yCKfCGvnmvZJvl` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_080_735d59c0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0"
+    family = "unknown"
+    file_name = "v84czzz26.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:25:01"
+  condition:
+    hash.sha256(0, filesize) == "735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0"
+}
+```
+
+### Sample 81: `398c754446396f89`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5` |
+| Family label | `Vidar` |
+| File name | `Mod Menu.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:22:56` |
+| Reporter | `Kejult` |
+| Tags | `exe, signed, stealc, stealer, vidar` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `b9f4df4baeebdf5f17700cb8eee7cdb0` |
+| SHA-1 | `e4157bb32a7fae91e47b5e096d8965467a29aa84` |
+| SHA-256 | `398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5` |
+| SHA3-384 | `1d79c9f468751a953743f35a518b2ddcb982838d61289f9e0a368f46c755e73b5a8bc214cb00e1c85961bb35ddbe7c4a` |
+| IMPHASH | `d42595b695fc008ef2c56aabd8efd68e` |
+| TLSH | `T192F58C07BDA549EAC09E923288B752A57B75BC495F3223E72E50B7382F32BD04D35B50` |
+| SSDEEP | `49152:oZ1k9nrY29aa0hQzy4C+6yCho3GboSDqCeVmK8RQsDI8gl:owG0u4j6HuGbQC3OuIt` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Vidar` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Vidar_081_398c7544
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5"
+    family = "Vidar"
+    file_name = "Mod Menu.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:22:56"
+  condition:
+    hash.sha256(0, filesize) == "398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5"
+}
+```
+
+### Sample 82: `f333bc5238e39790`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658` |
+| Family label | `unknown` |
+| File name | `Avk.dll` |
+| File type | `dll` |
+| First seen | `2026-07-12 20:21:24` |
+| Reporter | `smica83` |
+| Tags | `dll, TA416` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `f89daf8aa0c5b563f5810e963c70a02e` |
+| SHA-1 | `64133291e23c46845b6ce724c9f1ad857b21a10c` |
+| SHA-256 | `f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658` |
+| SHA3-384 | `d49f9e97ce03879afb73a033b179eb3df519ad90548b6a3d3650382572aa04e008ba609b9584cf57772ec962eed9c980` |
+| TLSH | `T184221C03B5405A8EC01012B5092BAEA0BDAB5EA45BF145D36B79FF0F6DB92C078F7562` |
+| SSDEEP | `96:BlQmBxIuvxh5VsNUIGsMNYbdWP7P1dAq8EnWnfHn35cVN:0al5hkNHbdQdADEWfpuN` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `dll`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_082_f333bc52
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658"
+    family = "unknown"
+    file_name = "Avk.dll"
+    file_type = "dll"
+    first_seen = "2026-07-12 20:21:24"
+  condition:
+    hash.sha256(0, filesize) == "f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658"
+}
+```
+
+### Sample 83: `440b5385d3838e3f`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3` |
+| Family label | `unknown` |
+| File name | `p8ng2zc3.exe` |
+| File type | `exe` |
+| First seen | `2026-07-12 20:16:06` |
+| Reporter | `smica83` |
+| Tags | `Cyberav3ngers, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `ba284a4b508a7abd8070a427386e93e0` |
+| SHA-1 | `66ae21571faee1e258549078144325dc9dd60303` |
+| SHA-256 | `440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3` |
+| SHA3-384 | `7c223661f7dfc932ccce2a0d6460fa2a869fca47f219337794a9ddb0753b5203dbce6a4cbedc24fef6e58e77e9bb3466` |
+| IMPHASH | `9cbefe68f395e67356e2a5d8d1b285c0` |
+| TLSH | `T18C567C03F8A591E8C5EED130C96692527B307C880B3567D33B14BBB92B367D86E7A354` |
+| GIMPHASH | `27014676d9ba958cf19a3da14e5aa6a1c196462fb0ef3a3928cc821c63119695` |
+| SSDEEP | `98304:qiSsFP9OSEvCX3xJdAJtk+jWa88QbHQj:qM+aHjdAJ2+jWaXQrQ` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_083_440b5385
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3"
+    family = "unknown"
+    file_name = "p8ng2zc3.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:16:06"
+  condition:
+    hash.sha256(0, filesize) == "440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3"
+}
+```
+
+### Sample 84: `9a75e798a71c2541`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510` |
+| Family label | `unknown` |
+| File name | `a.js` |
+| File type | `js` |
+| First seen | `2026-07-12 20:12:30` |
+| Reporter | `smica83` |
+| Tags | `js, TONResolver` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `117fec7c4271a4e50d4cc60ad32bfd15` |
+| SHA-1 | `87764506383868490b0005dff9d05d0a3f1d0354` |
+| SHA-256 | `9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510` |
+| SHA3-384 | `46bef0ce6f91cef05e67f8dd1fe595985ebab00f9969a681a70b8267d24fbd76280434ca401e28fc51da3cd3e93a0d26` |
+| TLSH | `T1EF64E9A8279EB0829D796C776D23E154F8194C9D52C8502CFBE078EFFC6431A85AD6F0` |
+| SSDEEP | `6144:EF0acaOsFKi1Z0hT3769fBELA6uRUCF6HY0mMT1GmBQSx:OXpOPmhxHRUCF6H1m+GbE` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `js`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_084_9a75e798
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510"
+    family = "unknown"
+    file_name = "a.js"
+    file_type = "js"
+    first_seen = "2026-07-12 20:12:30"
+  condition:
+    hash.sha256(0, filesize) == "9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510"
+}
+```
+
+### Sample 85: `25dc7b62a1279a34`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 19:58:12` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `215bddfda9e5eab496ef186c10803574` |
+| SHA-1 | `60fcc66657b6481bc0934ed37fbe5b826f3680a4` |
+| SHA-256 | `25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d` |
+| SHA3-384 | `ff77414bad78dd5311f7b3afa517558e7b60f87388597756f502305a1222974a89dd9c952181269586995b0b88496e8f` |
+| TLSH | `T10A236C551A857C149A99C4371D7F2F0CB9AD43E6320852EE7FCB3CF28C8AA9D920971D` |
+| SSDEEP | `768:1VEJVIhtMT9GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:7EJ2M0cr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_085_25dc7b62
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 19:58:12"
+  condition:
+    hash.sha256(0, filesize) == "25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d"
+}
+```
+
+### Sample 86: `fdb636d63b316929`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 19:52:11` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `caf7d5d928b90f08384795d8552f0df3` |
+| SHA-1 | `69c404e697583f45a47e8a1b098e80e047e090b3` |
+| SHA-256 | `fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f` |
+| SHA3-384 | `94c0991e0e8177901c3daa22047632051d56d5fcd1b10980f661bb33ae5497d678edc64a3f26da8b155d573fe09864d8` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T163E6330DA6C112FDE1A7843CEB535219E2B2B4B70772CE9796E8C3895D5B2A1CC3C613` |
+| SSDEEP | `393216:zh/cCwAq1KPr2LzAT2GdgVXMCHWUjXxcuI3/PGTAI:zh/cXoyLs2AgVXMb8XmH/O7` |
+| ICON-DHASH | `30f8fc9ccce4f030` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_086_fdb636d6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 19:52:11"
+  condition:
+    hash.sha256(0, filesize) == "fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f"
+}
+```
+
+### Sample 87: `2206ca98d1c523aa`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84` |
+| Family label | `Stealc` |
+| File name | `file` |
+| File type | `exe` |
+| First seen | `2026-07-12 19:37:24` |
+| Reporter | `Bitsight` |
+| Tags | `D, dropped-by-GCleaner, EU0.file, exe, Stealc` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `c15e8c4aa190f2f7a0e2c58af492e9c0` |
+| SHA-1 | `27118ab6795cd18ae868f8902d3f88b129e2cd6c` |
+| SHA-256 | `2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84` |
+| SHA3-384 | `8a140e5e25591dd4ac0de2ceba27d4576b0b492c5f431e914f651a6d8cf8c9db8b4328bacfb3987bb979531a778646fd` |
+| IMPHASH | `646167cce332c1c252cdcb1839e0cf48` |
+| TLSH | `T1F6A53305E1C6C4BAEC70973098F767CB1F317CD10A78B7977B99A54E2832AC1557A30A` |
+| SSDEEP | `49152:j49IiVPBrDYzX1fFODG2nglOpqGF7yWhG8Q05kNjVTV3L:y55r0XVuG2nglOpR7yB8hklVBL` |
+| ICON-DHASH | `1026a092dcf90cc2` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Stealc` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Stealc_087_2206ca98
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84"
+    family = "Stealc"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 19:37:24"
+  condition:
+    hash.sha256(0, filesize) == "2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84"
+}
+```
+
+### Sample 88: `3918884cded211ca`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 18:52:13` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `2a0829eca0aa9164397e02af2b45342a` |
+| SHA-1 | `a56c72fc63f2b02165d84a1de8d7bb91ac0ad661` |
+| SHA-256 | `3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c` |
+| SHA3-384 | `2bac7a00201bb27bfd68d212324c83404f7a1eca09cbc0f99016d9a20c7dc83dfe62529b080c6077d3281f1498bc50e8` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T11AE633246AE111F8F9B3017DEDE196E5F4B578760B33C98F47A887676CA32900D3A253` |
+| SSDEEP | `393216:0/i7uLwvSaRSBOAwEYPXMCHWUjXacuI3/PGTAI:0D9ISBOlEWXMb8XXH/O7` |
+| ICON-DHASH | `d4f8d1f0e0e971b2` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_088_3918884c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 18:52:13"
+  condition:
+    hash.sha256(0, filesize) == "3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c"
+}
+```
+
+### Sample 89: `fc7bd58cb79f8e00`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be` |
+| Family label | `Mirai` |
+| File name | `bot_x86_64` |
+| File type | `elf` |
+| First seen | `2026-07-12 18:41:45` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `c6a57044a7b38300773d663e5249fe50` |
+| SHA-1 | `4fc6890aa22e0961f7288b193de9173fc63dd18d` |
+| SHA-256 | `fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be` |
+| SHA3-384 | `f4c01831cbe6501e26dc053ae6ed928ed48748867675c0145fdb5ec8619729fcf7556e04293a63ed8aaec212743df727` |
+| TLSH | `T13B457C57B2B364FDC053C43087DBDAA2A931B42546222E7F66C4CB302F67E641B5DB62` |
+| TELFHASH | `t1ac2141e7543da4a04adeac80e59b2724e10ff19458b10a23fca0c65c72fe61f49674eb` |
+| SSDEEP | `24576:nYY1kSL4kfUYwpWudkjkg9+VkcvYBeoKpWQ9qvB/eH:YYCSL4kfUhdS+rQBedB9qkH` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_089_fc7bd58c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be"
+    family = "Mirai"
+    file_name = "bot_x86_64"
+    file_type = "elf"
+    first_seen = "2026-07-12 18:41:45"
+  condition:
+    hash.sha256(0, filesize) == "fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be"
+}
+```
+
+### Sample 90: `8a49a7a85261be63`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d` |
+| Family label | `unknown` |
+| File name | `8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d` |
+| File type | `dll` |
+| First seen | `2026-07-12 18:39:49` |
+| Reporter | `johnk3r` |
+| Tags | `banker, dll, masgravr-shop` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `e17da3ae5a6de8dae5feae7387af1010` |
+| SHA-1 | `918b9cd0a3bf37ac8b5f1a29e46b4121fc0ce1f1` |
+| SHA-256 | `8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d` |
+| SHA3-384 | `3998742fbfa0f0530cd2e8239e2d11f10170b8257b2974067d98b2853ad99d7beb2855161ae84165a8532bf1e3269574` |
+| IMPHASH | `beff4eef203dc94c1dfe99ddb10a8d4d` |
+| TLSH | `T1C416B630F224CE36C0EA173A448796615775801A8F9BE70711E485BDFC8E3552FBAA9F` |
+| SSDEEP | `24576:RR8Qa9cjoFVaxmwcPp5UhzNVRNKf00VV6yD8R6Ys1AaychqgpDCGNXCs5RmYS:pM/V/wzxNIIlR7nchqgpDCG1CEVS` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `dll`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_090_8a49a7a8
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+    family = "unknown"
+    file_name = "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+    file_type = "dll"
+    first_seen = "2026-07-12 18:39:49"
+  condition:
+    hash.sha256(0, filesize) == "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+}
+```
+
+### Sample 91: `d2bf8e50fd79d430`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4` |
+| Family label | `Prometei` |
+| File name | `d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4` |
+| File type | `elf` |
+| First seen | `2026-07-12 18:23:44` |
+| Reporter | `c2hunter` |
+| Tags | `elf, Prometei, wraith` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `0a352c6d7a147f34906808304e755f43` |
+| SHA-1 | `bdc3868216ea81056d2589b383ab42076fe1a687` |
+| SHA-256 | `d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4` |
+| SHA3-384 | `0911417ddacc86261b34f8658575f2f24da8d9d630392199670f19ba4170ae4bcb97910805d0a57d6ffaaae20ad435db` |
+| TLSH | `T121A423B4F9229E9F6DD769B91B24831DE181C172589D4C2313AE94A34F3D732AF2C816` |
+| SSDEEP | `12288:Fs+/py5fM2l+M5F7TsJwtY1yvr+bT1psS+6T6NCj76tsdn:Fs6pyCC/Ya2hpi6T6N4F` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Prometei` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Prometei_091_d2bf8e50
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+    family = "Prometei"
+    file_name = "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+    file_type = "elf"
+    first_seen = "2026-07-12 18:23:44"
+  condition:
+    hash.sha256(0, filesize) == "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+}
+```
+
+### Sample 92: `26d0c4e0bd932de9`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 18:17:41` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `4eb918517e9f85bf50f0c6ebd9e0ff31` |
+| SHA-1 | `f3c5f906858420630ecc8c45a954099a04da1a1b` |
+| SHA-256 | `26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361` |
+| SHA3-384 | `06485b8054def739becf49ec81e022747f0b961adce604daeb06eb60d86b3cf2919fdc5a861d9d531e39260e630f843a` |
+| TLSH | `T12B236C551A857C14AE98C4361D7E2F0CB9AD43E6320452EE7FCB3CF28C8AA9D920971D` |
+| SSDEEP | `768:OVEJVIhtM99GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:sEJ2Mecr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_092_26d0c4e0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 18:17:41"
+  condition:
+    hash.sha256(0, filesize) == "26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361"
+}
+```
+
+### Sample 93: `cf18061441faa3ed`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a` |
+| Family label | `unknown` |
+| File name | `wr.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 18:07:22` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `caf9ae8be4b52e708a31da0a88f96c58` |
+| SHA-1 | `52cee89d5efc6326961412d38f6c73852db5cf00` |
+| SHA-256 | `cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a` |
+| SHA3-384 | `2d3dec7e6eb7060d56a0f5841e6bc03ff198bb3b79da3509035327581d7f0a50347bc1068fc0ba374a14d3486692a1f1` |
+| TLSH | `T143C26C966A867C44BDC94A3E4CBD2B1D6DF5C3D1324942AC3D8A3C719C11FACD618B1A` |
+| SSDEEP | `768:A8vCB+25j6es8R89FYpMSUpi+20qUpi+20YQX:A8l25JKd2QX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_093_cf180614
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 18:07:22"
+  condition:
+    hash.sha256(0, filesize) == "cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a"
+}
+```
+
+### Sample 94: `173a31b134df0680`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18` |
+| Family label | `unknown` |
+| File name | `default.dat` |
+| File type | `exe` |
+| First seen | `2026-07-12 17:59:54` |
+| Reporter | `iamaachum` |
+| Tags | `ClickFix, Efimer, exe` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `81f01c3bb6c0330bf6030771a96f4907` |
+| SHA-1 | `2911e7f3b2cf6fe7566b77f02e217151ceb7c560` |
+| SHA-256 | `173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18` |
+| SHA3-384 | `4c275098eea973a32c68d252709a3f6f919462eed6766157ebb2891fd5803586501f7fe08df27cbd003fbec9f988fcf5` |
+| IMPHASH | `dcaf48c1f10b0efa0a4472200f3850ed` |
+| TLSH | `T1D5E633045BF011FEE5B3513CEEA24261E1A4B4A25732C5DB1BA887E5BD431E20D7EB63` |
+| SSDEEP | `393216:TgAPinLvKQwC3e80H5HvfvVXMCHWUjXBcuI3/PGTAI:TgAP6LvKg3evJvVXMb8XWH/O7` |
+| ICON-DHASH | `e8686460d8e8ec5a` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_094_173a31b1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:59:54"
+  condition:
+    hash.sha256(0, filesize) == "173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18"
+}
+```
+
+### Sample 95: `20ebc97afd3af415`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132` |
+| Family label | `unknown` |
+| File name | `wr.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 17:53:41` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `347bfeab8027c66c041521b9ddd468f9` |
+| SHA-1 | `314df32552ab4b10c45550f7169f643dd7e0d3a6` |
+| SHA-256 | `20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132` |
+| SHA3-384 | `d252c4af58fdccd7570a0c1fa79934e2dd0d2b8845e881647ee52a433658ac3f1a01f8d82c3975014ef4dc676aacbd22` |
+| TLSH | `T1AEC27C966A867C44BEC94A3E4CBD2B1D6DF5C3D1324942AC3D8B3C719C11FACD618B1A` |
+| SSDEEP | `768:F8vCB+25j6es8Rf9FYpMSUpi+20qUpi+20YQX:F8l25Jpd2QX` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_095_20ebc97a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 17:53:41"
+  condition:
+    hash.sha256(0, filesize) == "20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132"
+}
+```
+
+### Sample 96: `c854317fdfc61855`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c` |
+| Family label | `njrat` |
+| File name | `file` |
+| File type | `exe` |
+| First seen | `2026-07-12 17:46:52` |
+| Reporter | `Bitsight` |
+| Tags | `9d2ca3, dropped-by-Amadey, exe, njrat, signed` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `aaef009f16ec183313143cd3fdc07a69` |
+| SHA-1 | `cb2f8818339a9b671ae42548da707b23e2c93591` |
+| SHA-256 | `c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c` |
+| SHA3-384 | `6defe405f3e1f4afa5cf122f78cf338ecbb2c8d096ac07e1344f88f633275c58a3ffdfb4c5acb6dfa1c0f601a6a2deaa` |
+| IMPHASH | `f34d5f2d4577ed6d9ceec516c1f5a744` |
+| TLSH | `T1A6C51230959505E7FF4A65F86AE95F8D0C10CAE43A9759D6D0F3BA0CC2A2598F0E123F` |
+| SSDEEP | `49152:5A6mLg7duv9AQatEjaVHmPwnmKKUSQh/sk0AZOE95ixqcHhExp+qNB:5X4lv9AQaWj6mPwnoUSQmky45iPOxpdz` |
+
+#### Technical Assessment
+
+- The sample is tracked as `njrat` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_njrat_096_c854317f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c"
+    family = "njrat"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:46:52"
+  condition:
+    hash.sha256(0, filesize) == "c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c"
+}
+```
+
+### Sample 97: `42559b9731ce33ef`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326` |
+| Family label | `unknown` |
+| File name | `k.php` |
+| File type | `sh` |
+| First seen | `2026-07-12 17:26:46` |
+| Reporter | `abuse_ch` |
+| Tags | `sh` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `ff2157dab4c010cfa49bde50eb56d048` |
+| SHA-1 | `536a62f522d1a0d04b1f01ff76db352abdd5c48e` |
+| SHA-256 | `42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326` |
+| SHA3-384 | `2b85d82f61e7efc3cdc0e6d4a523ae5dc6c9556d1fa165c82b21400cc559831bd78ebadbd0689a5d807f8fa0c7bb7b8c` |
+| TLSH | `T10D236C6516867C24AE98C4361C7E2F0CB9AD43E6324452EE7FCB3CF68C4A69DD10971D` |
+| SSDEEP | `768:e+H9GKYpr9GKYp82fkR4nnA9GKYpr9GKYp82fkR4nnS:e+wcr` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `sh`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_097_42559b97
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 17:26:46"
+  condition:
+    hash.sha256(0, filesize) == "42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326"
+}
+```
+
+### Sample 98: `5692850ff8e528db`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134` |
+| Family label | `WannaCry` |
+| File name | `5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134` |
+| File type | `exe` |
+| First seen | `2026-07-12 17:15:25` |
+| Reporter | `pawscobbler` |
+| Tags | `dionaea, exe, WannaCry` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `3e5a5494bdce4ff61cdff657c036a5d9` |
+| SHA-1 | `f9eebae3cfcff9fb23bd0871d006b07d0cb39714` |
+| SHA-256 | `5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134` |
+| SHA3-384 | `5abda7fe7beeb5bdcb683109eceb586293101b51b8e951e52a71d6ec95e546c2ea2711e176e2ec0986b8ac7d0e6c1119` |
+| IMPHASH | `0cdadfa1098d845dd3b4cf92625b5f04` |
+| TLSH | `T16936CF01D9E41B54D6B28BB6A97B8710537A7E848D57970E0358A02A1C33F1CDEE2FED` |
+| SSDEEP | `49152:jnBnAQqMSPbcBVQej/1INRx+TSqTdX1HkQo6SAAx:DlDqPoBhz1aRxcSUDk36SA` |
+
+#### Technical Assessment
+
+- The sample is tracked as `WannaCry` by MalwareBazaar metadata.
+- The observed artifact type is `exe`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_WannaCry_098_5692850f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+    family = "WannaCry"
+    file_name = "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:15:25"
+  condition:
+    hash.sha256(0, filesize) == "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+}
+```
+
+### Sample 99: `f98daf35bd61fc2e`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015` |
+| Family label | `Mirai` |
+| File name | `aarch64` |
+| File type | `elf` |
+| First seen | `2026-07-12 17:04:23` |
+| Reporter | `abuse_ch` |
+| Tags | `elf, Mirai` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `1151213e11d2b2670f83d50d7db5a6f7` |
+| SHA-1 | `28752481837d878f9f98b6add2d43adeaacab144` |
+| SHA-256 | `f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015` |
+| SHA3-384 | `98e61f714a38a62beca21ea48d7b4054ccde9d741cb54e9f219b9fafb1f6f45e3e522702fa32a6e9d60ed0e1d1f1ca7b` |
+| TLSH | `T143D38E9C9D0E7DD2C2C2E2FEAD450F56312675744A64C3F61900A2CEEB9EED69CB1432` |
+| SSDEEP | `3072:+BlGGK083+41GwdQOWn7MT9PIkBEWt5Mlj5tYqdfCKhR2MzH:YYu8uzKR9wVWLE51dqKV` |
+
+#### Technical Assessment
+
+- The sample is tracked as `Mirai` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_Mirai_099_f98daf35
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015"
+    family = "Mirai"
+    file_name = "aarch64"
+    file_type = "elf"
+    first_seen = "2026-07-12 17:04:23"
+  condition:
+    hash.sha256(0, filesize) == "f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015"
+}
+```
+
+### Sample 100: `d16bffbd3ba31504`
+
+| Field | Value |
+|---|---|
+| SHA-256 | `d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0` |
+| Family label | `unknown` |
+| File name | `20260711-215002_sftp__root__8857952871563194709_sshd` |
+| File type | `elf` |
+| First seen | `2026-07-12 17:03:52` |
+| Reporter | `hett` |
+| Tags | `elf, honeypot, shardlure` |
+
+#### Per-Sample IOC Table
+
+| Type | Value |
+|---|---|
+| MD5 | `0dee85c725db3e60ee68120738651cdc` |
+| SHA-1 | `aa4591559138e75cd8d4db47d1948a3064288208` |
+| SHA-256 | `d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0` |
+| SHA3-384 | `03de4a5f1eb7bec691375be4f9e9bb192099b13635796e6ba88f9c6a670993973eb4474ccc9fac30cd7d526d123ec71f` |
+| TLSH | `T15FB4D69BA89550F4C1FEE134C66AA212BDA13495073827D72FA147F10F26FF85A7C368` |
+| SSDEEP | `6144:c94NsgaeLCfHqHc6c5EBr777mMsIRbS5OwziAJxTDo7BTbWI:ciZLBtBn77RD3w2AJK7gI` |
+
+#### Technical Assessment
+
+- The sample is tracked as `unknown` by MalwareBazaar metadata.
+- The observed artifact type is `elf`; analysis here is limited to metadata and hash IOCs.
+- No behavior, capability, persistence, or C2 claims are made without static source/byte features.
+- Use the hash indicators for exact-match triage, enrichment, and known-sample hunting.
+
+#### Sample YARA Rule
+
+```yara
+rule MalwareBazaar_unknown_100_d16bffbd
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0"
+    family = "unknown"
+    file_name = "20260711-215002_sftp__root__8857952871563194709_sshd"
+    file_type = "elf"
+    first_seen = "2026-07-12 17:03:52"
+  condition:
+    hash.sha256(0, filesize) == "d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0"
+}
+```
+
+
+## Combined YARA Rules
+
+These rules are exact SHA-256 sample indicators. They are useful for known-sample matching, not for detecting variants or inferring behavior. Broader YARA coverage requires static features from source code or file bytes.
+
+```yara
+import "hash"
+
+/*
+ * MalwareBazaar exact-hash YARA indicators.
+ * Generated from metadata only; samples were not executed.
+ * Selector: 100
+ * Generated: 2026-07-13T04:04:50.447655+00:00
+ */
+
+rule MalwareBazaar_unknown_001_52a961e6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 03:52:12"
+  condition:
+    hash.sha256(0, filesize) == "52a961e6e33da2febb2efad5c66b07ca4b3c322da9e04a39d8e86239d4fd81b8"
+}
+
+rule MalwareBazaar_AsyncRAT_002_ed0f0834
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a"
+    family = "AsyncRAT"
+    file_name = "S8APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 03:45:23"
+  condition:
+    hash.sha256(0, filesize) == "ed0f08343c0f3288db6fa05dfbe5722e6a6d39a7d985d198e54c63876fc1c22a"
+}
+
+rule MalwareBazaar_unknown_003_09cc1c77
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366"
+    family = "unknown"
+    file_name = "PDA-MV OCEAN WY-268546-1-PDF.vbs"
+    file_type = "vbs"
+    first_seen = "2026-07-13 03:32:51"
+  condition:
+    hash.sha256(0, filesize) == "09cc1c77657400e803310dd7ba58a91854fb275e5b29adf53a6ee2827f848366"
+}
+
+rule MalwareBazaar_unknown_004_fe5bb7f1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 02:52:12"
+  condition:
+    hash.sha256(0, filesize) == "fe5bb7f1f37e84ec4f13c583e9020428caec52a7fdf3b06c0811ed1ce6d826ed"
+}
+
+rule MalwareBazaar_unknown_005_ad4a584f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d"
+    family = "unknown"
+    file_name = "app_setup.6653007.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 02:43:04"
+  condition:
+    hash.sha256(0, filesize) == "ad4a584f5e622c10703bca28c58ee8372899edb48cc1ccf28a2cff87d1afbf2d"
+}
+
+rule MalwareBazaar_unknown_006_81f68f61
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9"
+    family = "unknown"
+    file_name = "app_setup.6653006.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 02:41:50"
+  condition:
+    hash.sha256(0, filesize) == "81f68f61a8f7cf1accca338fd196051020bf60885aad409332091b759ff818d9"
+}
+
+rule MalwareBazaar_AgentTesla_007_856e540d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643"
+    family = "AgentTesla"
+    file_name = "Quotation.js"
+    file_type = "js"
+    first_seen = "2026-07-13 02:37:22"
+  condition:
+    hash.sha256(0, filesize) == "856e540dd3765d8e1129070615d6104388a4f8c34179b520acfd87d9efa56643"
+}
+
+rule MalwareBazaar_unknown_008_f6a5fcb7
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 02:23:30"
+  condition:
+    hash.sha256(0, filesize) == "f6a5fcb77d8ce9826007dfaed36f9c40891c3c9fe54808744c977414eac668b3"
+}
+
+rule MalwareBazaar_AsyncRAT_009_aca480ae
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8"
+    family = "AsyncRAT"
+    file_name = "AU88APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 02:22:44"
+  condition:
+    hash.sha256(0, filesize) == "aca480ae93ba436295e4f40e50c8433410650677129e1fdca575f3c8d8b10de8"
+}
+
+rule MalwareBazaar_unknown_010_1317a25d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:52:10"
+  condition:
+    hash.sha256(0, filesize) == "1317a25d33bcffbc35db0e23afd20b5c5328fdff33c1c929236882856d9c7577"
+}
+
+rule MalwareBazaar_GCleaner_011_eede323c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe"
+    family = "GCleaner"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:38:45"
+  condition:
+    hash.sha256(0, filesize) == "eede323c8bd0370140dd9be6fbb92c82cef64210171325352f3e96e7026d3bfe"
+}
+
+rule MalwareBazaar_unknown_012_6dcba233
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a"
+    family = "unknown"
+    file_name = "HCUQAUTJ.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 01:33:13"
+  condition:
+    hash.sha256(0, filesize) == "6dcba233968441cbb50e14bace526d0a22e0947b392973332d94166a9a064a1a"
+}
+
+rule MalwareBazaar_Stealc_013_acf1cd59
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5"
+    family = "Stealc"
+    file_name = "UndIncomplete.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:32:29"
+  condition:
+    hash.sha256(0, filesize) == "acf1cd593222c9dc375d3979e2e46ff7b347120a1cc4654bf90f05dee90d20e5"
+}
+
+rule MalwareBazaar_Stealc_014_0087b35d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de"
+    family = "Stealc"
+    file_name = "b5e9296e09961ff2_UndIcopslete2.msi"
+    file_type = "msi"
+    first_seen = "2026-07-13 01:31:51"
+  condition:
+    hash.sha256(0, filesize) == "0087b35d4460c970fb9890fcf6f64403a895ae9a0656af3d33bec8968634f6de"
+}
+
+rule MalwareBazaar_Stealc_015_957c3fc0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b"
+    family = "Stealc"
+    file_name = "2gnqD3iF9lpo4CzmS.ps1"
+    file_type = "ps1"
+    first_seen = "2026-07-13 01:30:34"
+  condition:
+    hash.sha256(0, filesize) == "957c3fc02297170cea63f95c640c63954774ed5b25be4bb9f40f14b9aba1e06b"
+}
+
+rule MalwareBazaar_ValleyRAT_016_b5af11fc
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9"
+    family = "ValleyRAT"
+    file_name = "3fd8d0f57f5c8876caacd2a4fef86ba6.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:15"
+  condition:
+    hash.sha256(0, filesize) == "b5af11fcbde594f47706f4b5a8ee37a20fd4ed1ceb2537c9356ad5f0ff7300a9"
+}
+
+rule MalwareBazaar_unknown_017_23b2d08a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+    family = "unknown"
+    file_name = "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+    file_type = "elf"
+    first_seen = "2026-07-13 01:30:14"
+  condition:
+    hash.sha256(0, filesize) == "23b2d08a1e983d5419f26263494c3f356f344ac5c52fb967c1e6c6f1bbfd64c0"
+}
+
+rule MalwareBazaar_ValleyRAT_018_0fbe935d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da"
+    family = "ValleyRAT"
+    file_name = "13931954f080312b5b4df53c5ca8eb7a.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:11"
+  condition:
+    hash.sha256(0, filesize) == "0fbe935d932ce6849224d77e3f32bdfd49910e5a34741ceab81ca8230d92a9da"
+}
+
+rule MalwareBazaar_ValleyRAT_019_272747b2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d"
+    family = "ValleyRAT"
+    file_name = "FD83C55A4DE17D34DFC4E6B49E892256.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:08"
+  condition:
+    hash.sha256(0, filesize) == "272747b26622bc9b084b36935efeeae8a63a388db00f94c6359b02368fd52d0d"
+}
+
+rule MalwareBazaar_ValleyRAT_020_42420ed3
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5"
+    family = "ValleyRAT"
+    file_name = "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c7.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:30:05"
+  condition:
+    hash.sha256(0, filesize) == "42420ed30965b2e8cd0abfe59103f9352cf9e8bb9a1c75d340bf13b2660abda5"
+}
+
+rule MalwareBazaar_SheetRAT_021_3e1fb4cc
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30"
+    family = "SheetRAT"
+    file_name = "component_2.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:18:08"
+  condition:
+    hash.sha256(0, filesize) == "3e1fb4cc6c8ce65e6ac79793cb7d482e6c18ba46dce36b0c51a259b511528d30"
+}
+
+rule MalwareBazaar_Vidar_022_71911c8f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc"
+    family = "Vidar"
+    file_name = "component_1.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:17:20"
+  condition:
+    hash.sha256(0, filesize) == "71911c8f6eacf5ba5414bc8a66ac83a981aaf4d1141f5117ed6c2ad196c558fc"
+}
+
+rule MalwareBazaar_unknown_023_e1d2d200
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd"
+    family = "unknown"
+    file_name = "libcurl.dll"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:14:05"
+  condition:
+    hash.sha256(0, filesize) == "e1d2d20089aac539b2d1fd32569cb0681f5a31db9575d6ceb53f585d0961b4fd"
+}
+
+rule MalwareBazaar_RemusStealer_024_02700473
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600"
+    family = "RemusStealer"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:11:04"
+  condition:
+    hash.sha256(0, filesize) == "027004739726842d8e416672cb7da85c43a75357984f818e27db5eb0dee0b600"
+}
+
+rule MalwareBazaar_unknown_025_e2769613
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680"
+    family = "unknown"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:09:50"
+  condition:
+    hash.sha256(0, filesize) == "e27696135b673b817709e2cf6309ad0ca23e81080795510116a8c23325399680"
+}
+
+rule MalwareBazaar_AsyncRAT_026_2d5b38af
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e"
+    family = "AsyncRAT"
+    file_name = "AU88APP.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:09:19"
+  condition:
+    hash.sha256(0, filesize) == "2d5b38af2b9b6b5b2a6fb2416322d4143cfabe6c958eac7ca34ba41be0f4831e"
+}
+
+rule MalwareBazaar_CoinMiner_XMRig_027_24636cfe
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8"
+    family = "CoinMiner.XMRig"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:09:05"
+  condition:
+    hash.sha256(0, filesize) == "24636cfe302fe7c74efa9e78f343e1fdd984468117ebf2df80a141ef7a635fb8"
+}
+
+rule MalwareBazaar_unknown_028_69bddeb7
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3"
+    family = "unknown"
+    file_name = "Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 01:08:02"
+  condition:
+    hash.sha256(0, filesize) == "69bddeb75e3b47d1e8a26073149c695309a95da1808ff3d6fefd0a1ec7affdd3"
+}
+
+rule MalwareBazaar_unknown_029_c938353d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500"
+    family = "unknown"
+    file_name = "SETUP.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 01:07:06"
+  condition:
+    hash.sha256(0, filesize) == "c938353d905fe678c4e8d9e732222eb4b651c096bc69149cf9e49d6b788cc500"
+}
+
+rule MalwareBazaar_unknown_030_e2a2f9aa
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513"
+    family = "unknown"
+    file_name = "PikaCraft-Mods.jar"
+    file_type = "jar"
+    first_seen = "2026-07-13 01:05:46"
+  condition:
+    hash.sha256(0, filesize) == "e2a2f9aa22b140997b5348931219ca2f3a7f54735db1a630394284bf738c6513"
+}
+
+rule MalwareBazaar_unknown_031_451459c1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3"
+    family = "unknown"
+    file_name = "lil"
+    file_type = "sh"
+    first_seen = "2026-07-13 01:00:19"
+  condition:
+    hash.sha256(0, filesize) == "451459c1bacaf827202c376e4060477ba9f4aafa5fdddeb2cc3918c2bfcd6ac3"
+}
+
+rule MalwareBazaar_unknown_032_72f42261
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b"
+    family = "unknown"
+    file_name = "bot"
+    file_type = "elf"
+    first_seen = "2026-07-13 01:00:18"
+  condition:
+    hash.sha256(0, filesize) == "72f4226176d79e9a437127a0cf513c6f8b0b74f5ff3c79553fff23f08090b55b"
+}
+
+rule MalwareBazaar_unknown_033_2012fa14
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd"
+    family = "unknown"
+    file_name = "Installer_v1509_x64.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:58:27"
+  condition:
+    hash.sha256(0, filesize) == "2012fa14729a5c0977e824b2937707002ee992865c6e171a023a5965090f71bd"
+}
+
+rule MalwareBazaar_unknown_034_77ccda79
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae"
+    family = "unknown"
+    file_name = "Installer.iso"
+    file_type = "iso"
+    first_seen = "2026-07-13 00:57:01"
+  condition:
+    hash.sha256(0, filesize) == "77ccda79bc51c0da74fb66be3e0098bc14f6005770d8817a1786591ffc993cae"
+}
+
+rule MalwareBazaar_Vidar_035_1e13c2c9
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913"
+    family = "Vidar"
+    file_name = "Download_Movie_Maker_2.6_For_Windows_7.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:55:09"
+  condition:
+    hash.sha256(0, filesize) == "1e13c2c9eac72daf63fd00a9946878949e159ae6ec51b54ec64f942d79d61913"
+}
+
+rule MalwareBazaar_unknown_036_5fbe14b4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde"
+    family = "unknown"
+    file_name = "payload_decrypted.zip"
+    file_type = "zip"
+    first_seen = "2026-07-13 00:54:25"
+  condition:
+    hash.sha256(0, filesize) == "5fbe14b476d7bfc8764082e470187109c4f99522606e199a6303346b7762fdde"
+}
+
+rule MalwareBazaar_unknown_037_e9a85beb
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6"
+    family = "unknown"
+    file_name = "ws-Setup-Complete.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:53:22"
+  condition:
+    hash.sha256(0, filesize) == "e9a85beb46d004dec0de69d07a2e8a812b5b0d54316be9a66c0658745e54d2a6"
+}
+
+rule MalwareBazaar_unknown_038_4a338c6c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:52:16"
+  condition:
+    hash.sha256(0, filesize) == "4a338c6ca796c18dea79e298ebd3675703c198af5060a6f18bc7eb07fcd89a8b"
+}
+
+rule MalwareBazaar_unknown_039_2879a63c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed"
+    family = "unknown"
+    file_name = "busywget.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:47:19"
+  condition:
+    hash.sha256(0, filesize) == "2879a63cd7c75388935229a859eb0ba955f0af327520c2e2f8f561341c6461ed"
+}
+
+rule MalwareBazaar_unknown_040_62bf6f39
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb"
+    family = "unknown"
+    file_name = "callaputa.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:44:17"
+  condition:
+    hash.sha256(0, filesize) == "62bf6f399d872c70f58bd10e66c362c669bd92171c9bc5a2e02d4e4ba86b3ecb"
+}
+
+rule MalwareBazaar_unknown_041_1c62a041
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:27:16"
+  condition:
+    hash.sha256(0, filesize) == "1c62a0417a9b2f702406bd46e87aed1d3f432ef2e2a0ad7b922d55f8bfe79f6c"
+}
+
+rule MalwareBazaar_ZigClipper_042_6962c874
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5"
+    family = "ZigClipper"
+    file_name = "dashboard.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:13:00"
+  condition:
+    hash.sha256(0, filesize) == "6962c8746be0f2b32b158a5f8d59882ed101c725a54014a4a7175af744e3a5f5"
+}
+
+rule MalwareBazaar_unknown_043_99dc1ea2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593"
+    family = "unknown"
+    file_name = "zira-miszsn.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:11:52"
+  condition:
+    hash.sha256(0, filesize) == "99dc1ea286648ec882d71ab5071e3072c702e5170770843177807179c63f4593"
+}
+
+rule MalwareBazaar_unknown_044_1d55f1f5
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58"
+    family = "unknown"
+    file_name = "wget.sh"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:10:47"
+  condition:
+    hash.sha256(0, filesize) == "1d55f1f5d777b3eda5e96df1b1dbb9713479808f05d00057a73bbfdb03637b58"
+}
+
+rule MalwareBazaar_unknown_045_41f967f4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:08:15"
+  condition:
+    hash.sha256(0, filesize) == "41f967f412cf6e4508d930754664ca33026614378790725b672a7c580e167207"
+}
+
+rule MalwareBazaar_LummaStealer_046_b871f50a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c"
+    family = "LummaStealer"
+    file_name = "L2703900.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:07:29"
+  condition:
+    hash.sha256(0, filesize) == "b871f50abbd7e06e6dbede78f499c2efc426d7f8ba08943f06e104f82d8ecc0c"
+}
+
+rule MalwareBazaar_unknown_047_c1d77fd1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a"
+    family = "unknown"
+    file_name = "clean_driver_dll.exe"
+    file_type = "exe"
+    first_seen = "2026-07-13 00:06:05"
+  condition:
+    hash.sha256(0, filesize) == "c1d77fd1e31a3470a9b59ec148fd295dcd630fd24fda16f7460ec67eaf0f1c6a"
+}
+
+rule MalwareBazaar_unknown_048_319f9b80
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2"
+    family = "unknown"
+    file_name = "p"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:03:44"
+  condition:
+    hash.sha256(0, filesize) == "319f9b804960033b7ddbf8a4a6cde9ef6eef8d2d46e892c1a210f1ef6ef023f2"
+}
+
+rule MalwareBazaar_unknown_049_0383c4aa
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-13 00:00:44"
+  condition:
+    hash.sha256(0, filesize) == "0383c4aaa366711c094df576babc604b41f133006c6f6d53ec5feab2d1cc56fd"
+}
+
+rule MalwareBazaar_unknown_050_05b70f3f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:52:10"
+  condition:
+    hash.sha256(0, filesize) == "05b70f3f4f9bda0e2efae7d7c3c33afc86f3962124d92692e7db279b49768356"
+}
+
+rule MalwareBazaar_Gh0stRAT_051_4d9a77f6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6"
+    family = "Gh0stRAT"
+    file_name = "接码后台-3.0.1（电脑端）.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:44:22"
+  condition:
+    hash.sha256(0, filesize) == "4d9a77f6f96f6089a0690281a6b15e1285559c498741d6c1eabba534f3b98ca6"
+}
+
+rule MalwareBazaar_unknown_052_dfacebad
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da"
+    family = "unknown"
+    file_name = "Feishu_Setup.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 23:43:47"
+  condition:
+    hash.sha256(0, filesize) == "dfacebad09d75d41ee5f477754815ae7e4afd926638d7b72a6a25338cd2479da"
+}
+
+rule MalwareBazaar_unknown_053_e9b3f3a8
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 23:25:46"
+  condition:
+    hash.sha256(0, filesize) == "e9b3f3a8f1a509b66b234bfa920325f8a0da99a2d41732490571e0de1aa141cc"
+}
+
+rule MalwareBazaar_unknown_054_97171de2
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+    family = "unknown"
+    file_name = "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:18"
+  condition:
+    hash.sha256(0, filesize) == "97171de21a4982d2739c56efff59a0b0eec2fc380950e88964696198f4bf383e"
+}
+
+rule MalwareBazaar_unknown_055_912909ee
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+    family = "unknown"
+    file_name = "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:15"
+  condition:
+    hash.sha256(0, filesize) == "912909ee04be855efaf18d261429c87bb74926373e9927ed8b85153607bcdc13"
+}
+
+rule MalwareBazaar_unknown_056_27f22ab5
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+    family = "unknown"
+    file_name = "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+    file_type = "unknown"
+    first_seen = "2026-07-12 23:00:13"
+  condition:
+    hash.sha256(0, filesize) == "27f22ab5b7b6523400f18968cf33598bb058aed9c76b147377dacca016367263"
+}
+
+rule MalwareBazaar_unknown_057_46d64d84
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 22:52:12"
+  condition:
+    hash.sha256(0, filesize) == "46d64d84eb8912ec9248b62150fa80820a40d7bcff676e068327b8acae90d6a0"
+}
+
+rule MalwareBazaar_WannaCry_058_3dbe040d
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+    family = "WannaCry"
+    file_name = "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+    file_type = "exe"
+    first_seen = "2026-07-12 22:15:17"
+  condition:
+    hash.sha256(0, filesize) == "3dbe040d008567910a21da1e2e36fae697fcc5cb3fc384f2304b4bc1306ac564"
+}
+
+rule MalwareBazaar_unknown_059_82dcb68b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+    family = "unknown"
+    file_name = "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+    file_type = "sh"
+    first_seen = "2026-07-12 21:58:55"
+  condition:
+    hash.sha256(0, filesize) == "82dcb68bc62aca8055c5c3d22a4bc328b534ac315206da143d94576882a7cb53"
+}
+
+rule MalwareBazaar_Stealc_060_7d09e2f4
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6"
+    family = "Stealc"
+    file_name = "QuickFetch.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 21:52:19"
+  condition:
+    hash.sha256(0, filesize) == "7d09e2f4a9ee25024a1498f833448d095787e6faf8908ed9ed3fe536032c0de6"
+}
+
+rule MalwareBazaar_unknown_061_5aa8a38b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 21:52:11"
+  condition:
+    hash.sha256(0, filesize) == "5aa8a38b28fc275c9a72655b88b512f34a0f77e27e9ba40a105b6855d9fc2da4"
+}
+
+rule MalwareBazaar_unknown_062_4820ca17
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673"
+    family = "unknown"
+    file_name = "aypapo.sh"
+    file_type = "sh"
+    first_seen = "2026-07-12 21:41:11"
+  condition:
+    hash.sha256(0, filesize) == "4820ca1776bc4bb9431e8bda45424ceb7dc1c97d52bc3a513605c4889fb3a673"
+}
+
+rule MalwareBazaar_Mirai_063_5b7f993b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916"
+    family = "Mirai"
+    file_name = "ppc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:36:31"
+  condition:
+    hash.sha256(0, filesize) == "5b7f993b896cc48cfba4893a7e8a67fc66e69fbafa341e3c1d3724b2aeb31916"
+}
+
+rule MalwareBazaar_Mirai_064_7456bd8a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9"
+    family = "Mirai"
+    file_name = "i686"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:56"
+  condition:
+    hash.sha256(0, filesize) == "7456bd8a1a137573b88dceaff30b45d6d3a771fde845f5ee76ef8ff07c8750b9"
+}
+
+rule MalwareBazaar_Mirai_065_ab12736b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141"
+    family = "Mirai"
+    file_name = "mpsl"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:49"
+  condition:
+    hash.sha256(0, filesize) == "ab12736b7adf8b430d9a7320d68bdbaed1c09383dd1d597e514bb44e0a27b141"
+}
+
+rule MalwareBazaar_Mirai_066_9d140cfb
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f"
+    family = "Mirai"
+    file_name = "x86"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:45"
+  condition:
+    hash.sha256(0, filesize) == "9d140cfba3ee024ebbd61bed8781126c0b9abf796bcee9e7061e43e27fa1160f"
+}
+
+rule MalwareBazaar_Mirai_067_49c95173
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca"
+    family = "Mirai"
+    file_name = "arc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:41"
+  condition:
+    hash.sha256(0, filesize) == "49c9517333340e28b52dadfebc89e7b14237af404e57115b8bb376e3a4a663ca"
+}
+
+rule MalwareBazaar_Mirai_068_bf572a25
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52"
+    family = "Mirai"
+    file_name = "ppc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:40"
+  condition:
+    hash.sha256(0, filesize) == "bf572a2541586cd390c1fbcc554e06b9bf1264507893b1b25084d839debced52"
+}
+
+rule MalwareBazaar_Mirai_069_c32bc2da
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817"
+    family = "Mirai"
+    file_name = "sh4"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:38"
+  condition:
+    hash.sha256(0, filesize) == "c32bc2da712e383271c1db938df8d660b4ba0cc80ead33d7a33954fe3e3d1817"
+}
+
+rule MalwareBazaar_Mirai_070_1d788f67
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4"
+    family = "Mirai"
+    file_name = "i686"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:37"
+  condition:
+    hash.sha256(0, filesize) == "1d788f673ebf143b06d995ffa8fe88877765a50f68b80afb0401c2b66668d0a4"
+}
+
+rule MalwareBazaar_Mirai_071_370b799b
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23"
+    family = "Mirai"
+    file_name = "spc"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:36"
+  condition:
+    hash.sha256(0, filesize) == "370b799b34c7742a17d2cb41b80ba995abd5867d4d85f8710728e8d485579f23"
+}
+
+rule MalwareBazaar_Mirai_072_d417a527
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd"
+    family = "Mirai"
+    file_name = "m68k"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:34"
+  condition:
+    hash.sha256(0, filesize) == "d417a527536373273357ef66652b8ad534d83041ffb9b9b2e41df1f40ee444cd"
+}
+
+rule MalwareBazaar_Mirai_073_5e9e0863
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206"
+    family = "Mirai"
+    file_name = "mpsl"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:33"
+  condition:
+    hash.sha256(0, filesize) == "5e9e0863515b6a21205f11969a6b8b4fb3ee67aa523f8db5665e38e734823206"
+}
+
+rule MalwareBazaar_Mirai_074_9453e637
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1"
+    family = "Mirai"
+    file_name = "x86"
+    file_type = "elf"
+    first_seen = "2026-07-12 21:35:31"
+  condition:
+    hash.sha256(0, filesize) == "9453e63799fdac8cc20d17d3d6cae8aaae73a6ad69cd1732efd3352d68de62c1"
+}
+
+rule MalwareBazaar_unknown_075_5e815731
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c"
+    family = "unknown"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:57:14"
+  condition:
+    hash.sha256(0, filesize) == "5e815731f67cb070fb1b31272c45bd7f4ecd4a408cbbc68a9545bafc3292d72c"
+}
+
+rule MalwareBazaar_unknown_076_760e6e85
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:52:13"
+  condition:
+    hash.sha256(0, filesize) == "760e6e859327f3e3609445db2e0efae25f9aef7b2b8252de3961f135aa5014a4"
+}
+
+rule MalwareBazaar_ArkeiStealer_077_05235d02
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e"
+    family = "ArkeiStealer"
+    file_name = "mpclient.dll"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:43:19"
+  condition:
+    hash.sha256(0, filesize) == "05235d0287744075e70663a98f429178b4410ea82c0710fd50e756ca6e273d1e"
+}
+
+rule MalwareBazaar_unknown_078_3d23a06e
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49"
+    family = "unknown"
+    file_name = "i"
+    file_type = "elf"
+    first_seen = "2026-07-12 20:31:30"
+  condition:
+    hash.sha256(0, filesize) == "3d23a06ec67a2a49f8703d8f67deab3af226e8045a7866b81821945194479a49"
+}
+
+rule MalwareBazaar_unknown_079_fcf1da46
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1"
+    family = "unknown"
+    file_name = "WindowsDeviceSync.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:27:58"
+  condition:
+    hash.sha256(0, filesize) == "fcf1da46d66cc6a0a34d68fe79a33bc3e8439affdee942ed82f6623586b01dd1"
+}
+
+rule MalwareBazaar_unknown_080_735d59c0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0"
+    family = "unknown"
+    file_name = "v84czzz26.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:25:01"
+  condition:
+    hash.sha256(0, filesize) == "735d59c0949e258501e177ec2dd5fbb60df9fa401ace08949b89077c6f0d41d0"
+}
+
+rule MalwareBazaar_Vidar_081_398c7544
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5"
+    family = "Vidar"
+    file_name = "Mod Menu.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:22:56"
+  condition:
+    hash.sha256(0, filesize) == "398c754446396f89ad511e95760c90f9b72e1ce96b105b642b1f853b874f80c5"
+}
+
+rule MalwareBazaar_unknown_082_f333bc52
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658"
+    family = "unknown"
+    file_name = "Avk.dll"
+    file_type = "dll"
+    first_seen = "2026-07-12 20:21:24"
+  condition:
+    hash.sha256(0, filesize) == "f333bc5238e39790fb7560de067a852e9a99df2bb783cf08738d8a0d424b9658"
+}
+
+rule MalwareBazaar_unknown_083_440b5385
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3"
+    family = "unknown"
+    file_name = "p8ng2zc3.exe"
+    file_type = "exe"
+    first_seen = "2026-07-12 20:16:06"
+  condition:
+    hash.sha256(0, filesize) == "440b5385d3838e3f6bc21220caa83b65cd5f3618daea676f271c3671650ce9a3"
+}
+
+rule MalwareBazaar_unknown_084_9a75e798
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510"
+    family = "unknown"
+    file_name = "a.js"
+    file_type = "js"
+    first_seen = "2026-07-12 20:12:30"
+  condition:
+    hash.sha256(0, filesize) == "9a75e798a71c2541f17102128f7c546288bbd3eb30b6b2b4948b17e73873a510"
+}
+
+rule MalwareBazaar_unknown_085_25dc7b62
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 19:58:12"
+  condition:
+    hash.sha256(0, filesize) == "25dc7b62a1279a348ae26707e43dbaa637c8fd9f64a433c43611b0f4830ce97d"
+}
+
+rule MalwareBazaar_unknown_086_fdb636d6
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 19:52:11"
+  condition:
+    hash.sha256(0, filesize) == "fdb636d63b316929768ebe2c2ebf6b0a9eae33a18fef4426efdc62d13712f28f"
+}
+
+rule MalwareBazaar_Stealc_087_2206ca98
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84"
+    family = "Stealc"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 19:37:24"
+  condition:
+    hash.sha256(0, filesize) == "2206ca98d1c523aa6b5fc27efd7918a596be8be6b0e8e64861977a4bc69a8d84"
+}
+
+rule MalwareBazaar_unknown_088_3918884c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 18:52:13"
+  condition:
+    hash.sha256(0, filesize) == "3918884cded211caa7589f453458a946cace632a7e8872b9d5e10917c6343e8c"
+}
+
+rule MalwareBazaar_Mirai_089_fc7bd58c
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be"
+    family = "Mirai"
+    file_name = "bot_x86_64"
+    file_type = "elf"
+    first_seen = "2026-07-12 18:41:45"
+  condition:
+    hash.sha256(0, filesize) == "fc7bd58cb79f8e00d92ee58dd6f421e494f5076c97a84cd556e916d9b55777be"
+}
+
+rule MalwareBazaar_unknown_090_8a49a7a8
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+    family = "unknown"
+    file_name = "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+    file_type = "dll"
+    first_seen = "2026-07-12 18:39:49"
+  condition:
+    hash.sha256(0, filesize) == "8a49a7a85261be6333936338752674a901ce4aa144f889c7099a2c43df5c9e5d"
+}
+
+rule MalwareBazaar_Prometei_091_d2bf8e50
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+    family = "Prometei"
+    file_name = "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+    file_type = "elf"
+    first_seen = "2026-07-12 18:23:44"
+  condition:
+    hash.sha256(0, filesize) == "d2bf8e50fd79d43040d4bb94491cf2a2155b5824d8f17c4d2e89760d9a5272c4"
+}
+
+rule MalwareBazaar_unknown_092_26d0c4e0
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 18:17:41"
+  condition:
+    hash.sha256(0, filesize) == "26d0c4e0bd932de9cd2ea3e5544d559448ac549fc5e77d8034638cb3818a9361"
+}
+
+rule MalwareBazaar_unknown_093_cf180614
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 18:07:22"
+  condition:
+    hash.sha256(0, filesize) == "cf18061441faa3ed7bd56d609406c37ef66928f79864cde00af7cac178092b5a"
+}
+
+rule MalwareBazaar_unknown_094_173a31b1
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18"
+    family = "unknown"
+    file_name = "default.dat"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:59:54"
+  condition:
+    hash.sha256(0, filesize) == "173a31b134df06802874ab7c0073d8dfed090544dad98eea4cc35958fdc3ac18"
+}
+
+rule MalwareBazaar_unknown_095_20ebc97a
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132"
+    family = "unknown"
+    file_name = "wr.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 17:53:41"
+  condition:
+    hash.sha256(0, filesize) == "20ebc97afd3af41565d112c201bac8ad87c75ff32580a75a32b171218a19a132"
+}
+
+rule MalwareBazaar_njrat_096_c854317f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c"
+    family = "njrat"
+    file_name = "file"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:46:52"
+  condition:
+    hash.sha256(0, filesize) == "c854317fdfc61855002f0cca0cba147c979a56878b8b211c5d512218877d680c"
+}
+
+rule MalwareBazaar_unknown_097_42559b97
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326"
+    family = "unknown"
+    file_name = "k.php"
+    file_type = "sh"
+    first_seen = "2026-07-12 17:26:46"
+  condition:
+    hash.sha256(0, filesize) == "42559b9731ce33efab017c8cfd15b1da14766e673577b3dd73cfefc2df848326"
+}
+
+rule MalwareBazaar_WannaCry_098_5692850f
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+    family = "WannaCry"
+    file_name = "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+    file_type = "exe"
+    first_seen = "2026-07-12 17:15:25"
+  condition:
+    hash.sha256(0, filesize) == "5692850ff8e528dbbee878372e79906868593f4d67f7cb854f64401b9e140134"
+}
+
+rule MalwareBazaar_Mirai_099_f98daf35
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015"
+    family = "Mirai"
+    file_name = "aarch64"
+    file_type = "elf"
+    first_seen = "2026-07-12 17:04:23"
+  condition:
+    hash.sha256(0, filesize) == "f98daf35bd61fc2ecaab19bd15a009ac21807a6ad216a85a0caf820edd453015"
+}
+
+rule MalwareBazaar_unknown_100_d16bffbd
+{
+  meta:
+    source = "MalwareBazaar"
+    analysis = "metadata-only exact hash IOC; sample not executed"
+    sha256 = "d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0"
+    family = "unknown"
+    file_name = "20260711-215002_sftp__root__8857952871563194709_sshd"
+    file_type = "elf"
+    first_seen = "2026-07-12 17:03:52"
+  condition:
+    hash.sha256(0, filesize) == "d16bffbd3ba31504aea1fc01e66e29ad5927830ea5e2cc49369e82a7c68ec5c0"
+}
+```
+
+## Limitations
+
+- Metadata cannot prove runtime behavior, capabilities, persistence, or C2 logic.
+- `unknown` family labels mean MalwareBazaar did not provide a signature for that sample.
+- Hash YARA rules match only exact known samples.
+- Source-like samples should be analyzed with `analyze-source` for real static code findings.
