@@ -11,16 +11,16 @@ Read first:
 - `harness/README.md`
 - `harness/autonomous-commandcode-prompt.md`
 - `harness/generated/autonomous-state.json`
-- `reports/2026-09-22/malwarebazaar-report.md`
+- `reports/2026-09-23/malwarebazaar-report.md`
 
 Current state:
 
 - Domain: `malware-intel`
-- Iteration: `94`
-- Last report: `reports/2026-09-22`
+- Iteration: `95`
+- Last report: `reports/2026-09-23`
 - Last samples: `100`
-- Last IOCs: `656`
-- Last run: `2026-09-22T05:07:59Z`
+- Last IOCs: `663`
+- Last run: `2026-09-23T04:52:21Z`
 
 Loop:
 
