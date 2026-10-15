@@ -1,0 +1,1915 @@
+{
+  "id": "bundle--8a2a9664-9985-5917-8a07-61b3b7253f7f",
+  "objects": [
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "id": "identity--afc01a56-0f6e-5f5e-a6e9-fef111bd891f",
+      "identity_class": "organization",
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "loop-engineering",
+      "spec_version": "2.1",
+      "type": "identity"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Formbook.",
+      "id": "indicator--cddf567c-4ec7-5cae-b047-22805d71ffcd",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "formbook"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 50a3617137f6266d4d450230a6754ca3aa43ddb183159cd47041e83d54b629ba",
+      "pattern": "[file:hashes.'SHA-256' = '50a3617137f6266d4d450230a6754ca3aa43ddb183159cd47041e83d54b629ba']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--f7a9b8bf-2453-5d44-b083-9bde2d1e7320",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 6d632072ce6141315bd70fff7a39a25d7d5d003a69e1ae4fb43ea19528f3f9d9",
+      "pattern": "[file:hashes.'SHA-256' = '6d632072ce6141315bd70fff7a39a25d7d5d003a69e1ae4fb43ea19528f3f9d9']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Vidar.",
+      "id": "indicator--1d5e35d8-490c-5581-a88d-7dfb7531e1ea",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "vidar"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 64d4f79fd40347a6d1683cb4d14d21bec6b433069719d3e04cb46fe0e0c09e34",
+      "pattern": "[file:hashes.'SHA-256' = '64d4f79fd40347a6d1683cb4d14d21bec6b433069719d3e04cb46fe0e0c09e34']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Vidar.",
+      "id": "indicator--cfb37c44-5837-587c-b5bc-dd6984cb7426",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "vidar"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 4f958c91c539101a78cf76056e305152049fe52e5febb80686e6b0e17f5a84d0",
+      "pattern": "[file:hashes.'SHA-256' = '4f958c91c539101a78cf76056e305152049fe52e5febb80686e6b0e17f5a84d0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--ddd847b6-7bae-56ed-9ebb-e8fd4cfdc5ca",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 7f14767fdb38ced9ddc50b55d0d9d23d48aeac103e68c6c9c34c70fe6da18202",
+      "pattern": "[file:hashes.'SHA-256' = '7f14767fdb38ced9ddc50b55d0d9d23d48aeac103e68c6c9c34c70fe6da18202']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AMOS.",
+      "id": "indicator--4c69d4b2-4501-5a99-afb8-88868363e09f",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "amos"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample a9cd105e5cdf8b3cafb0fe9ffb886ab7becd7dbafa7c4cf0ce214d2d5e5686c8",
+      "pattern": "[file:hashes.'SHA-256' = 'a9cd105e5cdf8b3cafb0fe9ffb886ab7becd7dbafa7c4cf0ce214d2d5e5686c8']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--311c0018-e98d-58ec-ba43-13fd1a36d832",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample cee4690dbf65dd7af76498a0486ce6ad3541fac4a9f73e8aa8500b10618737f0",
+      "pattern": "[file:hashes.'SHA-256' = 'cee4690dbf65dd7af76498a0486ce6ad3541fac4a9f73e8aa8500b10618737f0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: RustyStealer.",
+      "id": "indicator--412ed8b0-5f15-5c6e-abf8-39e2a8da4068",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "rustystealer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 2b02bf4c5b127e2838522dd60481e99eafd667c383807604648618d9a21d6818",
+      "pattern": "[file:hashes.'SHA-256' = '2b02bf4c5b127e2838522dd60481e99eafd667c383807604648618d9a21d6818']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--3a433bd9-c8db-5eb8-af90-de4d6e47e9b1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 9cd6656e9d40aa6c49c0fa7918837e807676d91c99727f9ad710d99c85b5b5c6",
+      "pattern": "[file:hashes.'SHA-256' = '9cd6656e9d40aa6c49c0fa7918837e807676d91c99727f9ad710d99c85b5b5c6']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--4e090b08-5411-567e-b304-e1b15e1c8679",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 4ea545bd4a77d715f0d67c223165b8558c413215300dd3c7704aa0b5d99e0cae",
+      "pattern": "[file:hashes.'SHA-256' = '4ea545bd4a77d715f0d67c223165b8558c413215300dd3c7704aa0b5d99e0cae']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--14f20702-11bc-5c13-a1f1-2ab784b0291c",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e631961754aecfab4c11d53b72cf6782d140ac342a229dbbe697b18139693550",
+      "pattern": "[file:hashes.'SHA-256' = 'e631961754aecfab4c11d53b72cf6782d140ac342a229dbbe697b18139693550']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AMOS.",
+      "id": "indicator--f41fb10f-3d9f-55b1-a365-400a3fa618f5",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "amos"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3b38f182ae0012adbda7d6f396fa9c0265d0c8f6825ee13314e74397c21259f5",
+      "pattern": "[file:hashes.'SHA-256' = '3b38f182ae0012adbda7d6f396fa9c0265d0c8f6825ee13314e74397c21259f5']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AMOS.",
+      "id": "indicator--27161313-4139-5832-a951-eec073533407",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "amos"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 5c5f5243923df0f7d0df186aea5e57a0afe61974d3b5661581658b041fc25985",
+      "pattern": "[file:hashes.'SHA-256' = '5c5f5243923df0f7d0df186aea5e57a0afe61974d3b5661581658b041fc25985']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AMOS.",
+      "id": "indicator--4220a5b2-1eb0-5877-9415-ad94974ca417",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "amos"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 153ba36354b6be51e389dc81643f6c5799c6a317ef115b0a56343042845e9ef2",
+      "pattern": "[file:hashes.'SHA-256' = '153ba36354b6be51e389dc81643f6c5799c6a317ef115b0a56343042845e9ef2']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AMOS.",
+      "id": "indicator--017203bc-cf0c-5004-806b-3f2d3ee2c47c",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "amos"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample f3b1c6f4350d34063cd7b8ab8b255cd40ae6aebf4963aff71fcb3f96c3300000",
+      "pattern": "[file:hashes.'SHA-256' = 'f3b1c6f4350d34063cd7b8ab8b255cd40ae6aebf4963aff71fcb3f96c3300000']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--b6948414-3160-52f8-87ba-31b292243047",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample a54d0cb0a3296da690db7929453b676f1858c874dffacad7e79b29bad49d837a",
+      "pattern": "[file:hashes.'SHA-256' = 'a54d0cb0a3296da690db7929453b676f1858c874dffacad7e79b29bad49d837a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--f05b1ada-8ce0-580e-b0fb-1e536b332906",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ec543e8d44a85a521731b6563b63503458db018e15f9af835b87b5125b41157b",
+      "pattern": "[file:hashes.'SHA-256' = 'ec543e8d44a85a521731b6563b63503458db018e15f9af835b87b5125b41157b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--3620cfae-29d9-5626-8ed0-b73b87986026",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ee9377435c216b394341c2000e49fd493b0867595e9f2cf1a39055c8a635a931",
+      "pattern": "[file:hashes.'SHA-256' = 'ee9377435c216b394341c2000e49fd493b0867595e9f2cf1a39055c8a635a931']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--01833319-3650-58d2-a9ba-d72371ebb229",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample d50796d1c7f9173bc3f5cca4aa61c1f3af33bd0f857f37f528e6cf67fb229f61",
+      "pattern": "[file:hashes.'SHA-256' = 'd50796d1c7f9173bc3f5cca4aa61c1f3af33bd0f857f37f528e6cf67fb229f61']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--6dd19220-9ee9-5481-9b97-45fad9d4d77f",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e43795ca2e9d9f6bbb846163e581f21d004ff62b3e0bcd564be6d0a163858468",
+      "pattern": "[file:hashes.'SHA-256' = 'e43795ca2e9d9f6bbb846163e581f21d004ff62b3e0bcd564be6d0a163858468']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--2aa1a06a-2ed6-5620-85ac-2dc1ec6b8be1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 348e4eb2a5f2c4edd362558f292a571b270c220590fc9ad780f8e5a5efa5e62a",
+      "pattern": "[file:hashes.'SHA-256' = '348e4eb2a5f2c4edd362558f292a571b270c220590fc9ad780f8e5a5efa5e62a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--21c9f587-0a43-5b1b-8f94-a44c46ee98e6",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample a68c66b3945a66e75877accfc954b18f4323ac4e4cf027418449470c0af78b76",
+      "pattern": "[file:hashes.'SHA-256' = 'a68c66b3945a66e75877accfc954b18f4323ac4e4cf027418449470c0af78b76']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AsyncRAT.",
+      "id": "indicator--79609380-fc49-5165-bf9a-b53680a9d7ab",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "asyncrat"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 629a33ac1e45aec4bed75114a4ef2d27f330305a1edcd77afc9301680cadfebb",
+      "pattern": "[file:hashes.'SHA-256' = '629a33ac1e45aec4bed75114a4ef2d27f330305a1edcd77afc9301680cadfebb']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: AsyncRAT.",
+      "id": "indicator--c77fc2f2-66ea-5337-916a-f1ba89f49938",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "asyncrat"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample fd50b29196735ec9680a0f9c8b1c6c49e9bfaf6a98614705751620852ab75d8d",
+      "pattern": "[file:hashes.'SHA-256' = 'fd50b29196735ec9680a0f9c8b1c6c49e9bfaf6a98614705751620852ab75d8d']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--4d8d5fc9-1966-5a43-9d00-3642ead1707d",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 6e2c6c590459044f14284fd8fef7fbd4979620078820e3aa0c72d80b06799a10",
+      "pattern": "[file:hashes.'SHA-256' = '6e2c6c590459044f14284fd8fef7fbd4979620078820e3aa0c72d80b06799a10']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--63c36bd7-64dc-581d-8098-0a177ac70ad3",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample fa8645bda0c69b1f98c7e266060dff98301bc21e09d863abcd22f0c178924fab",
+      "pattern": "[file:hashes.'SHA-256' = 'fa8645bda0c69b1f98c7e266060dff98301bc21e09d863abcd22f0c178924fab']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--850949cb-bf6a-5534-8401-56aaff54d82c",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 629c7ddd812d65750cad619a89ae8ee0e021bac6d4e6cf446ec44e77007539a5",
+      "pattern": "[file:hashes.'SHA-256' = '629c7ddd812d65750cad619a89ae8ee0e021bac6d4e6cf446ec44e77007539a5']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--d57002f7-09bf-537c-b006-e565a6005331",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 4ec0c8d1d1d24ef725f9337683eecfd98402142ed043f5d857fb8b92eb39df3f",
+      "pattern": "[file:hashes.'SHA-256' = '4ec0c8d1d1d24ef725f9337683eecfd98402142ed043f5d857fb8b92eb39df3f']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--6ae04fc7-8dd6-5f8c-bf95-944d84c9db8f",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 4887708f741e5b210b72ac990581298e9c84c082da4c2174e7ceea8ebcc76f36",
+      "pattern": "[file:hashes.'SHA-256' = '4887708f741e5b210b72ac990581298e9c84c082da4c2174e7ceea8ebcc76f36']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--b60359d8-e23a-58f2-8505-2099d8a0545a",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 7709d287cf2c1f0cf2ead8d15785e6272f3c1441ec3a1b5c78c2113df687ad3c",
+      "pattern": "[file:hashes.'SHA-256' = '7709d287cf2c1f0cf2ead8d15785e6272f3c1441ec3a1b5c78c2113df687ad3c']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--f639ad51-a1ba-589e-93d6-37a6bff63780",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample b2d627055340f34f36d9b37a49b54e8ee22deb9756bbbea916f7c72b209ed2d4",
+      "pattern": "[file:hashes.'SHA-256' = 'b2d627055340f34f36d9b37a49b54e8ee22deb9756bbbea916f7c72b209ed2d4']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--0e3f404d-f9ee-53f4-9f0a-7516d0c7f4c5",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3863890a0a841ca8389e2b4d0155fe6b38fd83b22902bd32b817cb2fe6b2b50a",
+      "pattern": "[file:hashes.'SHA-256' = '3863890a0a841ca8389e2b4d0155fe6b38fd83b22902bd32b817cb2fe6b2b50a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--c51bcc6c-b5d0-5ada-b57a-15bae0656219",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample dba647b6f6842806da86f9edb2d0c60546c5c4f64b0710b3bf3f6e510d6c5f9a",
+      "pattern": "[file:hashes.'SHA-256' = 'dba647b6f6842806da86f9edb2d0c60546c5c4f64b0710b3bf3f6e510d6c5f9a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--0b03f6bf-cb2a-53a1-b56d-71eb86bf539e",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample bcace72a031f60220ec6458c37813f156d81435a1aecf56eb743c31738aaccbb",
+      "pattern": "[file:hashes.'SHA-256' = 'bcace72a031f60220ec6458c37813f156d81435a1aecf56eb743c31738aaccbb']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--c75fb42c-2b56-5205-852c-1873e2ed4d54",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 103a43615769b391c9db64c43d48b02247da7563f15ec5f7e5ec8c9ee24715c7",
+      "pattern": "[file:hashes.'SHA-256' = '103a43615769b391c9db64c43d48b02247da7563f15ec5f7e5ec8c9ee24715c7']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--3baa6d01-8b18-5266-9836-845b11a48ea1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ebd354c3b542255eaec564e84833cf33cd2a9d54edc08b4c77052c43551ec470",
+      "pattern": "[file:hashes.'SHA-256' = 'ebd354c3b542255eaec564e84833cf33cd2a9d54edc08b4c77052c43551ec470']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--c127d63b-3b28-52a6-96ca-5a8a0bcb0730",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 23e9dd3957a48e18fdc6389f5c49758d42c6f411d872f4ef5045b5c197b574fb",
+      "pattern": "[file:hashes.'SHA-256' = '23e9dd3957a48e18fdc6389f5c49758d42c6f411d872f4ef5045b5c197b574fb']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--acfa831f-63ce-5c5f-ad8b-872825d79ede",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 7e10600a9b9aba6153630525a92c1a9622b76034baa8dcc1a2b2b929dacad499",
+      "pattern": "[file:hashes.'SHA-256' = '7e10600a9b9aba6153630525a92c1a9622b76034baa8dcc1a2b2b929dacad499']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--387b8635-09f4-5902-9a02-a98db9373a29",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 7e859bdc7cd7d7f64fdc2cbe927b802b32116eee68bef127ebc86462a09d1c2f",
+      "pattern": "[file:hashes.'SHA-256' = '7e859bdc7cd7d7f64fdc2cbe927b802b32116eee68bef127ebc86462a09d1c2f']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--c0ff43dd-9a2d-50cd-9141-236cb9d724c2",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 69f5e308a0de8e4f8bd5793ab2403b8598f287354febdb85520002d8ef39feba",
+      "pattern": "[file:hashes.'SHA-256' = '69f5e308a0de8e4f8bd5793ab2403b8598f287354febdb85520002d8ef39feba']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--c35d7d65-fad5-5598-a12b-0d4f68195020",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 870664caab45d08097135ba3cc82b378055468cbc9a3ff34f4f53243842b7a06",
+      "pattern": "[file:hashes.'SHA-256' = '870664caab45d08097135ba3cc82b378055468cbc9a3ff34f4f53243842b7a06']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: GCleaner.",
+      "id": "indicator--43f6de03-9338-5a0b-b566-4dca6579b3ea",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "gcleaner"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 9e12a215b0ac52a82e71103a133e2068991bb1efd441f52a170c61778ffd4856",
+      "pattern": "[file:hashes.'SHA-256' = '9e12a215b0ac52a82e71103a133e2068991bb1efd441f52a170c61778ffd4856']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--e777596a-be9e-5d6f-a6c2-1c73707b8b1d",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 9708e6d856be479b46c5b97124f8ae7037b23ab21706a917fdde3b2dbf2a1a27",
+      "pattern": "[file:hashes.'SHA-256' = '9708e6d856be479b46c5b97124f8ae7037b23ab21706a917fdde3b2dbf2a1a27']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--f49e0dc7-3e33-5713-8248-498f0b904392",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 89e7c7d31161a7f6302068f2341f3f074f7db1175f6d1d204e82eb2673ad847b",
+      "pattern": "[file:hashes.'SHA-256' = '89e7c7d31161a7f6302068f2341f3f074f7db1175f6d1d204e82eb2673ad847b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--6717ba86-27e5-5cde-82d6-60f3dfad60dc",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample b71cbfda344f7445e07ecc03e5b7c3b21b72f0dbe2cc326751bd1e0af69c9b26",
+      "pattern": "[file:hashes.'SHA-256' = 'b71cbfda344f7445e07ecc03e5b7c3b21b72f0dbe2cc326751bd1e0af69c9b26']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--222b3d1e-61df-527a-8833-45701da1b9b8",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 5c6b57a72800f32a871971d6979b39ecf802beccf96915bf79e174c983df835a",
+      "pattern": "[file:hashes.'SHA-256' = '5c6b57a72800f32a871971d6979b39ecf802beccf96915bf79e174c983df835a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--59fd6768-7063-5f99-b173-1fb3a23f8ab6",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample dad102989b34414e4e3bbd4b311972a80bb0fffbc526b90a17d52266724ee8e8",
+      "pattern": "[file:hashes.'SHA-256' = 'dad102989b34414e4e3bbd4b311972a80bb0fffbc526b90a17d52266724ee8e8']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--76807275-be7a-523c-b532-2175c6d36f88",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample f9c35ae319854869d9bc9e982d3dca8c11b48ef71bb04b5c02346a6c35fa18f0",
+      "pattern": "[file:hashes.'SHA-256' = 'f9c35ae319854869d9bc9e982d3dca8c11b48ef71bb04b5c02346a6c35fa18f0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CatStorm.",
+      "id": "indicator--17c9fdfc-809c-5b6f-89b2-22d4e28445a1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "catstorm"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample c6dda1ec399f7f5c39f887308dd24033aaea772bf2fcf716bcb8ad42988bb3df",
+      "pattern": "[file:hashes.'SHA-256' = 'c6dda1ec399f7f5c39f887308dd24033aaea772bf2fcf716bcb8ad42988bb3df']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--ee3d17d3-f197-5d9f-8768-5b3a6fb60387",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample f31684778fa8dd70d2a70b6ac64ccd343d37089ff7c681c006829e36b582a094",
+      "pattern": "[file:hashes.'SHA-256' = 'f31684778fa8dd70d2a70b6ac64ccd343d37089ff7c681c006829e36b582a094']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--5106df90-0cb8-5a42-914d-a73b4d4d0cd2",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample d186473530f94c82c26fdf6cc6ad54c2fc8f49ce3074b1dac890a7b175eb4cf4",
+      "pattern": "[file:hashes.'SHA-256' = 'd186473530f94c82c26fdf6cc6ad54c2fc8f49ce3074b1dac890a7b175eb4cf4']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--7c65fc99-5ab8-55fa-997a-5a7a494bf8d1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 5b0e86a7dd2cdc1caf89813cb1db06fd94ec2f1472564487e78d60e85f336d92",
+      "pattern": "[file:hashes.'SHA-256' = '5b0e86a7dd2cdc1caf89813cb1db06fd94ec2f1472564487e78d60e85f336d92']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CatStorm.",
+      "id": "indicator--c105c104-1806-57fe-a46c-fb250b2a732a",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "catstorm"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 81c4b388d33f3e0e271181bcedf828f937dde39c30e2a860272aa0c20bf96367",
+      "pattern": "[file:hashes.'SHA-256' = '81c4b388d33f3e0e271181bcedf828f937dde39c30e2a860272aa0c20bf96367']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: XWorm.",
+      "id": "indicator--3d5f0723-b4c6-5d48-8fac-7720daf72270",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "xworm"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 27954ed3c8444ce4f5105a57af680c4f9d10c0c25bfb566fb2eed67046ae967a",
+      "pattern": "[file:hashes.'SHA-256' = '27954ed3c8444ce4f5105a57af680c4f9d10c0c25bfb566fb2eed67046ae967a']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: XWorm.",
+      "id": "indicator--b3368ce8-f2bd-56ce-b0b9-93cd6f454dee",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "xworm"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 61a109f09e500c89219d0d32fb05ea48f43afdf3ad0683fc00e41cabd1b74dd0",
+      "pattern": "[file:hashes.'SHA-256' = '61a109f09e500c89219d0d32fb05ea48f43afdf3ad0683fc00e41cabd1b74dd0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--035959ca-1001-511a-ab3d-b54171168095",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 00d0db4d3dbc46ce64f493b6d0df48a2c8e3b2c4c514a1f5159b8d2c8828cb8f",
+      "pattern": "[file:hashes.'SHA-256' = '00d0db4d3dbc46ce64f493b6d0df48a2c8e3b2c4c514a1f5159b8d2c8828cb8f']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--93d0b7d4-3de4-51cf-94fc-74dd2f6b2a5a",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e05e7370ae270f112c1e99addae6454d97f39cef3518009e779ddd6c36d1c0ef",
+      "pattern": "[file:hashes.'SHA-256' = 'e05e7370ae270f112c1e99addae6454d97f39cef3518009e779ddd6c36d1c0ef']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--a543d844-971d-59f4-9eed-781bec2512ab",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 645787c5c824a7bfdf2af27a9043db20f1a0d139c28fc55d613f083d720f5707",
+      "pattern": "[file:hashes.'SHA-256' = '645787c5c824a7bfdf2af27a9043db20f1a0d139c28fc55d613f083d720f5707']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--318f0885-ce8e-5c7e-a9e9-7917bb07f407",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e80a844331873eeb234ee346b87e08f7382d5d4f447a09a21ef3a36cfa65d9ef",
+      "pattern": "[file:hashes.'SHA-256' = 'e80a844331873eeb234ee346b87e08f7382d5d4f447a09a21ef3a36cfa65d9ef']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--6c7a4ac6-7231-578e-8c43-855c3a45b334",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 8ea7624e778225ad45b454ca540a70985fa66556cf95a89a23e98efd3b85d3e8",
+      "pattern": "[file:hashes.'SHA-256' = '8ea7624e778225ad45b454ca540a70985fa66556cf95a89a23e98efd3b85d3e8']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--be699bc2-83cd-562e-b797-87b00f7720a4",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ea8cd9401645ad87160e713669c3c95e7f8c819516bce3284b66eb2411478c22",
+      "pattern": "[file:hashes.'SHA-256' = 'ea8cd9401645ad87160e713669c3c95e7f8c819516bce3284b66eb2411478c22']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Gafgyt.",
+      "id": "indicator--98f71603-9b2e-5a91-9a01-09f086b03349",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "gafgyt"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 8ec6460f4ed87ed848146816e0685d370977a56ca5404ce1efadb3848e17e269",
+      "pattern": "[file:hashes.'SHA-256' = '8ec6460f4ed87ed848146816e0685d370977a56ca5404ce1efadb3848e17e269']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--2f342a75-07da-5c0a-ba93-c10c5b603ce0",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample b6d0c1a67695dc38db3bf9cbe6b8e8becaaccff0c8619c0df60de57269547a66",
+      "pattern": "[file:hashes.'SHA-256' = 'b6d0c1a67695dc38db3bf9cbe6b8e8becaaccff0c8619c0df60de57269547a66']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--95c67771-9e0a-5292-b324-fa0a63c29e75",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ef59833a3a01ae7f7b8369d4ed6d43a2c96a88c081f687c35563d869035c6a61",
+      "pattern": "[file:hashes.'SHA-256' = 'ef59833a3a01ae7f7b8369d4ed6d43a2c96a88c081f687c35563d869035c6a61']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--0b29dc41-430d-5abf-ae05-25e1f67aafd5",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample eae62f409bfdeb4cd44998348efc4a523765cb85614a9c6dab99dcbe3293f0a0",
+      "pattern": "[file:hashes.'SHA-256' = 'eae62f409bfdeb4cd44998348efc4a523765cb85614a9c6dab99dcbe3293f0a0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--2d637667-3789-5c71-a5a0-b90dfc014360",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample d18632440bba55c0cc63e43ee0146b3c30fd94c541df504e8c62637196a4ab75",
+      "pattern": "[file:hashes.'SHA-256' = 'd18632440bba55c0cc63e43ee0146b3c30fd94c541df504e8c62637196a4ab75']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--09ed897c-bc64-5eb0-9a33-1faf3c970f11",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample d5308b8de73a1c1e9f199950af4986256a635cff9de9afdd3a5a30881986293c",
+      "pattern": "[file:hashes.'SHA-256' = 'd5308b8de73a1c1e9f199950af4986256a635cff9de9afdd3a5a30881986293c']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--9c9c9cd7-057b-534e-aaaa-2a37f8052065",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 494f1ab3320027c62aa7e0f0613304b6c411ecfd0c3cdf53beabf812df277805",
+      "pattern": "[file:hashes.'SHA-256' = '494f1ab3320027c62aa7e0f0613304b6c411ecfd0c3cdf53beabf812df277805']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--05f46a64-6929-5efa-80a4-73172dff9bbf",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ed869ce6ed49d83b1dc8070d2149a5ec736962521a823ca2657568bcc55f1096",
+      "pattern": "[file:hashes.'SHA-256' = 'ed869ce6ed49d83b1dc8070d2149a5ec736962521a823ca2657568bcc55f1096']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--f8dc89cc-7062-573a-b72a-6a53b6705d3b",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 478053ea93052dd3f1477cf497443c0cb1b0e75361ba3927b929b707c18f35e2",
+      "pattern": "[file:hashes.'SHA-256' = '478053ea93052dd3f1477cf497443c0cb1b0e75361ba3927b929b707c18f35e2']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--20045c95-764b-5289-aa8e-b175db54d9d1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 0696c8248cbabc4903f8af1784113d6abf0f07da4ab63bf8e1f01905e64822be",
+      "pattern": "[file:hashes.'SHA-256' = '0696c8248cbabc4903f8af1784113d6abf0f07da4ab63bf8e1f01905e64822be']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--4412e907-29d9-5677-a7b5-182e0006ea71",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 23d5db7fd6c1471a69cfc04e6773f7b2790f3b19da37cb241c0ef6021ead3e73",
+      "pattern": "[file:hashes.'SHA-256' = '23d5db7fd6c1471a69cfc04e6773f7b2790f3b19da37cb241c0ef6021ead3e73']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--ed6035ea-8e98-5d0c-bb1c-40a912b37459",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 5119d8aaa35dffc9752c377a3ecd8104e1eacade88d94f7fe452717cd7a14f29",
+      "pattern": "[file:hashes.'SHA-256' = '5119d8aaa35dffc9752c377a3ecd8104e1eacade88d94f7fe452717cd7a14f29']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--3e2e8a48-e59b-5531-8c14-76fa15f04e02",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e63e4e17e5c30b244534c4ecf453367fc7485a3838987d1520d351365a6c284d",
+      "pattern": "[file:hashes.'SHA-256' = 'e63e4e17e5c30b244534c4ecf453367fc7485a3838987d1520d351365a6c284d']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--772de98a-f21d-5a29-90aa-5dbb5c4bcf30",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 361644a8cf12e03362e70d49756655e77ac3e0fa60cf0ed06db6b8316370c7c0",
+      "pattern": "[file:hashes.'SHA-256' = '361644a8cf12e03362e70d49756655e77ac3e0fa60cf0ed06db6b8316370c7c0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--1a21ffb7-56e0-5c32-a67b-decec4f016f1",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 72dd3ed3b04293d5aa0a9fc02826ce552089c9f335318bb60042395c4aace862",
+      "pattern": "[file:hashes.'SHA-256' = '72dd3ed3b04293d5aa0a9fc02826ce552089c9f335318bb60042395c4aace862']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--c5d29172-536b-5822-a92a-89a74c065b74",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 41a6de73798578cddc879c47ebb0d0c3e083b3aed8e558b3850f8a58e178fd7b",
+      "pattern": "[file:hashes.'SHA-256' = '41a6de73798578cddc879c47ebb0d0c3e083b3aed8e558b3850f8a58e178fd7b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--84872207-ae0e-5101-a6b7-a0ec9766d0e0",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3e99c7b61a3bac1b612947191d3cbee3d673da0fc4e62cf7905039d0680b2f4c",
+      "pattern": "[file:hashes.'SHA-256' = '3e99c7b61a3bac1b612947191d3cbee3d673da0fc4e62cf7905039d0680b2f4c']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: RemusStealer.",
+      "id": "indicator--bdbde9b6-2c79-54b2-b9a2-32ccd6493a33",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "remusstealer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 9230a60ab7f69d305a099648d0de8766b2b808df7670b00fc79eaec8eb2eb77b",
+      "pattern": "[file:hashes.'SHA-256' = '9230a60ab7f69d305a099648d0de8766b2b808df7670b00fc79eaec8eb2eb77b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Vidar.",
+      "id": "indicator--51f4af45-2a97-5492-bd9b-e4a7cd9678b7",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "vidar"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 976aff8d066d00667f9ebeea846c87fb0f7a6d86aaca725ae06242a6b43ef6d9",
+      "pattern": "[file:hashes.'SHA-256' = '976aff8d066d00667f9ebeea846c87fb0f7a6d86aaca725ae06242a6b43ef6d9']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CoinMiner.",
+      "id": "indicator--fa324f61-8aac-58fa-a173-a8cc4443b129",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "coinminer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3f02b386e3e5048ba3ea0ca195362bddbac7cee3c466292df256a917b83062d0",
+      "pattern": "[file:hashes.'SHA-256' = '3f02b386e3e5048ba3ea0ca195362bddbac7cee3c466292df256a917b83062d0']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: BlankGrabber.",
+      "id": "indicator--6e351f8c-3dcc-56d6-b71c-b34adb50c22d",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "blankgrabber"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 63c4d41b7f2aef9ff2ea16451ed2e5a1c16f0997651f2d023621e9e7ad014a92",
+      "pattern": "[file:hashes.'SHA-256' = '63c4d41b7f2aef9ff2ea16451ed2e5a1c16f0997651f2d023621e9e7ad014a92']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--0d1f882f-0d26-5f90-8d95-d55565402603",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample e1cc2db2413b52d2eb32452d55d72ad52b2c1c4fb12ab57478a51a70344e3043",
+      "pattern": "[file:hashes.'SHA-256' = 'e1cc2db2413b52d2eb32452d55d72ad52b2c1c4fb12ab57478a51a70344e3043']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CoinMiner.",
+      "id": "indicator--43fd36a8-c2ee-59b3-a3dd-96c8f6292177",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "coinminer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 750bfe4f7e55736d9c0489d0462db13375c034f7cdb8e33f1cea6363a014e3df",
+      "pattern": "[file:hashes.'SHA-256' = '750bfe4f7e55736d9c0489d0462db13375c034f7cdb8e33f1cea6363a014e3df']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CoinMiner.",
+      "id": "indicator--6dece37a-cb38-5256-9507-1bdb345fc7f4",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "coinminer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample d82620df6807e1d65461d7a6b3a2e58aafda51b3c50c41ed1c84e8de9111c29e",
+      "pattern": "[file:hashes.'SHA-256' = 'd82620df6807e1d65461d7a6b3a2e58aafda51b3c50c41ed1c84e8de9111c29e']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: CoinMiner.",
+      "id": "indicator--90191616-fb3a-5a7f-a5c3-6ca00c16369e",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "coinminer"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 71058edd6a2d93d0992a4ce10736a99070e28345dc14c66d7383ea9b5da9923b",
+      "pattern": "[file:hashes.'SHA-256' = '71058edd6a2d93d0992a4ce10736a99070e28345dc14c66d7383ea9b5da9923b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--2611d390-ca9a-56ae-b950-27c05abe950f",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample fd32ae87b1c15cfc7b8ee0bf5f2d7106c2024211ae6d248e7a819369481a323d",
+      "pattern": "[file:hashes.'SHA-256' = 'fd32ae87b1c15cfc7b8ee0bf5f2d7106c2024211ae6d248e7a819369481a323d']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: LunexLoader.",
+      "id": "indicator--20e045c8-0710-5b25-9a09-54413cf7e556",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "lunexloader"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 02d21f64a1b1b710754a7da049cc57f22775bcaa5bfb263ced709b2bc24d32c6",
+      "pattern": "[file:hashes.'SHA-256' = '02d21f64a1b1b710754a7da049cc57f22775bcaa5bfb263ced709b2bc24d32c6']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: blankgr.",
+      "id": "indicator--9db8d6ae-7414-56a6-889d-e9d6ee427b2e",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "blankgr"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample a0c47eea0a07d4ac0ac2c68515494f648f002ae6b4eaee6bcf1b2f553dbf390b",
+      "pattern": "[file:hashes.'SHA-256' = 'a0c47eea0a07d4ac0ac2c68515494f648f002ae6b4eaee6bcf1b2f553dbf390b']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--e1971d16-5359-5281-9b98-35df05844f46",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample ff4f05d60859368c7c0b83333fcb918742aa2086c96d7c7553a6c303fc483867",
+      "pattern": "[file:hashes.'SHA-256' = 'ff4f05d60859368c7c0b83333fcb918742aa2086c96d7c7553a6c303fc483867']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--b9c5a15d-ac4c-5920-94ef-f29b53af720b",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample bad3725f501c9c893f9596fade1fb63d238d5665ebafcb8f4789458dee08efb2",
+      "pattern": "[file:hashes.'SHA-256' = 'bad3725f501c9c893f9596fade1fb63d238d5665ebafcb8f4789458dee08efb2']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--94138a33-74ca-5ee7-b88d-e9953d6209a8",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3ce72f27520968e7f66bb14bd495573a7ab96c91d14ce6b1eca9c18b7b372da9",
+      "pattern": "[file:hashes.'SHA-256' = '3ce72f27520968e7f66bb14bd495573a7ab96c91d14ce6b1eca9c18b7b372da9']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--c801b2cc-c003-5b35-b5ef-72e9ea8ce7f8",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample eb833c08985e773b44477dcea23305a8092bd59d4590734c9b3ebb008d7e59ce",
+      "pattern": "[file:hashes.'SHA-256' = 'eb833c08985e773b44477dcea23305a8092bd59d4590734c9b3ebb008d7e59ce']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--44fc0230-e285-5f97-bd7e-c8c53fff7689",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample a14be5443d928591e68c359b6573681329ef20cc700f08c1f3fcab2e70d0e944",
+      "pattern": "[file:hashes.'SHA-256' = 'a14be5443d928591e68c359b6573681329ef20cc700f08c1f3fcab2e70d0e944']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: OverlordRAT.",
+      "id": "indicator--f93b28c8-70eb-58ac-96ce-9ed5bcf2b3db",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "overlordrat"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 95fba0964e5b253356c2f56caeab7798a869ffe70eed4aebd619f36d828a40dd",
+      "pattern": "[file:hashes.'SHA-256' = '95fba0964e5b253356c2f56caeab7798a869ffe70eed4aebd619f36d828a40dd']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--9a892fbb-bc77-51bc-a009-6af79c6bdbc5",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 026cc4f630776e0c9d42905bf3e9b048fda4da68d58c66e4a2e5bb3d8a9d787c",
+      "pattern": "[file:hashes.'SHA-256' = '026cc4f630776e0c9d42905bf3e9b048fda4da68d58c66e4a2e5bb3d8a9d787c']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: unknown.",
+      "id": "indicator--b81290e4-9c4c-56fe-b912-58c6528ec00a",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "unknown"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 44272f1f153709662b3b973e7b4a601df852e7eae3dd9a22661860394889b1eb",
+      "pattern": "[file:hashes.'SHA-256' = '44272f1f153709662b3b973e7b4a601df852e7eae3dd9a22661860394889b1eb']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--74b7b7bf-3307-5547-b1f5-e88ade370283",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample b9079c2c87348a8b598496606cb6a6d2f9df53230f4420e8688a3751285b2144",
+      "pattern": "[file:hashes.'SHA-256' = 'b9079c2c87348a8b598496606cb6a6d2f9df53230f4420e8688a3751285b2144']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: Mirai.",
+      "id": "indicator--ca20688c-61e1-5b14-bf63-fc5b32a6a68a",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "mirai"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 604802b26921351110ef475d7708d8e7031b551192f72272effc7bc66bf3abbd",
+      "pattern": "[file:hashes.'SHA-256' = '604802b26921351110ef475d7708d8e7031b551192f72272effc7bc66bf3abbd']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    },
+    {
+      "created": "2026-10-15T04:50:47Z",
+      "description": "Metadata-only file hash IOC. Reported family: MilleniumRAT.",
+      "id": "indicator--21585e69-4d56-5211-a43f-4c4f26a09d7f",
+      "indicator_types": [
+        "malicious-activity"
+      ],
+      "labels": [
+        "malwarebazaar",
+        "milleniumrat"
+      ],
+      "modified": "2026-10-15T04:50:47Z",
+      "name": "MalwareBazaar sample 3b35d3233e08d7c7a43a0bc0a899ce14cd6797949e96af0c6b3c32f690ab4815",
+      "pattern": "[file:hashes.'SHA-256' = '3b35d3233e08d7c7a43a0bc0a899ce14cd6797949e96af0c6b3c32f690ab4815']",
+      "pattern_type": "stix",
+      "spec_version": "2.1",
+      "type": "indicator",
+      "valid_from": "2026-10-15T04:50:47Z"
+    }
+  ],
+  "type": "bundle"
+}
