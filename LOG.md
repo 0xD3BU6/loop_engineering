@@ -544,3 +544,6 @@ Refs: [reports/2026-11-14](reports/2026-11-14) (generated)
 ## 2026-11-15 · MalwareBazaar IOC report · #analysis #ops
 What: Generated metadata-only MalwareBazaar report with 100 samples and 674 IOCs.
 Refs: [reports/2026-11-15](reports/2026-11-15) (generated)
+## 2026-11-16 · MalwareBazaar IOC report · #analysis #ops
+What: Generated metadata-only MalwareBazaar report with 100 samples and 663 IOCs.
+Refs: [reports/2026-11-16](reports/2026-11-16) (generated)
